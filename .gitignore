@@ -1,0 +1,5 @@
+*.swp
+build/
+docs/html
+docs/latex
+docs/*.tag
