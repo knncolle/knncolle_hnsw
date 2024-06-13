@@ -1,4 +1,4 @@
-# knncolle bindings for Hnsw
+# knncolle bindings for HNSW
 
 ![Unit tests](https://github.com/knncolle/knncolle_hnsw/actions/workflows/run-tests.yaml/badge.svg)
 ![Documentation](https://github.com/knncolle/knncolle_hnsw/actions/workflows/doxygenate.yaml/badge.svg)
@@ -22,7 +22,7 @@ For example:
 // Wrap our data in a light SimpleMatrix.
 knncolle::SimpleMatrix<int, int, double> mat(ndim, nobs, matrix.data());
 
-// Build an Hnsw index. 
+// Build a HNSW index. 
 knncolle_hnsw::HnswBuilder<> an_builder;
 auto an_index = an_builder.build_unique(mat);
 
@@ -48,7 +48,9 @@ We can also customize the construction of the `HnswBuilder` by passing in option
 ```cpp
 auto& an_opts = an_builder.get_options();
 an_opts.num_links = 100;
-an_opts.distance_options.create = [](int dim) -> 
+an_opts.distance_options.create = [](int dim) -> hnswlib::SpaceInterface<float>* {
+    return new knncolle_hnsw::ManhattanDistance<float>(dim);
+};
 knncolle_hnsw::HnswBuilder<> an_builder2(an_opts);
 ```
 
