@@ -165,7 +165,7 @@
   </compound>
   <compound kind="page">
     <name>index</name>
-    <title>knncolle bindings for Hnsw</title>
+    <title>knncolle bindings for HNSW</title>
     <filename>index.html</filename>
     <docanchor file="index.html">md__2github_2workspace_2README</docanchor>
   </compound>

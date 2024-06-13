@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['bindings_20for_20hnsw_0',['knncolle bindings for Hnsw',['../index.html',1,'']]],
+  ['bindings_20for_20hnsw_0',['knncolle bindings for HNSW',['../index.html',1,'']]],
   ['bruteforce_2ehpp_1',['Bruteforce.hpp',['https://knncolle.github.io/knncolle/Bruteforce_8hpp.html',1,'']]],
   ['bruteforcebuilder_2',['BruteforceBuilder',['https://knncolle.github.io/knncolle/classknncolle_1_1BruteforceBuilder.html',1,'knncolle']]],
   ['bruteforceprebuilt_3',['BruteforcePrebuilt',['https://knncolle.github.io/knncolle/classknncolle_1_1BruteforcePrebuilt.html',1,'knncolle']]],

@@ -6,7 +6,7 @@ var searchData=
   ['kmknnprebuilt_3',['kmknnprebuilt',['https://knncolle.github.io/knncolle/classknncolle_1_1KmknnPrebuilt.html',1,'knncolle::KmknnPrebuilt&lt; class Distance_, typename Dim_, typename Index_, typename Store_, typename Float_ &gt;'],['https://knncolle.github.io/knncolle/classknncolle_1_1KmknnPrebuilt.html#aa45f08f940ab256706b3c27d00d2992a',1,'knncolle::KmknnPrebuilt::KmknnPrebuilt()']]],
   ['kmknnsearcher_4',['KmknnSearcher',['https://knncolle.github.io/knncolle/classknncolle_1_1KmknnSearcher.html',1,'knncolle']]],
   ['knncolle_5',['knncolle',['https://knncolle.github.io/knncolle/classknncolle_1_1BruteforceBuilder.html',1,'']]],
-  ['knncolle_20bindings_20for_20hnsw_6',['knncolle bindings for Hnsw',['../index.html',1,'']]],
+  ['knncolle_20bindings_20for_20hnsw_6',['knncolle bindings for HNSW',['../index.html',1,'']]],
   ['knncolle_2ehpp_7',['knncolle.hpp',['https://knncolle.github.io/knncolle/knncolle_8hpp.html',1,'']]],
   ['knncolle_5fhnsw_8',['knncolle_hnsw',['../namespaceknncolle__hnsw.html',1,'']]],
   ['knncolle_5fhnsw_2ehpp_9',['knncolle_hnsw.hpp',['../knncolle__hnsw_8hpp.html',1,'']]]
