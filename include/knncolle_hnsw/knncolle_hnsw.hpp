@@ -109,9 +109,10 @@ public:
         }
 
         bool self_found = false;
+        hnswlib::labeltype icopy = i;
         while (!my_queue.empty()) {
             const auto& top = my_queue.top();
-            if (!self_found && top.second == i) {
+            if (!self_found && top.second == icopy) {
                 self_found = true;
             } else {
                 if (output_indices) {
