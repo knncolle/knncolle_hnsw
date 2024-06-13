@@ -54,13 +54,6 @@
       <anchor>a102a68782bb838cdeb435d263c560734</anchor>
       <arglist></arglist>
     </member>
-    <member kind="typedef">
-      <type>HnswPrebuilt&lt; typename Matrix_::dimension_type, typename Matrix_::index_type, Float_, InternalData_ &gt;</type>
-      <name>Prebuilt</name>
-      <anchorfile>classknncolle__hnsw_1_1HnswBuilder.html</anchorfile>
-      <anchor>a6587c0c801ddbcb48638cacd5e31d134</anchor>
-      <arglist></arglist>
-    </member>
     <member kind="function">
       <type></type>
       <name>HnswBuilder</name>

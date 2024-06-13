@@ -234,127 +234,124 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>};</div>
 </div>
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span> </div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Dim_, <span class="keyword">typename</span> Index_, <span class="keyword">typename</span> Float_, <span class="keyword">typename</span> InternalData_&gt;</div>
-<div class="foldopen" id="foldopen00221" data-start="{" data-end="};">
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno"><a class="line" href="classknncolle__hnsw_1_1HnswPrebuilt.html">  221</a></span><span class="keyword">class </span><a class="code hl_class" href="classknncolle__hnsw_1_1HnswPrebuilt.html">HnswPrebuilt</a> : <span class="keyword">public</span> <a class="code hl_classRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Prebuilt.html">knncolle::Prebuilt</a>&lt;Dim_, Index_, Float_&gt; {</div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    <span class="keyword">template</span>&lt;<span class="keyword">class</span> Matrix_&gt;</div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <a class="code hl_class" href="classknncolle__hnsw_1_1HnswPrebuilt.html">HnswPrebuilt</a>(<span class="keyword">const</span> Matrix_&amp; data, <span class="keyword">const</span> <a class="code hl_struct" href="structknncolle__hnsw_1_1HnswOptions.html">HnswOptions&lt;Dim_, InternalData_&gt;</a>&amp; options) :</div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>        my_dim(data.num_dimensions()),</div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>        my_obs(data.num_observations()),</div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>        my_space([&amp;]() {</div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>            <span class="keywordflow">if</span> (options.<a class="code hl_variable" href="structknncolle__hnsw_1_1HnswOptions.html#ab227b6637e409e1cab8d26496c7061d1">distance_options</a>.create) {</div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>                return options.distance_options.create(my_dim);</div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> <span class="keyword">constexpr</span>(std::is_same&lt;InternalData_, float&gt;::value) {</div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>                return static_cast&lt;hnswlib::SpaceInterface&lt;InternalData_&gt;*&gt;(new hnswlib::L2Space(my_dim));</div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>                return static_cast&lt;hnswlib::SpaceInterface&lt;InternalData_&gt;*&gt;(new SquaredEuclideanDistance&lt;InternalData_&gt;(my_dim));</div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>            }</div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>        }()),</div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>        my_normalize([&amp;]() {</div>
-<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>            <span class="keywordflow">if</span> (options.<a class="code hl_variable" href="structknncolle__hnsw_1_1HnswOptions.html#ab227b6637e409e1cab8d26496c7061d1">distance_options</a>.normalize) {</div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>                return options.distance_options.normalize;</div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>            } <span class="keywordflow">else</span> if (options.<a class="code hl_variable" href="structknncolle__hnsw_1_1HnswOptions.html#ab227b6637e409e1cab8d26496c7061d1">distance_options</a>.create) {</div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>                return std::function&lt;InternalData_(InternalData_)&gt;();</div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>            } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>                return std::function&lt;InternalData_(InternalData_)&gt;([](InternalData_ x) -&gt; InternalData_ { return std::sqrt(x); });</div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>            }</div>
-<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>        }()),</div>
-<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>        my_index(my_space.get(), my_obs, options.num_links, options.ef_construction)</div>
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>    {</div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>        <span class="keyword">typedef</span> <span class="keyword">typename</span> Matrix_::data_type Data_;</div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>        <span class="keyword">auto</span> work = data.create_workspace();</div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>        <span class="keywordflow">if</span> <span class="keyword">constexpr</span>(std::is_same&lt;Data_, InternalData_&gt;::value) {</div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>            <span class="keywordflow">for</span> (Index_ i = 0; i &lt; my_obs; ++i) {</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>                <span class="keyword">auto</span> ptr = data.get_observation(work);</div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>                my_index.addPoint(ptr, i);</div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>            }</div>
-<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>            std::vector&lt;InternalData_&gt; incoming(my_dim);</div>
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>            <span class="keywordflow">for</span> (Index_ i = 0; i &lt; my_obs; ++i) {</div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>                <span class="keyword">auto</span> ptr = data.get_observation(work);</div>
-<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>                std::copy_n(ptr, my_dim, incoming.begin());</div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>                my_index.addPoint(incoming.data(), i);</div>
-<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>            }</div>
-<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>        }</div>
-<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span> </div>
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>        my_index.setEf(options.ef_search);</div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>    }</div>
-<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>    Dim_ my_dim;</div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    Index_ my_obs;</div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span> </div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    <span class="comment">// The following must be a pointer for polymorphism, but also so that</span></div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>    <span class="comment">// references to the object in my_index are still valid after copying.</span></div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>    std::shared_ptr&lt;hnswlib::SpaceInterface&lt;InternalData_&gt; &gt; my_space;</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Dim_, <span class="keyword">typename</span> Index_, <span class="keyword">typename</span> Float_, <span class="keyword">typename</span> InternalData_&gt;</div>
+<div class="foldopen" id="foldopen00218" data-start="{" data-end="};">
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno"><a class="line" href="classknncolle__hnsw_1_1HnswPrebuilt.html">  218</a></span><span class="keyword">class </span><a class="code hl_class" href="classknncolle__hnsw_1_1HnswPrebuilt.html">HnswPrebuilt</a> : <span class="keyword">public</span> <a class="code hl_classRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Prebuilt.html">knncolle::Prebuilt</a>&lt;Dim_, Index_, Float_&gt; {</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>    <span class="keyword">template</span>&lt;<span class="keyword">class</span> Matrix_&gt;</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    <a class="code hl_class" href="classknncolle__hnsw_1_1HnswPrebuilt.html">HnswPrebuilt</a>(<span class="keyword">const</span> Matrix_&amp; data, <span class="keyword">const</span> <a class="code hl_struct" href="structknncolle__hnsw_1_1HnswOptions.html">HnswOptions&lt;Dim_, InternalData_&gt;</a>&amp; options) :</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>        my_dim(data.num_dimensions()),</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>        my_obs(data.num_observations()),</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>        my_space([&amp;]() {</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>            <span class="keywordflow">if</span> (options.<a class="code hl_variable" href="structknncolle__hnsw_1_1HnswOptions.html#ab227b6637e409e1cab8d26496c7061d1">distance_options</a>.create) {</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>                return options.distance_options.create(my_dim);</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> <span class="keyword">constexpr</span>(std::is_same&lt;InternalData_, float&gt;::value) {</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>                return static_cast&lt;hnswlib::SpaceInterface&lt;InternalData_&gt;*&gt;(new hnswlib::L2Space(my_dim));</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>                return static_cast&lt;hnswlib::SpaceInterface&lt;InternalData_&gt;*&gt;(new SquaredEuclideanDistance&lt;InternalData_&gt;(my_dim));</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>            }</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>        }()),</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>        my_normalize([&amp;]() {</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>            <span class="keywordflow">if</span> (options.<a class="code hl_variable" href="structknncolle__hnsw_1_1HnswOptions.html#ab227b6637e409e1cab8d26496c7061d1">distance_options</a>.normalize) {</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>                return options.distance_options.normalize;</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>            } <span class="keywordflow">else</span> if (options.<a class="code hl_variable" href="structknncolle__hnsw_1_1HnswOptions.html#ab227b6637e409e1cab8d26496c7061d1">distance_options</a>.create) {</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>                return std::function&lt;InternalData_(InternalData_)&gt;();</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>                return std::function&lt;InternalData_(InternalData_)&gt;([](InternalData_ x) -&gt; InternalData_ { return std::sqrt(x); });</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>            }</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>        }()),</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>        my_index(my_space.get(), my_obs, options.num_links, options.ef_construction)</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>    {</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>        <span class="keyword">typedef</span> <span class="keyword">typename</span> Matrix_::data_type Data_;</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>        <span class="keyword">auto</span> work = data.create_workspace();</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>        <span class="keywordflow">if</span> <span class="keyword">constexpr</span>(std::is_same&lt;Data_, InternalData_&gt;::value) {</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>            <span class="keywordflow">for</span> (Index_ i = 0; i &lt; my_obs; ++i) {</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>                <span class="keyword">auto</span> ptr = data.get_observation(work);</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>                my_index.addPoint(ptr, i);</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>            }</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>            std::vector&lt;InternalData_&gt; incoming(my_dim);</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>            <span class="keywordflow">for</span> (Index_ i = 0; i &lt; my_obs; ++i) {</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>                <span class="keyword">auto</span> ptr = data.get_observation(work);</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>                std::copy_n(ptr, my_dim, incoming.begin());</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>                my_index.addPoint(incoming.data(), i);</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>            }</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>        }</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span> </div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>        my_index.setEf(options.ef_search);</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>    }</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>    Dim_ my_dim;</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>    Index_ my_obs;</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span> </div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>    <span class="comment">// The following must be a pointer for polymorphism, but also so that</span></div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    <span class="comment">// references to the object in my_index are still valid after copying.</span></div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>    std::shared_ptr&lt;hnswlib::SpaceInterface&lt;InternalData_&gt; &gt; my_space;</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span> </div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>    std::function&lt;InternalData_(InternalData_)&gt; my_normalize;</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>    hnswlib::HierarchicalNSW&lt;InternalData_&gt; my_index;</div>
 <div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span> </div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>    std::function&lt;InternalData_(InternalData_)&gt; my_normalize;</div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>    hnswlib::HierarchicalNSW&lt;InternalData_&gt; my_index;</div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span> </div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>    <span class="keyword">friend</span> <span class="keyword">class </span>HnswSearcher&lt;Dim_, Index_, Float_, InternalData_&gt;;</div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span> </div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>    Dim_ num_dimensions()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>        <span class="keywordflow">return</span> my_dim;</div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>    }</div>
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span> </div>
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>    Index_ num_observations()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>        <span class="keywordflow">return</span> my_obs;</div>
-<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>    }</div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span> </div>
-<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>    std::unique_ptr&lt;knncolle::Searcher&lt;Index_, Float_&gt; &gt; initialize()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>        <span class="keywordflow">return</span> std::make_unique&lt;HnswSearcher&lt;Dim_, Index_, Float_, InternalData_&gt; &gt;(<span class="keyword">this</span>);</div>
-<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>    }</div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>};</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>    <span class="keyword">friend</span> <span class="keyword">class </span>HnswSearcher&lt;Dim_, Index_, Float_, InternalData_&gt;;</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span> </div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>    Dim_ num_dimensions()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>        <span class="keywordflow">return</span> my_dim;</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>    }</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span> </div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>    Index_ num_observations()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>        <span class="keywordflow">return</span> my_obs;</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>    }</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span> </div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>    std::unique_ptr&lt;knncolle::Searcher&lt;Index_, Float_&gt; &gt; initialize()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>        <span class="keywordflow">return</span> std::make_unique&lt;HnswSearcher&lt;Dim_, Index_, Float_, InternalData_&gt; &gt;(<span class="keyword">this</span>);</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>    }</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>};</div>
 </div>
-<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span> </div>
-<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span><span class="keyword">template</span>&lt;</div>
-<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>    <span class="keyword">class </span>Matrix_ = <a class="code hl_classRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1SimpleMatrix.html">knncolle::SimpleMatrix&lt;int, int, double&gt;</a>, </div>
-<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>    <span class="keyword">typename</span> Float_ = double, </div>
-<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>    <span class="keyword">typename</span> InternalData_ = <span class="keywordtype">float</span>&gt;</div>
-<div class="foldopen" id="foldopen00327" data-start="{" data-end="};">
-<div class="line"><a id="l00327" name="l00327"></a><span class="lineno"><a class="line" href="classknncolle__hnsw_1_1HnswBuilder.html">  327</a></span><span class="keyword">class </span><a class="code hl_class" href="classknncolle__hnsw_1_1HnswBuilder.html">HnswBuilder</a> : <span class="keyword">public</span> <a class="code hl_classRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html">knncolle::Builder</a>&lt;Matrix_, Float_&gt; {</div>
-<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00332" name="l00332"></a><span class="lineno"><a class="line" href="classknncolle__hnsw_1_1HnswBuilder.html#a102a68782bb838cdeb435d263c560734">  332</a></span>    <span class="keyword">typedef</span> <a class="code hl_struct" href="structknncolle__hnsw_1_1HnswOptions.html">HnswOptions&lt;typename Matrix_::dimension_type, InternalData_&gt;</a> <a class="code hl_typedef" href="classknncolle__hnsw_1_1HnswBuilder.html#a102a68782bb838cdeb435d263c560734">Options</a>;</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span> </div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span><span class="keyword">template</span>&lt;</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>    <span class="keyword">class </span>Matrix_ = <a class="code hl_classRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1SimpleMatrix.html">knncolle::SimpleMatrix&lt;int, int, double&gt;</a>, </div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>    <span class="keyword">typename</span> Float_ = double, </div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>    <span class="keyword">typename</span> InternalData_ = <span class="keywordtype">float</span>&gt;</div>
+<div class="foldopen" id="foldopen00324" data-start="{" data-end="};">
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno"><a class="line" href="classknncolle__hnsw_1_1HnswBuilder.html">  324</a></span><span class="keyword">class </span><a class="code hl_class" href="classknncolle__hnsw_1_1HnswBuilder.html">HnswBuilder</a> : <span class="keyword">public</span> <a class="code hl_classRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html">knncolle::Builder</a>&lt;Matrix_, Float_&gt; {</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno"><a class="line" href="classknncolle__hnsw_1_1HnswBuilder.html#a102a68782bb838cdeb435d263c560734">  329</a></span>    <span class="keyword">typedef</span> <a class="code hl_struct" href="structknncolle__hnsw_1_1HnswOptions.html">HnswOptions&lt;typename Matrix_::dimension_type, InternalData_&gt;</a> <a class="code hl_typedef" href="classknncolle__hnsw_1_1HnswBuilder.html#a102a68782bb838cdeb435d263c560734">Options</a>;</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span> </div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>    <a class="code hl_struct" href="structknncolle__hnsw_1_1HnswOptions.html">Options</a> my_options;</div>
 <div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span> </div>
-<div class="line"><a id="l00337" name="l00337"></a><span class="lineno"><a class="line" href="classknncolle__hnsw_1_1HnswBuilder.html#a6587c0c801ddbcb48638cacd5e31d134">  337</a></span>    <span class="keyword">typedef</span> <a class="code hl_class" href="classknncolle__hnsw_1_1HnswPrebuilt.html">HnswPrebuilt&lt;typename Matrix_::dimension_type, typename Matrix_::index_type, Float_, InternalData_&gt;</a> <a class="code hl_typedef" href="classknncolle__hnsw_1_1HnswBuilder.html#a6587c0c801ddbcb48638cacd5e31d134">Prebuilt</a>;</div>
-<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span> </div>
-<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>    <a class="code hl_struct" href="structknncolle__hnsw_1_1HnswOptions.html">Options</a> my_options;</div>
-<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span> </div>
-<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00346" name="l00346"></a><span class="lineno"><a class="line" href="classknncolle__hnsw_1_1HnswBuilder.html#a885e29970c6224827af556dc442149e1">  346</a></span>    <a class="code hl_function" href="classknncolle__hnsw_1_1HnswBuilder.html#a885e29970c6224827af556dc442149e1">HnswBuilder</a>(<a class="code hl_struct" href="structknncolle__hnsw_1_1HnswOptions.html">Options</a> options) : my_options(std::move(options)) {}</div>
-<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span> </div>
-<div class="line"><a id="l00351" name="l00351"></a><span class="lineno"><a class="line" href="classknncolle__hnsw_1_1HnswBuilder.html#a98b348b3af8de5e5dcbd9cf89a936cb7">  351</a></span>    <a class="code hl_function" href="classknncolle__hnsw_1_1HnswBuilder.html#a98b348b3af8de5e5dcbd9cf89a936cb7">HnswBuilder</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span> </div>
-<div class="foldopen" id="foldopen00356" data-start="{" data-end="}">
-<div class="line"><a id="l00356" name="l00356"></a><span class="lineno"><a class="line" href="classknncolle__hnsw_1_1HnswBuilder.html#a63a2825cec1d3ca1a1addbca31dbfa6c">  356</a></span>    <a class="code hl_struct" href="structknncolle__hnsw_1_1HnswOptions.html">Options</a>&amp; <a class="code hl_function" href="classknncolle__hnsw_1_1HnswBuilder.html#a63a2825cec1d3ca1a1addbca31dbfa6c">get_options</a>() {</div>
-<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>        <span class="keywordflow">return</span> my_options;</div>
-<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>    }</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno"><a class="line" href="classknncolle__hnsw_1_1HnswBuilder.html#a885e29970c6224827af556dc442149e1">  338</a></span>    <a class="code hl_function" href="classknncolle__hnsw_1_1HnswBuilder.html#a885e29970c6224827af556dc442149e1">HnswBuilder</a>(<a class="code hl_struct" href="structknncolle__hnsw_1_1HnswOptions.html">Options</a> options) : my_options(std::move(options)) {}</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span> </div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno"><a class="line" href="classknncolle__hnsw_1_1HnswBuilder.html#a98b348b3af8de5e5dcbd9cf89a936cb7">  343</a></span>    <a class="code hl_function" href="classknncolle__hnsw_1_1HnswBuilder.html#a98b348b3af8de5e5dcbd9cf89a936cb7">HnswBuilder</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span> </div>
+<div class="foldopen" id="foldopen00348" data-start="{" data-end="}">
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno"><a class="line" href="classknncolle__hnsw_1_1HnswBuilder.html#a63a2825cec1d3ca1a1addbca31dbfa6c">  348</a></span>    <a class="code hl_struct" href="structknncolle__hnsw_1_1HnswOptions.html">Options</a>&amp; <a class="code hl_function" href="classknncolle__hnsw_1_1HnswBuilder.html#a63a2825cec1d3ca1a1addbca31dbfa6c">get_options</a>() {</div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>        <span class="keywordflow">return</span> my_options;</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>    }</div>
 </div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span> </div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>    <a class="code hl_classRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Prebuilt.html">knncolle::Prebuilt&lt;typename Matrix_::dimension_type, typename Matrix_::index_type, Float_&gt;</a>* build_raw(<span class="keyword">const</span> Matrix_&amp; data)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>        <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code hl_class" href="classknncolle__hnsw_1_1HnswPrebuilt.html">HnswPrebuilt&lt;typename Matrix_::dimension_type, typename Matrix_::index_type, Float_, InternalData_&gt;</a>(<a class="code hl_class" href="classknncolle__hnsw_1_1HnswPrebuilt.html">data</a>, my_options);</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>    }</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>};</div>
+</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span> </div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>}</div>
 <div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span> </div>
-<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>    <a class="code hl_classRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Prebuilt.html">knncolle::Prebuilt&lt;typename Matrix_::dimension_type, typename Matrix_::index_type, Float_&gt;</a>* build_raw(<span class="keyword">const</span> Matrix_&amp; data)<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>        <span class="keywordflow">return</span> <span class="keyword">new</span> Prebuilt(data, my_options);</div>
-<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>    }</div>
-<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>};</div>
-</div>
-<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span> </div>
-<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>}</div>
-<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span> </div>
-<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aclassknncolle_1_1Builder_html"><div class="ttname"><a href="https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html">knncolle::Builder</a></div></div>
 <div class="ttc" id="aclassknncolle_1_1Prebuilt_html"><div class="ttname"><a href="https://knncolle.github.io/knncolle/classknncolle_1_1Prebuilt.html">knncolle::Prebuilt</a></div></div>
 <div class="ttc" id="aclassknncolle_1_1Searcher_html"><div class="ttname"><a href="https://knncolle.github.io/knncolle/classknncolle_1_1Searcher.html">knncolle::Searcher</a></div></div>
 <div class="ttc" id="aclassknncolle_1_1SimpleMatrix_html"><div class="ttname"><a href="https://knncolle.github.io/knncolle/classknncolle_1_1SimpleMatrix.html">knncolle::SimpleMatrix</a></div></div>
-<div class="ttc" id="aclassknncolle__hnsw_1_1HnswBuilder_html"><div class="ttname"><a href="classknncolle__hnsw_1_1HnswBuilder.html">knncolle_hnsw::HnswBuilder</a></div><div class="ttdoc">Perform an approximate nearest neighbor search with HNSW.</div><div class="ttdef"><b>Definition</b> knncolle_hnsw.hpp:327</div></div>
-<div class="ttc" id="aclassknncolle__hnsw_1_1HnswBuilder_html_a102a68782bb838cdeb435d263c560734"><div class="ttname"><a href="classknncolle__hnsw_1_1HnswBuilder.html#a102a68782bb838cdeb435d263c560734">knncolle_hnsw::HnswBuilder::Options</a></div><div class="ttdeci">HnswOptions&lt; typename Matrix_::dimension_type, InternalData_ &gt; Options</div><div class="ttdef"><b>Definition</b> knncolle_hnsw.hpp:332</div></div>
-<div class="ttc" id="aclassknncolle__hnsw_1_1HnswBuilder_html_a63a2825cec1d3ca1a1addbca31dbfa6c"><div class="ttname"><a href="classknncolle__hnsw_1_1HnswBuilder.html#a63a2825cec1d3ca1a1addbca31dbfa6c">knncolle_hnsw::HnswBuilder::get_options</a></div><div class="ttdeci">Options &amp; get_options()</div><div class="ttdef"><b>Definition</b> knncolle_hnsw.hpp:356</div></div>
-<div class="ttc" id="aclassknncolle__hnsw_1_1HnswBuilder_html_a6587c0c801ddbcb48638cacd5e31d134"><div class="ttname"><a href="classknncolle__hnsw_1_1HnswBuilder.html#a6587c0c801ddbcb48638cacd5e31d134">knncolle_hnsw::HnswBuilder::Prebuilt</a></div><div class="ttdeci">HnswPrebuilt&lt; typename Matrix_::dimension_type, typename Matrix_::index_type, Float_, InternalData_ &gt; Prebuilt</div><div class="ttdef"><b>Definition</b> knncolle_hnsw.hpp:337</div></div>
-<div class="ttc" id="aclassknncolle__hnsw_1_1HnswBuilder_html_a885e29970c6224827af556dc442149e1"><div class="ttname"><a href="classknncolle__hnsw_1_1HnswBuilder.html#a885e29970c6224827af556dc442149e1">knncolle_hnsw::HnswBuilder::HnswBuilder</a></div><div class="ttdeci">HnswBuilder(Options options)</div><div class="ttdef"><b>Definition</b> knncolle_hnsw.hpp:346</div></div>
+<div class="ttc" id="aclassknncolle__hnsw_1_1HnswBuilder_html"><div class="ttname"><a href="classknncolle__hnsw_1_1HnswBuilder.html">knncolle_hnsw::HnswBuilder</a></div><div class="ttdoc">Perform an approximate nearest neighbor search with HNSW.</div><div class="ttdef"><b>Definition</b> knncolle_hnsw.hpp:324</div></div>
+<div class="ttc" id="aclassknncolle__hnsw_1_1HnswBuilder_html_a102a68782bb838cdeb435d263c560734"><div class="ttname"><a href="classknncolle__hnsw_1_1HnswBuilder.html#a102a68782bb838cdeb435d263c560734">knncolle_hnsw::HnswBuilder::Options</a></div><div class="ttdeci">HnswOptions&lt; typename Matrix_::dimension_type, InternalData_ &gt; Options</div><div class="ttdef"><b>Definition</b> knncolle_hnsw.hpp:329</div></div>
+<div class="ttc" id="aclassknncolle__hnsw_1_1HnswBuilder_html_a63a2825cec1d3ca1a1addbca31dbfa6c"><div class="ttname"><a href="classknncolle__hnsw_1_1HnswBuilder.html#a63a2825cec1d3ca1a1addbca31dbfa6c">knncolle_hnsw::HnswBuilder::get_options</a></div><div class="ttdeci">Options &amp; get_options()</div><div class="ttdef"><b>Definition</b> knncolle_hnsw.hpp:348</div></div>
+<div class="ttc" id="aclassknncolle__hnsw_1_1HnswBuilder_html_a885e29970c6224827af556dc442149e1"><div class="ttname"><a href="classknncolle__hnsw_1_1HnswBuilder.html#a885e29970c6224827af556dc442149e1">knncolle_hnsw::HnswBuilder::HnswBuilder</a></div><div class="ttdeci">HnswBuilder(Options options)</div><div class="ttdef"><b>Definition</b> knncolle_hnsw.hpp:338</div></div>
 <div class="ttc" id="aclassknncolle__hnsw_1_1HnswBuilder_html_a98b348b3af8de5e5dcbd9cf89a936cb7"><div class="ttname"><a href="classknncolle__hnsw_1_1HnswBuilder.html#a98b348b3af8de5e5dcbd9cf89a936cb7">knncolle_hnsw::HnswBuilder::HnswBuilder</a></div><div class="ttdeci">HnswBuilder()=default</div></div>
-<div class="ttc" id="aclassknncolle__hnsw_1_1HnswPrebuilt_html"><div class="ttname"><a href="classknncolle__hnsw_1_1HnswPrebuilt.html">knncolle_hnsw::HnswPrebuilt</a></div><div class="ttdoc">Prebuilt index for an Hnsw search.</div><div class="ttdef"><b>Definition</b> knncolle_hnsw.hpp:221</div></div>
+<div class="ttc" id="aclassknncolle__hnsw_1_1HnswPrebuilt_html"><div class="ttname"><a href="classknncolle__hnsw_1_1HnswPrebuilt.html">knncolle_hnsw::HnswPrebuilt</a></div><div class="ttdoc">Prebuilt index for an Hnsw search.</div><div class="ttdef"><b>Definition</b> knncolle_hnsw.hpp:218</div></div>
 <div class="ttc" id="aclassknncolle__hnsw_1_1HnswSearcher_html"><div class="ttname"><a href="classknncolle__hnsw_1_1HnswSearcher.html">knncolle_hnsw::HnswSearcher</a></div><div class="ttdoc">Searcher on an Hnsw index.</div><div class="ttdef"><b>Definition</b> knncolle_hnsw.hpp:78</div></div>
 <div class="ttc" id="adistances_8hpp_html"><div class="ttname"><a href="https://knncolle.github.io/knncolle/distances_8hpp.html">distances.hpp</a></div></div>
 <div class="ttc" id="aknncolle_8hpp_html"><div class="ttname"><a href="https://knncolle.github.io/knncolle/knncolle_8hpp.html">knncolle.hpp</a></div></div>

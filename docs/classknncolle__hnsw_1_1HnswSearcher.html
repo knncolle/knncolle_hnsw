@@ -97,13 +97,13 @@ Inheritance diagram for knncolle_hnsw::HnswSearcher&lt; Dim_, Index_, Float_, In
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9d70835c18c171c0ec244acc8762caf2" id="r_a9d70835c18c171c0ec244acc8762caf2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classknncolle__hnsw_1_1HnswSearcher.html#a9d70835c18c171c0ec244acc8762caf2">search</a> (Index_ i, Index_ k, std::vector&lt; Index_ &gt; *output_indices, std::vector&lt; Float_ &gt; *output_distances)</td></tr>
+<tr class="memitem:a9d70835c18c171c0ec244acc8762caf2" id="r_a9d70835c18c171c0ec244acc8762caf2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classknncolle__hnsw_1_1HnswSearcher.html#a9d70835c18c171c0ec244acc8762caf2">search</a> (<a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">i</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">k</a>, std::vector&lt; <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a> &gt; *<a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">output_indices</a>, std::vector&lt; <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Float_</a> &gt; *<a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">output_distances</a>)</td></tr>
 <tr class="separator:a9d70835c18c171c0ec244acc8762caf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab478260e0e1b7f8f286a64d85f07afc2" id="r_ab478260e0e1b7f8f286a64d85f07afc2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classknncolle__hnsw_1_1HnswSearcher.html#ab478260e0e1b7f8f286a64d85f07afc2">search</a> (const Float_ *query, Index_ k, std::vector&lt; Index_ &gt; *output_indices, std::vector&lt; Float_ &gt; *output_distances)</td></tr>
+<tr class="memitem:ab478260e0e1b7f8f286a64d85f07afc2" id="r_ab478260e0e1b7f8f286a64d85f07afc2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classknncolle__hnsw_1_1HnswSearcher.html#ab478260e0e1b7f8f286a64d85f07afc2">search</a> (<a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">const</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Float_</a> *<a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">query</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">k</a>, std::vector&lt; <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a> &gt; *<a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">output_indices</a>, std::vector&lt; <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Float_</a> &gt; *<a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">output_distances</a>)</td></tr>
 <tr class="separator:ab478260e0e1b7f8f286a64d85f07afc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename Dim_, typename Index_, typename Float_, typename InternalData_&gt;<br />
+<div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Dim_</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Float_</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">InternalData_</a>&gt;<br />
 class knncolle_hnsw::HnswSearcher&lt; Dim_, Index_, Float_, InternalData_ &gt;</div><p>Searcher on an Hnsw index. </p>
 <p>Instances of this class are usually constructed using <code>HnswPrebuilt::initialize()</code>.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
@@ -122,33 +122,33 @@ class knncolle_hnsw::HnswSearcher&lt; Dim_, Index_, Float_, InternalData_ &gt;</
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Dim_ , typename Index_ , typename Float_ , typename InternalData_ &gt; </div>
+template&lt;<a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Dim_</a> , <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a> , <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Float_</a> , <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">InternalData_</a> &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classknncolle__hnsw_1_1HnswSearcher.html">knncolle_hnsw::HnswSearcher</a>&lt; Dim_, Index_, Float_, InternalData_ &gt;::search </td>
+          <td class="memname"><a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">void</a> <a class="el" href="classknncolle__hnsw_1_1HnswSearcher.html">knncolle_hnsw::HnswSearcher</a>&lt; <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Dim_</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Float_</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">InternalData_</a> &gt;::search </td>
           <td>(</td>
-          <td class="paramtype">const Float_ *&#160;</td>
+          <td class="paramtype"><a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">const</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Float_</a> *&#160;</td>
           <td class="paramname"><em>query</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Index_&#160;</td>
+          <td class="paramtype"><a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a>&#160;</td>
           <td class="paramname"><em>k</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::vector&lt; Index_ &gt; *&#160;</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a> &gt; *&#160;</td>
           <td class="paramname"><em>output_indices</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::vector&lt; Float_ &gt; *&#160;</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Float_</a> &gt; *&#160;</td>
           <td class="paramname"><em>output_distances</em>&#160;</td>
         </tr>
         <tr>
@@ -174,33 +174,33 @@ template&lt;typename Dim_ , typename Index_ , typename Float_ , typename Interna
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Dim_ , typename Index_ , typename Float_ , typename InternalData_ &gt; </div>
+template&lt;<a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Dim_</a> , <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a> , <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Float_</a> , <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">InternalData_</a> &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void <a class="el" href="classknncolle__hnsw_1_1HnswSearcher.html">knncolle_hnsw::HnswSearcher</a>&lt; Dim_, Index_, Float_, InternalData_ &gt;::search </td>
+          <td class="memname"><a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">void</a> <a class="el" href="classknncolle__hnsw_1_1HnswSearcher.html">knncolle_hnsw::HnswSearcher</a>&lt; <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Dim_</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Float_</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">InternalData_</a> &gt;::search </td>
           <td>(</td>
-          <td class="paramtype">Index_&#160;</td>
+          <td class="paramtype"><a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a>&#160;</td>
           <td class="paramname"><em>i</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Index_&#160;</td>
+          <td class="paramtype"><a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a>&#160;</td>
           <td class="paramname"><em>k</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::vector&lt; Index_ &gt; *&#160;</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a> &gt; *&#160;</td>
           <td class="paramname"><em>output_indices</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::vector&lt; Float_ &gt; *&#160;</td>
+          <td class="paramtype">std::vector&lt; <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Float_</a> &gt; *&#160;</td>
           <td class="paramname"><em>output_distances</em>&#160;</td>
         </tr>
         <tr>

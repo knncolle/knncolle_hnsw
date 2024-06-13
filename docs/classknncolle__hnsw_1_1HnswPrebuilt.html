@@ -98,24 +98,23 @@ Inheritance diagram for knncolle_hnsw::HnswPrebuilt&lt; Dim_, Index_, Float_, In
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a1d7dcd3664d8169523d9324694fcf94a" id="r_a1d7dcd3664d8169523d9324694fcf94a"><td class="memItemLeft" align="right" valign="top">Dim_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html#a1d7dcd3664d8169523d9324694fcf94a">num_dimensions</a> () const</td></tr>
+<tr class="memitem:a1d7dcd3664d8169523d9324694fcf94a" id="r_a1d7dcd3664d8169523d9324694fcf94a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Dim_</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html#a1d7dcd3664d8169523d9324694fcf94a">num_dimensions</a> () <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">const</a></td></tr>
 <tr class="separator:a1d7dcd3664d8169523d9324694fcf94a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75598372fc2c16006119e8e775e4ac68" id="r_a75598372fc2c16006119e8e775e4ac68"><td class="memItemLeft" align="right" valign="top">Index_&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html#a75598372fc2c16006119e8e775e4ac68">num_observations</a> () const</td></tr>
+<tr class="memitem:a75598372fc2c16006119e8e775e4ac68" id="r_a75598372fc2c16006119e8e775e4ac68"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html#a75598372fc2c16006119e8e775e4ac68">num_observations</a> () <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">const</a></td></tr>
 <tr class="separator:a75598372fc2c16006119e8e775e4ac68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7335571e5dc714f3c595dc3a1e8bf56a" id="r_a7335571e5dc714f3c595dc3a1e8bf56a"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Searcher.html">knncolle::Searcher</a>&lt; Index_, Float_ &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html#a7335571e5dc714f3c595dc3a1e8bf56a">initialize</a> () const</td></tr>
+<tr class="memitem:a7335571e5dc714f3c595dc3a1e8bf56a" id="r_a7335571e5dc714f3c595dc3a1e8bf56a"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Searcher.html">knncolle::Searcher</a>&lt; <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Float_</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html#a7335571e5dc714f3c595dc3a1e8bf56a">initialize</a> () <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">const</a></td></tr>
 <tr class="separator:a7335571e5dc714f3c595dc3a1e8bf56a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
 <tr class="memitem:adc944420df7dce5876139da297fab835" id="r_adc944420df7dce5876139da297fab835"><td class="memItemLeft" align="right" valign="top"><a id="adc944420df7dce5876139da297fab835" name="adc944420df7dce5876139da297fab835"></a>
-class&#160;</td><td class="memItemRight" valign="bottom"><b>HnswSearcher&lt; Dim_, Index_, Float_, InternalData_ &gt;</b></td></tr>
+<a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">class</a>&#160;</td><td class="memItemRight" valign="bottom"><b>HnswSearcher&lt; Dim_, Index_, Float_, InternalData_ &gt;</b></td></tr>
 <tr class="separator:adc944420df7dce5876139da297fab835"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename Dim_, typename Index_, typename Float_, typename InternalData_&gt;<br />
 class knncolle_hnsw::HnswPrebuilt&lt; Dim_, Index_, Float_, InternalData_ &gt;</div><p>Prebuilt index for an Hnsw search. </p>
 <p>Instances of this class are usually constructed using <code>HnswBuilder::build_raw()</code>. The <code>initialize()</code> method will create an instance of the <code><a class="el" href="classknncolle__hnsw_1_1HnswSearcher.html" title="Searcher on an Hnsw index.">HnswSearcher</a></code> class.</p>
-<p>This class can also be created via using the <code><a class="el" href="classknncolle__hnsw_1_1HnswBuilder.html#a6587c0c801ddbcb48638cacd5e31d134">HnswBuilder::Prebuilt</a></code> definition, which ensures consistency of template parameters with <code><a class="el" href="classknncolle__hnsw_1_1HnswBuilder.html" title="Perform an approximate nearest neighbor search with HNSW.">HnswBuilder</a></code>.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Dim_</td><td>Integer type for the number of dimensions. For the output of <code>HnswBuilder::build_raw()</code>, this is set to <code>Matrix_::dimension_type</code>. </td></tr>
@@ -132,13 +131,13 @@ class knncolle_hnsw::HnswPrebuilt&lt; Dim_, Index_, Float_, InternalData_ &gt;</
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Dim_ , typename Index_ , typename Float_ , typename InternalData_ &gt; </div>
+template&lt;<a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Dim_</a> , <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a> , <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Float_</a> , <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">InternalData_</a> &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt; <a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Searcher.html">knncolle::Searcher</a>&lt; Index_, Float_ &gt; &gt; <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">knncolle_hnsw::HnswPrebuilt</a>&lt; Dim_, Index_, Float_, InternalData_ &gt;::initialize </td>
+          <td class="memname">std::unique_ptr&lt; <a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Searcher.html">knncolle::Searcher</a>&lt; <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Float_</a> &gt; &gt; <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">knncolle_hnsw::HnswPrebuilt</a>&lt; <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Dim_</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Float_</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">InternalData_</a> &gt;::initialize </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -161,13 +160,13 @@ template&lt;typename Dim_ , typename Index_ , typename Float_ , typename Interna
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Dim_ , typename Index_ , typename Float_ , typename InternalData_ &gt; </div>
+template&lt;<a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Dim_</a> , <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a> , <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Float_</a> , <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">InternalData_</a> &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Dim_ <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">knncolle_hnsw::HnswPrebuilt</a>&lt; Dim_, Index_, Float_, InternalData_ &gt;::num_dimensions </td>
+          <td class="memname"><a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Dim_</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">knncolle_hnsw::HnswPrebuilt</a>&lt; <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Dim_</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Float_</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">InternalData_</a> &gt;::num_dimensions </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -190,13 +189,13 @@ template&lt;typename Dim_ , typename Index_ , typename Float_ , typename Interna
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Dim_ , typename Index_ , typename Float_ , typename InternalData_ &gt; </div>
+template&lt;<a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Dim_</a> , <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a> , <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Float_</a> , <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">typename</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">InternalData_</a> &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">Index_ <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">knncolle_hnsw::HnswPrebuilt</a>&lt; Dim_, Index_, Float_, InternalData_ &gt;::num_observations </td>
+          <td class="memname"><a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a> <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">knncolle_hnsw::HnswPrebuilt</a>&lt; <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Dim_</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Index_</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">Float_</a>, <a class="el" href="classknncolle__hnsw_1_1HnswPrebuilt.html">InternalData_</a> &gt;::num_observations </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
