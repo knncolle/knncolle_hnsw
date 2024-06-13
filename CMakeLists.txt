@@ -26,7 +26,7 @@ else()
     find_package(hnswlib CONFIG REQUIRED)
 endif()
 
-target_link_libraries(knncolle_hnsw INTERFACE knncolle::knncolle Annoy::Annoy)
+target_link_libraries(knncolle_hnsw INTERFACE knncolle::knncolle hnswlib::hnswlib)
 
 # Tests
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)

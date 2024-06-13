@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <type_traits>
+#include <memory>
 
 #include "knncolle/knncolle.hpp"
 #include "hnswlib/hnswalg.h"
@@ -19,7 +20,15 @@ namespace knncolle_hnsw {
 
 /**
  * @brief Options for `HnswBuilder()` and `HnswPrebuilt()`.
+ *
+ * This can also be created via using the `HnswBuilder::Options` definition,
+ * which ensures consistency of template parameters with `HnswBuilder`.
+ *
+ * @tparam Dim_ Integer type for the number of dimensions.
+ * For the `HnswBuilder` constructor, this should be equal to `Matrix_::dimension_type`.
+ * @tparam InternalData_ Floating point type for the HNSW index.
  */
+template<typename Dim_ = int, typename InternalData_ = float>
 struct HnswOptions {
     /**
      * Number of bidirectional links for each node.
@@ -41,9 +50,14 @@ struct HnswOptions {
      * see [here](https://github.com/nmslib/hnswlib/blob/master/ALGO_PARAMS.md#search-parameters) for details.
      */
     int ef_search = 10;
+
+    /**
+     * Choice of distance metric to be used during HNSW index construction and search.
+     */
+    DistanceOptions<Dim_, InternalData_> distance_options;
 };
 
-template<class Distance_, typename Dim_, typename Index_, typename Float_, typename InternalIndex_, typename InternalData_>
+template<typename Dim_, typename Index_, typename Float_, typename InternalData_>
 class HnswPrebuilt;
 
 /**
@@ -51,17 +65,15 @@ class HnswPrebuilt;
  *
  * Instances of this class are usually constructed using `HnswPrebuilt::initialize()`.
  *
- * @tparam Distance_ Subclass of a `hnswlib::SpaceInterface<InternalData_>`, see comments in `HnswBuilder`.
  * @tparam Dim_ Integer type for the number of dimensions.
  * @tparam Index_ Integer type for the indices.
  * @tparam Float_ Floating point type for the query data and output distances.
- * @tparam InternalIndex_ Integer type for the internal indices in Hnsw.
- * @tparam InternalData_ Floating point type for the internal data in Hnsw.
+ * @tparam InternalData_ Floating point type for the internal data in the HNSW index.
  */
-template<class Distance_, typename Dim_, typename Index_, typename Float_, typename InternalData_>
+template<typename Dim_, typename Index_, typename Float_, typename InternalData_>
 class HnswSearcher : public knncolle::Searcher<Index_, Float_> {
 private:
-    const HnswPrebuilt<Distance_, Dim_, Index_, Float_, InternalIndex_, InternalData_>* my_parent;
+    const HnswPrebuilt<Dim_, Index_, Float_, InternalData_>* my_parent;
 
     std::priority_queue<std::pair<InternalData_, hnswlib::labeltype> > my_queue;
     std::vector<InternalData_> my_buffer;
@@ -72,7 +84,7 @@ public:
     /**
      * @cond
      */
-    HnswSearcher(const HnswPrebuilt<Distance_, Dim_, Index_, Float_, InternalIndex_, InternalData_>* parent) : my_parent(parent) {
+    HnswSearcher(const HnswPrebuilt<Dim_, Index_, Float_, InternalData_>* parent) : my_parent(parent) {
         if constexpr(!same_internal) {
             my_buffer.resize(my_parent->my_dim);
         }
@@ -81,21 +93,9 @@ public:
      * @endcond
      */
 
-private:
-    // Doing a little SFINAE to check if a normalize() method is available.
-    template<class Test_, typename = int>
-    struct has_normalize {
-        static constexpr bool value = false;
-    };
-
-    template<class Test_>
-    struct has_normalize<Test_, decltype((void) Test_::normalize(0), 0)> {
-        static constexpr bool value = true;
-    };
-
 public:
     void search(Index_ i, Index_ k, std::vector<Index_>* output_indices, std::vector<Float_>* output_distances) {
-        my_buffer = my_parent->my_index.getDataByLabel<InternalData_>(i);
+        my_buffer = my_parent->my_index.template getDataByLabel<InternalData_>(i);
         Index_ kp1 = k + 1;
         my_queue = my_parent->my_index.searchKnn(my_buffer.data(), kp1); // +1, as it forgets to discard 'self'.
 
@@ -118,13 +118,7 @@ public:
                     output_indices->push_back(top.second);
                 }
                 if (output_distances) {
-                    output_distances->push_back([&](){
-                        if constexpr(has_normalize<Distance_>::value) {
-                            return Distance_::normalize(top.first);
-                        } else {
-                            return top.first;
-                        }
-                    }());
+                    output_distances->push_back(top.first);
                 }
             }
             my_queue.pop();
@@ -150,10 +144,17 @@ public:
                 output_distances->pop_back();
             }
         }
+
+        if (output_distances && my_parent->my_normalize) {
+            for (auto& d : *output_distances) {
+                d = my_parent->my_normalize(d);
+            }
+        }
     }
 
 private:
     void search_raw(const InternalData_* query, Index_ k, std::vector<Index_>* output_indices, std::vector<Float_>* output_distances) {
+        k = std::min(k, my_parent->my_obs);
         my_queue = my_parent->my_index.searchKnn(query, k); 
 
         if (output_indices) {
@@ -171,15 +172,15 @@ private:
                 (*output_indices)[position] = top.second;
             }
             if (output_distances) {
-                (*output_distances)[position] = [&](){
-                    if constexpr(has_normalize<Distance_>::value) {
-                        return Distance_::normalize(top.first);
-                    } else {
-                        return top.first;
-                    }
-                }();
+                (*output_distances)[position] = top.first;
             }
             my_queue.pop();
+        }
+
+        if (output_distances && my_parent->my_normalize) {
+            for (auto& d : *output_distances) {
+                d = my_parent->my_normalize(d);
+            }
         }
     }
 
@@ -200,28 +201,46 @@ public:
  *
  * Instances of this class are usually constructed using `HnswBuilder::build_raw()`.
  * The `initialize()` method will create an instance of the `HnswSearcher` class.
+ * 
+ * This class can also be created via using the `HnswBuilder::Prebuilt` definition,
+ * which ensures consistency of template parameters with `HnswBuilder`.
  *
- * @tparam Distance_ Subclass of a `hnswlib::SpaceInterface<InternalData_>`, see comments in `HnswBuilder`.
  * @tparam Dim_ Integer type for the number of dimensions.
  * For the output of `HnswBuilder::build_raw()`, this is set to `Matrix_::dimension_type`.
  * @tparam Index_ Integer type for the indices.
  * For the output of `HnswBuilder::build_raw()`, this is set to `Matrix_::index_type`.
  * @tparam Float_ Floating point type for the query data and output distances.
- * @tparam InternalIndex_ Integer type for the internal indices in Hnsw.
- * @tparam InternalData_ Floating point type for the internal data in Hnsw.
+ * @tparam InternalData_ Floating point type for the internal data in the HNSW index.
  */
-template<class Distance_, typename Dim_, typename Index_, typename Float_, typename InternalIndex_, typename InternalData_>
+template<typename Dim_, typename Index_, typename Float_, typename InternalData_>
 class HnswPrebuilt : public knncolle::Prebuilt<Dim_, Index_, Float_> {
 public:
     /**
      * @cond
      */
     template<class Matrix_>
-    HnswPrebuilt(const Matrix_& data, const HnswOptions& options) :
+    HnswPrebuilt(const Matrix_& data, const HnswOptions<Dim_, InternalData_>& options) :
         my_dim(data.num_dimensions()),
         my_obs(data.num_observations()),
-        my_space(my_dim), 
-        my_index(&my_space, my_obs, options.num_links, options.ef_construction),
+        my_space([&]() {
+            if (options.distance_options.create) {
+                return options.distance_options.create(my_dim);
+            } else if constexpr(std::is_same<InternalData_, float>::value) {
+                return static_cast<hnswlib::SpaceInterface<InternalData_>*>(new hnswlib::L2Space(my_dim));
+            } else {
+                return static_cast<hnswlib::SpaceInterface<InternalData_>*>(new SquaredEuclideanDistance<InternalData_>(my_dim));
+            }
+        }()),
+        my_normalize([&]() {
+            if (options.distance_options.normalize) {
+                return options.distance_options.normalize;
+            } else if (options.distance_options.create) {
+                return std::function<InternalData_(InternalData_)>();
+            } else {
+                return std::function<InternalData_(InternalData_)>([](InternalData_ x) -> InternalData_ { return std::sqrt(x); });
+            }
+        }()),
+        my_index(my_space.get(), my_obs, options.num_links, options.ef_construction)
     {
         typedef typename Matrix_::data_type Data_;
         auto work = data.create_workspace();
@@ -249,10 +268,15 @@ public:
 private:
     Dim_ my_dim;
     Index_ my_obs;
-    Distance_ my_distance;
+
+    // The following must be a pointer for polymorphism, but also so that
+    // references to the object in my_index are still valid after copying.
+    std::shared_ptr<hnswlib::SpaceInterface<InternalData_> > my_space;
+
+    std::function<InternalData_(InternalData_)> my_normalize;
     hnswlib::HierarchicalNSW<InternalData_> my_index;
 
-    friend class HnswSearcher<Distance_, Dim_, Index_, Float_, InternalIndex_, InternalData_>;
+    friend class HnswSearcher<Dim_, Index_, Float_, InternalData_>;
 
 public:
     Dim_ num_dimensions() const {
@@ -264,7 +288,7 @@ public:
     }
 
     std::unique_ptr<knncolle::Searcher<Index_, Float_> > initialize() const {
-        return std::make_unique<HnswSearcher<Distance_, Dim_, Index_, Float_, InternalIndex_, InternalData_> >(this);
+        return std::make_unique<HnswSearcher<Dim_, Index_, Float_, InternalData_> >(this);
     }
 };
 
@@ -286,40 +310,51 @@ public:
  * _arXiv_.
  * https://arxiv.org/abs/1603.09320
  *
- * @tparam Distance_ Subclass of a `hnswlib::SpaceInterface<InternalData_>` to compute the distance between vectors.
- * The constructor of this subclass should accept a single argument containing the number of dimensions.
- * The class may also implement a static `normalize()` method to convert relative distances from `get_dist_func()` into actual distances;
- * if no such method is available, it is assumed that the reported distances are already absolute.
  * @tparam Matrix_ Matrix-like object satisfying the `knncolle::MockMatrix` interface.
  * @tparam Float_ Floating point type for the query data and output distances.
- * @tparam InternalIndex_ Integer type for the internal indices in Hnsw.
- * @tparam InternalData_ Floating point type for the internal data in Hnsw.
+ * @tparam InternalData_ Floating point type for the internal data in HNSW index.
  * This defaults to a `float` instead of a `double` to sacrifice some accuracy for performance.
  */
 template<
-    class Distance_ = EuclideanFloatDistance,
     class Matrix_ = knncolle::SimpleMatrix<int, int, double>, 
     typename Float_ = double, 
-    typename InternalIndex_ = typename Matrix_::index_type, 
     typename InternalData_ = float>
 class HnswBuilder : public knncolle::Builder<Matrix_, Float_> {
+public:
+    /**
+     * Convenient name for the `HnswOptions` class that ensures consistent template parametrization.
+     */
+    typedef HnswOptions<typename Matrix_::dimension_type, InternalData_> Options;
+
+    /**
+     * Convenient name for the `HnswPrebuilt` class that ensures consistent template parametrization.
+     */
+    typedef HnswPrebuilt<typename Matrix_::dimension_type, typename Matrix_::index_type, Float_, InternalData_> Prebuilt;
+
 private:
-    HnswOptions my_options;
+    Options my_options;
 
 public:
     /**
-     * @param options Further options for Hnsw index construction and searching.
+     * @param options Further options for HNSW index construction and searching.
      */
-    HnswBuilder(HnswOptions options) : my_options(std::move(options)) {}
+    HnswBuilder(Options options) : my_options(std::move(options)) {}
 
     /**
      * Default constructor.
      */
     HnswBuilder() = default;
 
+    /**
+     * @return Options for HNSW, to be modified prior to calling `build_raw()` and friends.
+     */
+    Options& get_options() {
+        return my_options;
+    }
+
 public:
     knncolle::Prebuilt<typename Matrix_::dimension_type, typename Matrix_::index_type, Float_>* build_raw(const Matrix_& data) const {
-        return new HnswPrebuilt<Distance_, typename Matrix_::dimension_type, typename Matrix_::index_type, Float_, InternalIndex_, InternalData_>(data, my_options);
+        return new Prebuilt(data, my_options);
     }
 };
 
