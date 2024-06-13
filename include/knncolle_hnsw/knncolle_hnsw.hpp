@@ -16,10 +16,14 @@
  * @brief Approximate nearest neighbor search with HNSW.
  */
 
+/**
+ * @namespace knncolle_hnsw
+ * @brief knncolle bindings for HNSW search.
+ */
 namespace knncolle_hnsw {
 
 /**
- * @brief Options for `HnswBuilder()` and `HnswPrebuilt()`.
+ * @brief Options for `HnswBuilder` and `HnswPrebuilt`.
  *
  * This can also be created via using the `HnswBuilder::Options` definition,
  * which ensures consistency of template parameters with `HnswBuilder`.
