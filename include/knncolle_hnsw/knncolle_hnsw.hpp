@@ -206,9 +206,6 @@ public:
  *
  * Instances of this class are usually constructed using `HnswBuilder::build_raw()`.
  * The `initialize()` method will create an instance of the `HnswSearcher` class.
- * 
- * This class can also be created via using the `HnswBuilder::Prebuilt` definition,
- * which ensures consistency of template parameters with `HnswBuilder`.
  *
  * @tparam Dim_ Integer type for the number of dimensions.
  * For the output of `HnswBuilder::build_raw()`, this is set to `Matrix_::dimension_type`.
@@ -331,11 +328,6 @@ public:
      */
     typedef HnswOptions<typename Matrix_::dimension_type, InternalData_> Options;
 
-    /**
-     * Convenient name for the `HnswPrebuilt` class that ensures consistent template parametrization.
-     */
-    typedef HnswPrebuilt<typename Matrix_::dimension_type, typename Matrix_::index_type, Float_, InternalData_> Prebuilt;
-
 private:
     Options my_options;
 
@@ -359,7 +351,7 @@ public:
 
 public:
     knncolle::Prebuilt<typename Matrix_::dimension_type, typename Matrix_::index_type, Float_>* build_raw(const Matrix_& data) const {
-        return new Prebuilt(data, my_options);
+        return new HnswPrebuilt<typename Matrix_::dimension_type, typename Matrix_::index_type, Float_, InternalData_>(data, my_options);
     }
 };
 
