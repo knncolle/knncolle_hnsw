@@ -93,13 +93,14 @@ TEST_P(HnswTest, FindEuclidean) {
         bsptr->search(x, k, &ires0, NULL);
         EXPECT_EQ(ires, ires0);
 
-        // Checking the distance to the most distant neighbor.
+        // Checking the distance to the most distant neighbor. This needs to be a little
+        // gentle w.r.t. tolerances due to differences in precision.
         {
             auto furthest = ires.back();
             auto current = data.data() + x * ndim;
             auto ptr = data.data() + furthest * ndim;
             auto expected = knncolle::EuclideanDistance::raw_distance<double>(current, ptr, ndim);
-            EXPECT_LT(std::abs(knncolle::EuclideanDistance::normalize(expected) - dres.back()), 0.000001);
+            EXPECT_LT(std::abs(knncolle::EuclideanDistance::normalize(expected) - dres.back()), 0.0001);
         }
 
         // Checking the different types.
@@ -137,13 +138,14 @@ TEST_P(HnswTest, FindManhattan) {
         bsptr->search(x, k, &ires, &dres);
         sanity_checks(ires, dres, k, x);
 
-        // Double-checking the distance to the most distant neighbor.
+        // Checking the distance to the most distant neighbor. This needs to be a little
+        // gentle w.r.t. tolerances due to differences in precision.
         {
             auto furthest = ires.back();
             auto current = data.data() + x * ndim;
             auto ptr = data.data() + furthest * ndim;
             auto expected = knncolle::ManhattanDistance::raw_distance<double>(current, ptr, ndim);
-            EXPECT_LT(std::abs(knncolle::ManhattanDistance::normalize(expected) - dres.back()), 0.000001);
+            EXPECT_LT(std::abs(knncolle::ManhattanDistance::normalize(expected) - dres.back()), 0.0001);
         }
     }
 }
@@ -253,6 +255,6 @@ TEST(Hnsw, EuclideanDouble) {
         auto current = data.data() + x * ndim;
         auto ptr = data.data() + furthest * ndim;
         auto expected = knncolle::EuclideanDistance::raw_distance<double>(current, ptr, ndim);
-        EXPECT_LT(std::abs(knncolle::EuclideanDistance::normalize(expected) - dres.back()), 0.000001);
+        EXPECT_LT(std::abs(knncolle::EuclideanDistance::normalize(expected) - dres.back()), 0.0001);
     }
 }

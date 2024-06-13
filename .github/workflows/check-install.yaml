@@ -1,0 +1,50 @@
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+name: Check CMake install
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Get latest CMake
+      uses: lukka/get-cmake@latest
+
+    - name: Install knncolle
+      run: |
+        git clone https://github.com/knncolle/knncolle dep-knncolle --depth=1
+        cd dep-knncolle
+        cmake -S . -B build -DKNNCOLLE_TESTS=OFF
+        sudo cmake --install build
+
+    - name: Install HNSW
+      run: |
+        git clone https://github.com/nmslib/hnswlib dep-hnsw --depth=1
+        cd dep-hnsw
+        cmake -S . -B build
+        sudo cmake --install build
+
+    - name: Configure the build
+      run: cmake -S . -B build -DKNNCOLLE_HNSW_TESTS=OFF -DKNNCOLLE_HNSW_FETCH_EXTERN=OFF
+
+    - name: Install the library
+      run: sudo cmake --install build
+
+    - name: Test downstream usage
+      run: |
+        mkdir _downstream
+        touch _downstream/source.cpp
+        cat << EOF > _downstream/CMakeLists.txt
+        cmake_minimum_required(VERSION 3.24)
+        project(test_install)
+        add_executable(whee source.cpp)
+        find_package(knncolle_knncolle_hnsw)
+        target_link_libraries(whee knncolle::knncolle_hnsw)
+        EOF
+        cd _downstream && cmake -S . -B build
