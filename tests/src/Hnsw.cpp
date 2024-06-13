@@ -4,7 +4,7 @@
 #include <random>
 #include <vector>
 
-class HnswTest : public ::testing::TestWithParam<std::tuple<std::tuple<int, int>, int> > {
+class TestCore {
 protected:
     inline static int nobs, ndim;
     inline static std::vector<double> data;
@@ -57,7 +57,9 @@ protected:
 
         sanity_checks(indices, distances);
     }
+};
 
+class HnswTest : public TestCore, public ::testing::TestWithParam<std::tuple<std::tuple<int, int>, int> > {
 protected:
     void SetUp() {
         assemble(std::get<0>(GetParam()));
@@ -230,17 +232,14 @@ TEST(Hnsw, Constructor) {
     EXPECT_EQ(mutant.get_options().num_links, 1000);
 }
 
-TEST(Hnsw, EuclideanDouble) {
-    int ndim = 5;
-    int nobs = 100;
-    std::vector<double> data(ndim * nobs);
-    {
-        std::mt19937_64 rng(1000);
-        std::normal_distribution dist;
-        for (auto& d : data) {
-            d = dist(rng);
-        }
+class HnswMiscTest : public TestCore, public ::testing::Test {
+protected:
+    void SetUp() {
+        assemble({ 100, 5 });
     }
+};
+
+TEST_F(HnswMiscTest, EuclideanDouble) {
     knncolle::SimpleMatrix<int, int, double> mat(ndim, nobs, data.data());
 
     // using a double as the InternalData_ to check that we dispatch correctly to a SquaredEuclideanDistance.
@@ -263,17 +262,7 @@ TEST(Hnsw, EuclideanDouble) {
     }
 }
 
-TEST(Hnsw, EuclideanNormalize) {
-    int ndim = 5;
-    int nobs = 100;
-    std::vector<double> data(ndim * nobs);
-    {
-        std::mt19937_64 rng(1001);
-        std::normal_distribution dist;
-        for (auto& d : data) {
-            d = dist(rng);
-        }
-    }
+TEST_F(HnswMiscTest, EuclideanNormalize) {
     knncolle::SimpleMatrix<int, int, double> mat(ndim, nobs, data.data());
 
     // Checking that the normalization option is respected.
