@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['prebuilt_2ehpp_0',['Prebuilt.hpp',['https://knncolle.github.io/knncolle/Prebuilt_8hpp.html',1,'']]]
+  ['mockmatrix_2ehpp_0',['MockMatrix.hpp',['https://knncolle.github.io/knncolle/MockMatrix_8hpp.html',1,'']]]
 ];

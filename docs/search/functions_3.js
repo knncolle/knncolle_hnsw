@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['hnswbuilder_0',['hnswbuilder',['../classknncolle__hnsw_1_1HnswBuilder.html#a885e29970c6224827af556dc442149e1',1,'knncolle_hnsw::HnswBuilder::HnswBuilder(Options options)'],['../classknncolle__hnsw_1_1HnswBuilder.html#a98b348b3af8de5e5dcbd9cf89a936cb7',1,'knncolle_hnsw::HnswBuilder::HnswBuilder()=default']]]
+  ['find_5fnearest_5fneighbors_0',['find_nearest_neighbors',['https://knncolle.github.io/knncolle/namespaceknncolle.html#a22e035b2d5eb293fd828a67e61f3213d',1,'knncolle']]],
+  ['find_5fnearest_5fneighbors_5findex_5fonly_1',['find_nearest_neighbors_index_only',['https://knncolle.github.io/knncolle/namespaceknncolle.html#a0b726765329530a709095ba304033a0d',1,'knncolle']]]
 ];

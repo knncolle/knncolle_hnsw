@@ -90,9 +90,10 @@ Quick start</h1>
 <div class="line"><span class="keyword">auto</span> an_index = an_builder.build_unique(mat);</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Find 10 (approximate) nearest neighbors of every element.</span></div>
-<div class="line"><span class="keyword">auto</span> results = knncolle::find_nearest_neighbors(*an_index, 10); </div>
+<div class="line"><span class="keyword">auto</span> results = <a class="code hl_functionRef" href="https://knncolle.github.io/knncolle/namespaceknncolle.html#a22e035b2d5eb293fd828a67e61f3213d">knncolle::find_nearest_neighbors</a>(*an_index, 10); </div>
 <div class="ttc" id="aclassknncolle_1_1SimpleMatrix_html"><div class="ttname"><a href="https://knncolle.github.io/knncolle/classknncolle_1_1SimpleMatrix.html">knncolle::SimpleMatrix</a></div></div>
-<div class="ttc" id="aclassknncolle__hnsw_1_1HnswPrebuilt_html"><div class="ttname"><a href="classknncolle__hnsw_1_1HnswPrebuilt.html">knncolle_hnsw::HnswPrebuilt</a></div><div class="ttdoc">Prebuilt index for an Hnsw search.</div><div class="ttdef"><b>Definition</b> knncolle_hnsw.hpp:218</div></div>
+<div class="ttc" id="aclassknncolle__hnsw_1_1HnswPrebuilt_html"><div class="ttname"><a href="classknncolle__hnsw_1_1HnswPrebuilt.html">knncolle_hnsw::HnswPrebuilt</a></div><div class="ttdoc">Prebuilt index for an Hnsw search.</div><div class="ttdef"><b>Definition</b> knncolle_hnsw.hpp:220</div></div>
+<div class="ttc" id="anamespaceknncolle_html_a22e035b2d5eb293fd828a67e61f3213d"><div class="ttname"><a href="https://knncolle.github.io/knncolle/namespaceknncolle.html#a22e035b2d5eb293fd828a67e61f3213d">knncolle::find_nearest_neighbors</a></div><div class="ttdeci">NeighborList&lt; Index_, Float_ &gt; find_nearest_neighbors(const Prebuilt&lt; Dim_, Index_, Float_ &gt; &amp;index, int k, int num_threads=1)</div></div>
 </div><!-- fragment --><p>We could alternate between exact and approximate searches at run-time:</p>
 <div class="fragment"><div class="line">std::unique_ptr&lt;knncolle::Prebuilt&lt;int, int, double&gt; &gt; ptr;</div>
 <div class="line"><span class="keywordflow">if</span> (use_exact) {</div>

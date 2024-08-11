@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['prebuilt_0',['Prebuilt',['https://knncolle.github.io/knncolle/classknncolle_1_1Prebuilt.html',1,'knncolle']]],
-  ['prebuilt_3c_20dim_5f_2c_20index_5f_2c_20float_5f_20_3e_1',['Prebuilt&lt; Dim_, Index_, Float_ &gt;',['https://knncolle.github.io/knncolle/classknncolle_1_1Prebuilt.html',1,'knncolle']]]
+  ['manhattandistance_0',['manhattandistance',['https://knncolle.github.io/knncolle/structknncolle_1_1ManhattanDistance.html',1,'knncolle::ManhattanDistance'],['../classknncolle__hnsw_1_1ManhattanDistance.html',1,'knncolle_hnsw::ManhattanDistance&lt; InternalData_ &gt;']]],
+  ['mockdistance_1',['MockDistance',['https://knncolle.github.io/knncolle/structknncolle_1_1MockDistance.html',1,'knncolle']]],
+  ['mockmatrix_2',['MockMatrix',['https://knncolle.github.io/knncolle/classknncolle_1_1MockMatrix.html',1,'knncolle']]]
 ];
