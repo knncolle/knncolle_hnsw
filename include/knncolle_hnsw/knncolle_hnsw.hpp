@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <type_traits>
+#include <queue>
+#include <algorithm>
 #include <memory>
 
 #include "knncolle/knncolle.hpp"
