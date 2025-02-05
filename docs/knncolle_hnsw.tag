@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
-<tagfile doxygen_version="1.9.8">
+<tagfile doxygen_version="1.12.0">
   <compound kind="file">
     <name>distances.hpp</name>
     <path>knncolle_hnsw/</path>
@@ -46,12 +46,12 @@
     <templarg>class Matrix_</templarg>
     <templarg>typename Float_</templarg>
     <templarg>typename InternalData_</templarg>
-    <base>knncolle::Builder</base>
+    <base>knncolle::Builder&lt; class Matrix_, typename Float_ &gt;</base>
     <member kind="typedef">
       <type>HnswOptions&lt; typename Matrix_::dimension_type, InternalData_ &gt;</type>
       <name>Options</name>
       <anchorfile>classknncolle__hnsw_1_1HnswBuilder.html</anchorfile>
-      <anchor>a102a68782bb838cdeb435d263c560734</anchor>
+      <anchor>a8c933ed2b685b1f2c05d97501eeb4447</anchor>
       <arglist></arglist>
     </member>
     <member kind="function">
@@ -117,7 +117,7 @@
     <templarg>typename Index_</templarg>
     <templarg>typename Float_</templarg>
     <templarg>typename InternalData_</templarg>
-    <base>Prebuilt&lt; Dim_, Index_, Float_ &gt;</base>
+    <base>knncolle::Prebuilt&lt; Dim_, Index_, Float_ &gt;</base>
   </compound>
   <compound kind="class">
     <name>knncolle_hnsw::HnswSearcher</name>
@@ -126,7 +126,7 @@
     <templarg>typename Index_</templarg>
     <templarg>typename Float_</templarg>
     <templarg>typename InternalData_</templarg>
-    <base>Searcher&lt; Index_, Float_ &gt;</base>
+    <base>knncolle::Searcher&lt; Index_, Float_ &gt;</base>
   </compound>
   <compound kind="class">
     <name>knncolle_hnsw::ManhattanDistance</name>
