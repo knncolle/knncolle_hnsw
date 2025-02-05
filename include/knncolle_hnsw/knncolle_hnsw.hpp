@@ -226,7 +226,7 @@ public:
     HnswPrebuilt(const Matrix_& data, const HnswOptions<Dim_, InternalData_>& options) :
         my_dim(data.num_dimensions()),
         my_obs(data.num_observations()),
-        my_space([&]() {
+        my_space([&]{
             if (options.distance_options.create) {
                 return options.distance_options.create(my_dim);
             } else if constexpr(std::is_same<InternalData_, float>::value) {
@@ -235,7 +235,7 @@ public:
                 return static_cast<hnswlib::SpaceInterface<InternalData_>*>(new SquaredEuclideanDistance<InternalData_>(my_dim));
             }
         }()),
-        my_normalize([&]() {
+        my_normalize([&]{
             if (options.distance_options.normalize) {
                 return options.distance_options.normalize;
             } else if (options.distance_options.create) {
