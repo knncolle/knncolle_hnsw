@@ -17,44 +17,64 @@ Instances of the various `knncolle_hnsw::Hnsw*` classes can be used anywhere tha
 For example:
 
 ```cpp
-#include "knncolle/knncolle_hnsw.hpp"
+#include "knncolle_hnsw/knncolle_hnsw.hpp"
+
+int ndim = 10;
+int nobs = 10000;
+std::vector<double> matrix(ndim * nobs); // column-major ndim * nobs matrix.
 
 // Wrap our data in a light SimpleMatrix.
-knncolle::SimpleMatrix<int, int, double> mat(ndim, nobs, matrix.data());
+knncolle::SimpleMatrix<int, double> mat(ndim, nobs, matrix.data());
 
-// Build a HNSW index. 
-knncolle_hnsw::HnswBuilder<> an_builder;
-auto an_index = an_builder.build_unique(mat);
+// Build a HNSW index, defaulting to Euclidean distances.
+knncolle_hnsw::HnswBuilder<int, double, double> h_builder;
+auto h_index = h_builder.build_unique(mat);
 
 // Find 10 (approximate) nearest neighbors of every element.
-auto results = knncolle::find_nearest_neighbors(*an_index, 10); 
+auto results = knncolle::find_nearest_neighbors(*h_index, 10); 
 ```
 
-We could alternate between exact and approximate searches at run-time:
+Check out the [reference documentation](https://knncolle.github.io/knncolle_hnsw/) for more details.
 
-```cpp
-std::unique_ptr<knncolle::Prebuilt<int, int, double> > ptr;
-if (use_exact) {
-    knncolle::KmknnBuilder<> kbuilder;
-    ptr = kbuilder.build_unique(mat);
-} else {
-    knncolle::HnswBuilder<> abuilder;
-    ptr = abuilder.build_unique(mat);
-}
-```
+## Customizing the search
 
 We can also customize the construction of the `HnswBuilder` by passing in options:
 
 ```cpp
-auto& an_opts = an_builder.get_options();
-an_opts.num_links = 100;
-an_opts.distance_options.create = [](int dim) -> hnswlib::SpaceInterface<float>* {
+knncolle_hnsw::HnswOptions<> h_opts;
+h_opts.num_links = 100;
+h_opts.distance_options.create = [](int dim) -> hnswlib::SpaceInterface<float>* {
     return new knncolle_hnsw::ManhattanDistance<float>(dim);
 };
-knncolle_hnsw::HnswBuilder<> an_builder2(an_opts);
+knncolle_hnsw::HnswBuilder<int, double, double> h_builder2(h_opts);
 ```
 
-Check out the [reference documentation](https://knncolle.github.io/knncolle_hnsw/) for more details.
+We could also modify the builder after construction:
+
+```cpp
+auto& more_opt = h_builder.get_options()
+more_opt.ef_construction = 250;
+```
+
+Advanced users can configure the template parameters to use more suitable types for their applications.
+A hypothetical configuration is shown below with (mostly made up) reasons:
+
+```cpp
+typedef knncolle_annoy::HnswBuilder<
+    // The type for the observation indices - perhaps int isn't big enough to
+    // hold all the indices for a large dataset, so we'll use size_t.
+    size_t,
+
+    // The type for the input data, maybe we're dealing with small counts.
+    uint8_t,
+
+    // The type for the distances, maybe we'll use floats to save space.
+    float,
+
+    // The type of data in the HNSW index, using floats for performance.
+    float
+> MyHnswBuilder;
+```
 
 ## Building projects 
 
@@ -66,7 +86,7 @@ If you're using CMake, you just need to add something like this to your `CMakeLi
 include(FetchContent)
 
 FetchContent_Declare(
-  knncolle
+  knncolle_hnsw
   GIT_REPOSITORY https://github.com/knncolle/knncolle_hnsw
   GIT_TAG master # or any version of interest
 )
@@ -106,7 +126,7 @@ See [`extern/CMakeLists.txt`](extern/CMakeLists.txt) to find compatible versions
 ### Manual
 
 If you're not using CMake, the simple approach is to just copy the files in `include/` - either directly or with Git submodules - and include their path during compilation with, e.g., GCC's `-I`.
-This requires the external dependencies listed in [`extern/CMakeLists.txt`](extern/CMakeLists.txt), which also need to be made available during compilation.
+See [`extern/CMakeLists.txt`](extern/CMakeLists.txt) to find compatible versions of each dependency.
 
 ## Note on vectorization
 

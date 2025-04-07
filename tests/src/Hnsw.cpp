@@ -69,23 +69,24 @@ protected:
 TEST_P(HnswTest, FindEuclidean) {
     int k = std::get<1>(GetParam());    
 
-    knncolle::SimpleMatrix mat(ndim, nobs, data.data());
-    knncolle_hnsw::HnswBuilder<> builder;
+    knncolle::SimpleMatrix<int, double> mat(ndim, nobs, data.data());
+    knncolle_hnsw::HnswBuilder<int, double, double> builder;
     auto bptr = builder.build_unique(mat);
     EXPECT_EQ(bptr->num_dimensions(), ndim);
     EXPECT_EQ(bptr->num_observations(), nobs);
     auto bsptr = bptr->initialize();
 
-    // Trying with a different interface type.
-    knncolle::SimpleMatrix<int, size_t, double> mat2(ndim, nobs, data.data());
-    knncolle_hnsw::HnswBuilder<decltype(mat2), float, float> builder2;
+    // Trying with a different interface type such that Data_ == HnswData_ == float.
+    std::vector<float> fdata(data.begin(), data.end());
+    knncolle::SimpleMatrix<int, float> mat2(ndim, nobs, fdata.data());
+    knncolle_hnsw::HnswBuilder<int, float, double> builder2;
     auto bptr2 = builder2.build_unique(mat2);
     auto bsptr2 = bptr2->initialize();
 
-    std::vector<int> ires, ires0;
-    std::vector<size_t> ires2, ires20;
-    std::vector<double> dres, dres0;
-    std::vector<float> dres2, dres20;
+    std::vector<int> ires, ires0, ires2;
+    std::vector<double> dres, dres0, dres2;
+
+    knncolle::EuclideanDistance<double, double> eudist; 
 
     for (int x = 0; x < nobs; ++x) {
         bsptr->search(x, k, &ires, &dres);
@@ -103,32 +104,22 @@ TEST_P(HnswTest, FindEuclidean) {
             auto furthest = ires.back();
             auto current = data.data() + x * ndim;
             auto ptr = data.data() + furthest * ndim;
-            auto expected = knncolle::EuclideanDistance::raw_distance<double>(current, ptr, ndim);
-            EXPECT_LT(std::abs(knncolle::EuclideanDistance::normalize(expected) - dres.back()), 0.0001);
+            auto expected = eudist.raw(ndim, current, ptr);
+            EXPECT_LT(std::abs(eudist.normalize(expected) - dres.back()), 0.0001);
         }
 
         // Checking the different types.
         bsptr2->search(x, k, &ires2, &dres2);
-        EXPECT_EQ(ires.size(), ires2.size());
-        EXPECT_EQ(ires.size(), dres2.size());
-
-        for (size_t j = 0; j < ires.size(); ++j) {
-            EXPECT_EQ(ires[j], ires2[j]);
-            EXPECT_FLOAT_EQ(dres[j], dres2[j]);
-        }
-
-        bsptr2->search(x, k, NULL, &dres20);
-        EXPECT_EQ(dres2, dres20);
-        bsptr2->search(x, k, &ires20, NULL);
-        EXPECT_EQ(ires2, ires20);
+        EXPECT_EQ(ires, ires2);
+        EXPECT_EQ(dres, dres2);
     }
 }
 
 TEST_P(HnswTest, FindManhattan) {
     int k = std::get<1>(GetParam());    
 
-    knncolle::SimpleMatrix mat(ndim, nobs, data.data());
-    knncolle_hnsw::HnswBuilder<decltype(mat)> builder;
+    knncolle::SimpleMatrix<int, double> mat(ndim, nobs, data.data());
+    knncolle_hnsw::HnswBuilder<int, double, double> builder;
     builder.get_options().distance_options.create = [&](int d) -> hnswlib::SpaceInterface<float>* { 
         return new knncolle_hnsw::ManhattanDistance<float>(d); 
     };
@@ -138,6 +129,9 @@ TEST_P(HnswTest, FindManhattan) {
 
     std::vector<int> ires;
     std::vector<double> dres;
+
+    knncolle::ManhattanDistance<double, double> mandist; 
+
     for (int x = 0; x < nobs; ++x) {
         bsptr->search(x, k, &ires, &dres);
         sanity_checks(ires, dres, k, x);
@@ -148,8 +142,8 @@ TEST_P(HnswTest, FindManhattan) {
             auto furthest = ires.back();
             auto current = data.data() + x * ndim;
             auto ptr = data.data() + furthest * ndim;
-            auto expected = knncolle::ManhattanDistance::raw_distance<double>(current, ptr, ndim);
-            EXPECT_LT(std::abs(knncolle::ManhattanDistance::normalize(expected) - dres.back()), 0.0001);
+            auto expected = mandist.raw(ndim, current, ptr);
+            EXPECT_LT(std::abs(mandist.normalize(expected) - dres.back()), 0.0001);
         }
     }
 }
@@ -157,21 +151,20 @@ TEST_P(HnswTest, FindManhattan) {
 TEST_P(HnswTest, QueryEuclidean) {
     int k = std::get<1>(GetParam());    
 
-    knncolle::SimpleMatrix mat(ndim, nobs, data.data());
-    knncolle_hnsw::HnswBuilder<decltype(mat)> builder;
+    knncolle::SimpleMatrix<int, double> mat(ndim, nobs, data.data());
+    knncolle_hnsw::HnswBuilder<int, double, double> builder;
     auto bptr = builder.build_unique(mat);
     auto bsptr = bptr->initialize();
 
     // Trying with a different type.
-    knncolle::SimpleMatrix<int, size_t, double> mat2(ndim, nobs, data.data());
-    knncolle_hnsw::HnswBuilder<decltype(mat2), float, float> builder2;
+    std::vector<float> fdata(data.begin(), data.end());
+    knncolle::SimpleMatrix<int, float> mat2(ndim, nobs, fdata.data());
+    knncolle_hnsw::HnswBuilder<int, float, double> builder2;
     auto bptr2 = builder2.build_unique(mat2);
     auto bsptr2 = bptr2->initialize();
 
-    std::vector<int> ires, ires0;
-    std::vector<size_t> ires2, ires20;
-    std::vector<double> dres, dres0;
-    std::vector<float> dres2, dres20;
+    std::vector<int> ires, ires0, ires2;
+    std::vector<double> dres, dres0, dres2;
 
     std::mt19937_64 rng(ndim * 10 + nobs - k);
     std::vector<double> query(ndim);
@@ -194,18 +187,8 @@ TEST_P(HnswTest, QueryEuclidean) {
         // Checking the different types.
         std::copy(query.begin(), query.end(), fquery.begin());
         bsptr2->search(fquery.data(), k, &ires2, &dres2);
-        EXPECT_EQ(ires.size(), ires2.size());
-        EXPECT_EQ(ires.size(), dres2.size());
-
-        for (size_t j = 0; j < ires.size(); ++j) {
-            EXPECT_EQ(ires[j], ires2[j]);
-            EXPECT_FLOAT_EQ(dres[j], dres2[j]);
-        }
-
-        bsptr2->search(fquery.data(), k, NULL, &dres20);
-        EXPECT_EQ(dres2, dres20);
-        bsptr2->search(fquery.data(), k, &ires20, NULL);
-        EXPECT_EQ(ires2, ires20);
+        EXPECT_EQ(ires, ires2);
+        EXPECT_EQ(dres, dres2);
     }
 }
 
@@ -222,13 +205,13 @@ INSTANTIATE_TEST_SUITE_P(
 );
 
 TEST(Hnsw, Constructor) {
-    knncolle_hnsw::HnswBuilder<> def;
+    knncolle_hnsw::HnswBuilder<int, double, double> def;
     auto def_opt = def.get_options();
     EXPECT_NE(def_opt.num_links, 10000);
 
     // Checking that this is respected in the overloaded constructor.
     def_opt.num_links = 1000;
-    knncolle_hnsw::HnswBuilder<> mutant(def_opt);
+    knncolle_hnsw::HnswBuilder<int, double, double> mutant(def_opt);
     EXPECT_EQ(mutant.get_options().num_links, 1000);
 }
 
@@ -240,12 +223,14 @@ protected:
 };
 
 TEST_F(HnswMiscTest, EuclideanDouble) {
-    knncolle::SimpleMatrix<int, int, double> mat(ndim, nobs, data.data());
+    knncolle::SimpleMatrix<int, double> mat(ndim, nobs, data.data());
 
     // using a double as the InternalData_ to check that we dispatch correctly to a SquaredEuclideanDistance.
-    knncolle_hnsw::HnswBuilder<decltype(mat), double, double> builder; 
+    knncolle_hnsw::HnswBuilder<int, double, double> builder; 
     auto bptr = builder.build_unique(mat);
     auto bsptr = bptr->initialize();
+
+    knncolle::EuclideanDistance<double, double> eudist;
 
     std::vector<int> ires;
     std::vector<double> dres;
@@ -257,19 +242,21 @@ TEST_F(HnswMiscTest, EuclideanDouble) {
         auto furthest = ires.back();
         auto current = data.data() + x * ndim;
         auto ptr = data.data() + furthest * ndim;
-        auto expected = knncolle::EuclideanDistance::raw_distance<double>(current, ptr, ndim);
-        EXPECT_LT(std::abs(knncolle::EuclideanDistance::normalize(expected) - dres.back()), 0.000001);
+        auto expected = eudist.raw(ndim, current, ptr);
+        EXPECT_LT(std::abs(eudist.normalize(expected) - dres.back()), 0.000001);
     }
 }
 
 TEST_F(HnswMiscTest, EuclideanNormalize) {
-    knncolle::SimpleMatrix<int, int, double> mat(ndim, nobs, data.data());
+    knncolle::SimpleMatrix<int, double> mat(ndim, nobs, data.data());
 
     // Checking that the normalization option is respected.
-    knncolle_hnsw::HnswBuilder<decltype(mat)> builder; 
+    knncolle_hnsw::HnswBuilder<int, double, double> builder; 
     builder.get_options().distance_options.normalize = [&](float x) -> float { return x + 1; };
     auto bptr = builder.build_unique(mat);
     auto bsptr = bptr->initialize();
+
+    knncolle::EuclideanDistance<double, double> eudist;
 
     std::vector<int> ires;
     std::vector<double> dres;
@@ -280,7 +267,7 @@ TEST_F(HnswMiscTest, EuclideanNormalize) {
         auto furthest = ires.back();
         auto current = data.data() + x * ndim;
         auto ptr = data.data() + furthest * ndim;
-        auto expected = knncolle::EuclideanDistance::raw_distance<double>(current, ptr, ndim);
+        auto expected = eudist.raw(ndim, current, ptr);
         EXPECT_LT(std::abs((expected + 1) - dres.back()), 0.0001);
     }
 }
@@ -292,9 +279,9 @@ TEST(Hnsw, Duplicates) {
     int ndim = 5;
     int nobs = 100;
     std::vector<double> data(ndim * nobs);
-    knncolle::SimpleMatrix<int, int, double> mat(ndim, nobs, data.data());
+    knncolle::SimpleMatrix<int, double> mat(ndim, nobs, data.data());
 
-    knncolle_hnsw::HnswBuilder<decltype(mat)> builder; 
+    knncolle_hnsw::HnswBuilder<int, double, double> builder; 
     auto bptr = builder.build_unique(mat);
     auto bsptr = bptr->initialize();
 
