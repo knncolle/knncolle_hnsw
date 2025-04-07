@@ -5,6 +5,6 @@ var searchData=
   ['cmake_20with_20tt_20fetchcontent_20tt_2',['CMake with &lt;tt&gt;FetchContent&lt;/tt&gt;',['../index.html#autotoc_md5',1,'']]],
   ['cmake_20with_20tt_20find_5fpackage_20tt_3',['CMake with &lt;tt&gt;find_package()&lt;/tt&gt;',['../index.html#autotoc_md6',1,'']]],
   ['count_5fall_5fneighbors_5fwithout_5fself_4',['count_all_neighbors_without_self',['https://knncolle.github.io/knncolle/namespaceknncolle.html#ab636bced615a3a669ef0e207b5d848cc',1,'knncolle']]],
-  ['create_5',['create',['../structknncolle__hnsw_1_1DistanceOptions.html#a8fd0302b1bd4723ccf2445819a2822ac',1,'knncolle_hnsw::DistanceOptions']]],
+  ['create_5',['create',['../structknncolle__hnsw_1_1DistanceConfig.html#a8f77e65af9a95fd9c3bee0194e8f6f64',1,'knncolle_hnsw::DistanceConfig']]],
   ['customizing_20the_20search_6',['Customizing the search',['../index.html#autotoc_md3',1,'']]]
 ];

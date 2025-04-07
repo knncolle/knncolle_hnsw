@@ -86,7 +86,8 @@ $(function(){ initResizable(false); });
 <div id="doc-content">
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">knncolle_hnsw Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -96,8 +97,8 @@ $(function(){ initResizable(false); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structknncolle__hnsw_1_1DistanceOptions.html">DistanceOptions</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Distance options for the HNSW index.  <a href="structknncolle__hnsw_1_1DistanceOptions.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structknncolle__hnsw_1_1DistanceConfig.html">DistanceConfig</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Distance configuration for the HNSW index.  <a href="structknncolle__hnsw_1_1DistanceConfig.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classknncolle__hnsw_1_1HnswBuilder.html">HnswBuilder</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform an approximate nearest neighbor search with HNSW.  <a href="classknncolle__hnsw_1_1HnswBuilder.html#details">More...</a><br /></td></tr>
@@ -117,10 +118,72 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classknncolle__hnsw_1_1SquaredEuclideanDistance.html">SquaredEuclideanDistance</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Squared Euclidean distance.  <a href="classknncolle__hnsw_1_1SquaredEuclideanDistance.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:af72480cec632d4f9798b27f65c378a64" id="r_af72480cec632d4f9798b27f65c378a64"><td class="memTemplParams" colspan="2">template&lt;typename HnswData_  = float&gt; </td></tr>
+<tr class="memitem:af72480cec632d4f9798b27f65c378a64"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structknncolle__hnsw_1_1DistanceConfig.html">DistanceConfig</a>&lt; HnswData_ &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#af72480cec632d4f9798b27f65c378a64">makeEuclideanDistanceConfig</a> ()</td></tr>
+<tr class="separator:af72480cec632d4f9798b27f65c378a64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add8b061d7a40e3362e014dec07b59677" id="r_add8b061d7a40e3362e014dec07b59677"><td class="memTemplParams" colspan="2">template&lt;typename HnswData_  = float&gt; </td></tr>
+<tr class="memitem:add8b061d7a40e3362e014dec07b59677"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structknncolle__hnsw_1_1DistanceConfig.html">DistanceConfig</a>&lt; HnswData_ &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#add8b061d7a40e3362e014dec07b59677">makeManhattanDistanceConfig</a> ()</td></tr>
+<tr class="separator:add8b061d7a40e3362e014dec07b59677"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>knncolle bindings for HNSW search. </p>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="af72480cec632d4f9798b27f65c378a64" name="af72480cec632d4f9798b27f65c378a64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af72480cec632d4f9798b27f65c378a64">&#9670;&#160;</a></span>makeEuclideanDistanceConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename HnswData_  = float&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structknncolle__hnsw_1_1DistanceConfig.html">DistanceConfig</a>&lt; HnswData_ &gt; knncolle_hnsw::makeEuclideanDistanceConfig </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">HnswData_</td><td>Type of data in the HNSW index, usually floating-point. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Configuration for using Euclidean distances in the HNSW index. <code><a class="el" href="structknncolle__hnsw_1_1DistanceConfig.html#a8f77e65af9a95fd9c3bee0194e8f6f64">DistanceConfig::create</a></code> is set to <code>hnswlib::L2Space</code> if <code>HnswData_ = float</code>, otherwise it is set to <code><a class="el" href="classknncolle__hnsw_1_1SquaredEuclideanDistance.html" title="Squared Euclidean distance.">SquaredEuclideanDistance</a></code>. </dd></dl>
+
+</div>
+</div>
+<a id="add8b061d7a40e3362e014dec07b59677" name="add8b061d7a40e3362e014dec07b59677"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add8b061d7a40e3362e014dec07b59677">&#9670;&#160;</a></span>makeManhattanDistanceConfig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename HnswData_  = float&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structknncolle__hnsw_1_1DistanceConfig.html">DistanceConfig</a>&lt; HnswData_ &gt; knncolle_hnsw::makeManhattanDistanceConfig </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">HnswData_</td><td>Type of data in the HNSW index, usually floating-point. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Configuration for using Manhattan distances in the HNSW index. </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0

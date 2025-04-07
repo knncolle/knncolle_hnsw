@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['ef_5fconstruction_0',['ef_construction',['../structknncolle__hnsw_1_1HnswOptions.html#a6cb3835caada27e57a982154d7e3e107',1,'knncolle_hnsw::HnswOptions']]],
-  ['ef_5fsearch_1',['ef_search',['../structknncolle__hnsw_1_1HnswOptions.html#a98e6598d587049c4cc239486755b80f6',1,'knncolle_hnsw::HnswOptions']]]
+  ['normalize_0',['normalize',['../structknncolle__hnsw_1_1DistanceConfig.html#a2af07892aaeeb8ff3a48548177580418',1,'knncolle_hnsw::DistanceConfig']]],
+  ['num_5flinks_1',['num_links',['../structknncolle__hnsw_1_1HnswOptions.html#a53d97ffff91e897c5612aefe23b17d97',1,'knncolle_hnsw::HnswOptions']]]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>knncolle_hnsw: knncolle_hnsw::DistanceOptions&lt; HnswData_ &gt; Struct Template Reference</title>
+<title>knncolle_hnsw: knncolle_hnsw::DistanceConfig&lt; HnswData_ &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -84,33 +84,33 @@ $(function(){ initResizable(false); });
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespaceknncolle__hnsw.html">knncolle_hnsw</a></li><li class="navelem"><a class="el" href="structknncolle__hnsw_1_1DistanceOptions.html">DistanceOptions</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespaceknncolle__hnsw.html">knncolle_hnsw</a></li><li class="navelem"><a class="el" href="structknncolle__hnsw_1_1DistanceConfig.html">DistanceConfig</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
-<a href="structknncolle__hnsw_1_1DistanceOptions-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">knncolle_hnsw::DistanceOptions&lt; HnswData_ &gt; Struct Template Reference</div></div>
+<a href="structknncolle__hnsw_1_1DistanceConfig-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">knncolle_hnsw::DistanceConfig&lt; HnswData_ &gt; Struct Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Distance options for the HNSW index.  
+<p>Distance configuration for the HNSW index.  
  <a href="#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="distances_8hpp_source.html">distances.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a8fd0302b1bd4723ccf2445819a2822ac" id="r_a8fd0302b1bd4723ccf2445819a2822ac"><td class="memItemLeft" align="right" valign="top">std::function&lt; hnswlib::SpaceInterface&lt; HnswData_ &gt; *(size_t)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8fd0302b1bd4723ccf2445819a2822ac">create</a></td></tr>
-<tr class="separator:a8fd0302b1bd4723ccf2445819a2822ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae84f48ee15b1c5b868dcba1c525dd2c0" id="r_ae84f48ee15b1c5b868dcba1c525dd2c0"><td class="memItemLeft" align="right" valign="top">std::function&lt; HnswData_(HnswData_)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae84f48ee15b1c5b868dcba1c525dd2c0">normalize</a></td></tr>
-<tr class="separator:ae84f48ee15b1c5b868dcba1c525dd2c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f77e65af9a95fd9c3bee0194e8f6f64" id="r_a8f77e65af9a95fd9c3bee0194e8f6f64"><td class="memItemLeft" align="right" valign="top">std::function&lt; hnswlib::SpaceInterface&lt; HnswData_ &gt; *(size_t)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8f77e65af9a95fd9c3bee0194e8f6f64">create</a></td></tr>
+<tr class="separator:a8f77e65af9a95fd9c3bee0194e8f6f64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2af07892aaeeb8ff3a48548177580418" id="r_a2af07892aaeeb8ff3a48548177580418"><td class="memItemLeft" align="right" valign="top">std::function&lt; HnswData_(HnswData_)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2af07892aaeeb8ff3a48548177580418">normalize</a></td></tr>
+<tr class="separator:a2af07892aaeeb8ff3a48548177580418"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename HnswData_&gt;<br />
-struct knncolle_hnsw::DistanceOptions&lt; HnswData_ &gt;</div><p>Distance options for the HNSW index. </p>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename HnswData_ = float&gt;<br />
+struct knncolle_hnsw::DistanceConfig&lt; HnswData_ &gt;</div><p>Distance configuration for the HNSW index. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">HnswData_</td><td>Floating-point type for data in the HNSW index. </td></tr>
@@ -118,37 +118,37 @@ struct knncolle_hnsw::DistanceOptions&lt; HnswData_ &gt;</div><p>Distance option
   </dd>
 </dl>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a8fd0302b1bd4723ccf2445819a2822ac" name="a8fd0302b1bd4723ccf2445819a2822ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8fd0302b1bd4723ccf2445819a2822ac">&#9670;&#160;</a></span>create</h2>
+<a id="a8f77e65af9a95fd9c3bee0194e8f6f64" name="a8f77e65af9a95fd9c3bee0194e8f6f64"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f77e65af9a95fd9c3bee0194e8f6f64">&#9670;&#160;</a></span>create</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename HnswData_ &gt; </div>
+template&lt;typename HnswData_  = float&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::function&lt;hnswlib::SpaceInterface&lt;HnswData_&gt;*(size_t)&gt; <a class="el" href="structknncolle__hnsw_1_1DistanceOptions.html">knncolle_hnsw::DistanceOptions</a>&lt; HnswData_ &gt;::create</td>
+          <td class="memname">std::function&lt;hnswlib::SpaceInterface&lt;HnswData_&gt;*(size_t)&gt; <a class="el" href="structknncolle__hnsw_1_1DistanceConfig.html">knncolle_hnsw::DistanceConfig</a>&lt; HnswData_ &gt;::create</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Create a <code>hnswlib::SpaceInterface</code> object, given the number of dimensions. If not provided, this defaults to <code>hnswlib::L2Space</code> if <code>HnswData_ = float</code>, otherwise it defaults to <code><a class="el" href="classknncolle__hnsw_1_1SquaredEuclideanDistance.html" title="Squared Euclidean distance.">SquaredEuclideanDistance</a></code>. </p>
+<p>Create a <code>hnswlib::SpaceInterface</code> object, given the number of dimensions. </p>
 
 </div>
 </div>
-<a id="ae84f48ee15b1c5b868dcba1c525dd2c0" name="ae84f48ee15b1c5b868dcba1c525dd2c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae84f48ee15b1c5b868dcba1c525dd2c0">&#9670;&#160;</a></span>normalize</h2>
+<a id="a2af07892aaeeb8ff3a48548177580418" name="a2af07892aaeeb8ff3a48548177580418"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2af07892aaeeb8ff3a48548177580418">&#9670;&#160;</a></span>normalize</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename HnswData_ &gt; </div>
+template&lt;typename HnswData_  = float&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::function&lt;HnswData_(HnswData_)&gt; <a class="el" href="structknncolle__hnsw_1_1DistanceOptions.html">knncolle_hnsw::DistanceOptions</a>&lt; HnswData_ &gt;::normalize</td>
+          <td class="memname">std::function&lt;HnswData_(HnswData_)&gt; <a class="el" href="structknncolle__hnsw_1_1DistanceConfig.html">knncolle_hnsw::DistanceConfig</a>&lt; HnswData_ &gt;::normalize</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Normalization function to convert distance measures from <code>hnswlib::SpaceInterface::get_dist_func()</code> into actual distances. If not provided and <code>create</code> is also provided, this defaults to a no-op. If not provided and <code>create</code> is not provided, this defaults to the square root function (i.e., to convert the L2 norm to a Euclidean distance). </p>
+<p>Normalization function to convert distance measures from <code>hnswlib::SpaceInterface::get_dist_func()</code> into actual distances. If not provided , this defaults to a no-op. </p>
 
 </div>
 </div>

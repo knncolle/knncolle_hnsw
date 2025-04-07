@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hnswbuilder_0',['HnswBuilder',['../classknncolle__hnsw_1_1HnswBuilder.html#a663a7e751c364a0b57dab1521ecc442f',1,'knncolle_hnsw::HnswBuilder::HnswBuilder(Options options)'],['../classknncolle__hnsw_1_1HnswBuilder.html#ae783debe4f4f5faf250417f3c231f635',1,'knncolle_hnsw::HnswBuilder::HnswBuilder()=default']]]
+  ['hnswbuilder_0',['HnswBuilder',['../classknncolle__hnsw_1_1HnswBuilder.html#a636724c701dc560c47b1ed73e855d859',1,'knncolle_hnsw::HnswBuilder::HnswBuilder(DistanceConfig&lt; HnswData_ &gt; distance_config, HnswOptions options)'],['../classknncolle__hnsw_1_1HnswBuilder.html#aff1faf7bbd1869ff3bad2a0f3021559b',1,'knncolle_hnsw::HnswBuilder::HnswBuilder(DistanceConfig&lt; HnswData_ &gt; distance_config)']]]
 ];

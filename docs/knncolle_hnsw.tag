@@ -4,7 +4,7 @@
     <name>distances.hpp</name>
     <path>knncolle_hnsw/</path>
     <filename>distances_8hpp.html</filename>
-    <class kind="struct">knncolle_hnsw::DistanceOptions</class>
+    <class kind="struct">knncolle_hnsw::DistanceConfig</class>
     <class kind="class">knncolle_hnsw::ManhattanDistance</class>
     <class kind="class">knncolle_hnsw::SquaredEuclideanDistance</class>
     <namespace>knncolle_hnsw</namespace>
@@ -21,21 +21,21 @@
     <namespace>knncolle_hnsw</namespace>
   </compound>
   <compound kind="struct">
-    <name>knncolle_hnsw::DistanceOptions</name>
-    <filename>structknncolle__hnsw_1_1DistanceOptions.html</filename>
+    <name>knncolle_hnsw::DistanceConfig</name>
+    <filename>structknncolle__hnsw_1_1DistanceConfig.html</filename>
     <templarg>typename HnswData_</templarg>
     <member kind="variable">
       <type>std::function&lt; hnswlib::SpaceInterface&lt; HnswData_ &gt; *(size_t)&gt;</type>
       <name>create</name>
-      <anchorfile>structknncolle__hnsw_1_1DistanceOptions.html</anchorfile>
-      <anchor>a8fd0302b1bd4723ccf2445819a2822ac</anchor>
+      <anchorfile>structknncolle__hnsw_1_1DistanceConfig.html</anchorfile>
+      <anchor>a8f77e65af9a95fd9c3bee0194e8f6f64</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>std::function&lt; HnswData_(HnswData_)&gt;</type>
       <name>normalize</name>
-      <anchorfile>structknncolle__hnsw_1_1DistanceOptions.html</anchorfile>
-      <anchor>ae84f48ee15b1c5b868dcba1c525dd2c0</anchor>
+      <anchorfile>structknncolle__hnsw_1_1DistanceConfig.html</anchorfile>
+      <anchor>a2af07892aaeeb8ff3a48548177580418</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -48,32 +48,25 @@
     <templarg>class Matrix_</templarg>
     <templarg>typename HnswData_</templarg>
     <base>knncolle::Builder&lt; typename Index_, typename Data_, typename Distance_, class Matrix_ &gt;</base>
-    <member kind="typedef">
-      <type>HnswOptions&lt; HnswData_ &gt;</type>
-      <name>Options</name>
+    <member kind="function">
+      <type></type>
+      <name>HnswBuilder</name>
       <anchorfile>classknncolle__hnsw_1_1HnswBuilder.html</anchorfile>
-      <anchor>a635d9595450dcb631735f47c35744d67</anchor>
-      <arglist></arglist>
+      <anchor>a636724c701dc560c47b1ed73e855d859</anchor>
+      <arglist>(DistanceConfig&lt; HnswData_ &gt; distance_config, HnswOptions options)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>HnswBuilder</name>
       <anchorfile>classknncolle__hnsw_1_1HnswBuilder.html</anchorfile>
-      <anchor>a663a7e751c364a0b57dab1521ecc442f</anchor>
-      <arglist>(Options options)</arglist>
+      <anchor>aff1faf7bbd1869ff3bad2a0f3021559b</anchor>
+      <arglist>(DistanceConfig&lt; HnswData_ &gt; distance_config)</arglist>
     </member>
     <member kind="function">
-      <type></type>
-      <name>HnswBuilder</name>
-      <anchorfile>classknncolle__hnsw_1_1HnswBuilder.html</anchorfile>
-      <anchor>ae783debe4f4f5faf250417f3c231f635</anchor>
-      <arglist>()=default</arglist>
-    </member>
-    <member kind="function">
-      <type>Options &amp;</type>
+      <type>HnswOptions &amp;</type>
       <name>get_options</name>
       <anchorfile>classknncolle__hnsw_1_1HnswBuilder.html</anchorfile>
-      <anchor>a69f09f9e3a70555deacd75a68b22a79d</anchor>
+      <anchor>af1657231b9f65ac42b06b35fc348269d</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
@@ -87,33 +80,25 @@
   <compound kind="struct">
     <name>knncolle_hnsw::HnswOptions</name>
     <filename>structknncolle__hnsw_1_1HnswOptions.html</filename>
-    <templarg>typename HnswData_</templarg>
     <member kind="variable">
       <type>int</type>
       <name>num_links</name>
       <anchorfile>structknncolle__hnsw_1_1HnswOptions.html</anchorfile>
-      <anchor>a32e962b43c4e61d3c21347d5176aea81</anchor>
+      <anchor>a53d97ffff91e897c5612aefe23b17d97</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>int</type>
       <name>ef_construction</name>
       <anchorfile>structknncolle__hnsw_1_1HnswOptions.html</anchorfile>
-      <anchor>a6cb3835caada27e57a982154d7e3e107</anchor>
+      <anchor>a772b371108bdacc6a79bdb176d071d4f</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>int</type>
       <name>ef_search</name>
       <anchorfile>structknncolle__hnsw_1_1HnswOptions.html</anchorfile>
-      <anchor>a98e6598d587049c4cc239486755b80f6</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>DistanceOptions&lt; HnswData_ &gt;</type>
-      <name>distance_options</name>
-      <anchorfile>structknncolle__hnsw_1_1HnswOptions.html</anchorfile>
-      <anchor>a6e9822c2ffbe095b1ca7a57164f59e1d</anchor>
+      <anchor>af1492d2ff195c4b59aa3d179efbcd394</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -169,13 +154,27 @@
   <compound kind="namespace">
     <name>knncolle_hnsw</name>
     <filename>namespaceknncolle__hnsw.html</filename>
-    <class kind="struct">knncolle_hnsw::DistanceOptions</class>
+    <class kind="struct">knncolle_hnsw::DistanceConfig</class>
     <class kind="class">knncolle_hnsw::HnswBuilder</class>
     <class kind="struct">knncolle_hnsw::HnswOptions</class>
     <class kind="class">knncolle_hnsw::HnswPrebuilt</class>
     <class kind="class">knncolle_hnsw::HnswSearcher</class>
     <class kind="class">knncolle_hnsw::ManhattanDistance</class>
     <class kind="class">knncolle_hnsw::SquaredEuclideanDistance</class>
+    <member kind="function">
+      <type>DistanceConfig&lt; HnswData_ &gt;</type>
+      <name>makeEuclideanDistanceConfig</name>
+      <anchorfile>namespaceknncolle__hnsw.html</anchorfile>
+      <anchor>af72480cec632d4f9798b27f65c378a64</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>DistanceConfig&lt; HnswData_ &gt;</type>
+      <name>makeManhattanDistanceConfig</name>
+      <anchorfile>namespaceknncolle__hnsw.html</anchorfile>
+      <anchor>add8b061d7a40e3362e014dec07b59677</anchor>
+      <arglist>()</arglist>
+    </member>
   </compound>
   <compound kind="page">
     <name>index</name>
