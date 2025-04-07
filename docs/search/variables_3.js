@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['initialize_5falgorithm_0',['initialize_algorithm',['https://knncolle.github.io/knncolle/structknncolle_1_1KmknnOptions.html#a01ab1d6e283fa8945723f33942e310c0',1,'knncolle::KmknnOptions']]]
+  ['normalize_0',['normalize',['../structknncolle__hnsw_1_1DistanceOptions.html#ae84f48ee15b1c5b868dcba1c525dd2c0',1,'knncolle_hnsw::DistanceOptions']]],
+  ['num_5flinks_1',['num_links',['../structknncolle__hnsw_1_1HnswOptions.html#a32e962b43c4e61d3c21347d5176aea81',1,'knncolle_hnsw::HnswOptions']]]
 ];

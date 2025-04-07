@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['neighborlist_0',['NeighborList',['https://knncolle.github.io/knncolle/namespaceknncolle.html#a25d7a950cf7745b99bc834b79e064c09',1,'knncolle']]]
+  ['options_0',['Options',['../classknncolle__hnsw_1_1HnswBuilder.html#a635d9595450dcb631735f47c35744d67',1,'knncolle_hnsw::HnswBuilder']]]
 ];

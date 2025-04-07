@@ -1,9 +1,17 @@
 var searchData=
 [
-  ['can_5fsearch_5fall_0',['can_search_all',['https://knncolle.github.io/knncolle/classknncolle_1_1BruteforceSearcher.html#a9c7cd8e9f01f5798d5b98a1d5318e8f4',1,'knncolle::BruteforceSearcher::can_search_all()'],['https://knncolle.github.io/knncolle/classknncolle_1_1KmknnSearcher.html#a8fae155ea1722024e5dde21550674116',1,'knncolle::KmknnSearcher::can_search_all()'],['https://knncolle.github.io/knncolle/classknncolle_1_1Searcher.html#a8362d0f6ea1b7f6e09d26a9188d31d1d',1,'knncolle::Searcher::can_search_all()'],['https://knncolle.github.io/knncolle/classknncolle_1_1VptreeSearcher.html#ac7a0f11645ab4f57b9991602339e0e15',1,'knncolle::VptreeSearcher::can_search_all()']]],
-  ['cap_5fk_1',['cap_k',['https://knncolle.github.io/knncolle/namespaceknncolle.html#a926c81cd626de7081b073a891d352543',1,'knncolle']]],
-  ['cmake_20with_20tt_20fetchcontent_20tt_2',['CMake with &lt;tt&gt;FetchContent&lt;/tt&gt;',['../index.html#autotoc_md4',1,'']]],
-  ['cmake_20with_20tt_20find_5fpackage_20tt_3',['CMake with &lt;tt&gt;find_package()&lt;/tt&gt;',['../index.html#autotoc_md5',1,'']]],
-  ['create_4',['create',['../structknncolle__hnsw_1_1DistanceOptions.html#a450d9f52efe81407caaac5718af983e1',1,'knncolle_hnsw::DistanceOptions']]],
-  ['create_5fworkspace_5',['create_workspace',['https://knncolle.github.io/knncolle/classknncolle_1_1MockMatrix.html#ab67d03fc96f29ca6d37fb00a1d7fddc3',1,'knncolle::MockMatrix']]]
+  ['bindings_20for_20hnsw_0',['knncolle bindings for HNSW',['../index.html',1,'']]],
+  ['bruteforce_2ehpp_1',['Bruteforce.hpp',['https://knncolle.github.io/knncolle/Bruteforce_8hpp.html',1,'']]],
+  ['bruteforcebuilder_2',['BruteforceBuilder',['https://knncolle.github.io/knncolle/classknncolle_1_1BruteforceBuilder.html',1,'knncolle::BruteforceBuilder&lt; typename Index_, typename Data_, typename Distance_, class Matrix_, class DistanceMetric_ &gt;'],['https://knncolle.github.io/knncolle/classknncolle_1_1BruteforceBuilder.html#a4a7b4fa0a5301677f340b64875969929',1,'knncolle::BruteforceBuilder::BruteforceBuilder(std::shared_ptr&lt; const DistanceMetric_ &gt; metric)'],['https://knncolle.github.io/knncolle/classknncolle_1_1BruteforceBuilder.html#ad1aa49199fb139df6d7ffa5fff46289c',1,'knncolle::BruteforceBuilder::BruteforceBuilder(const DistanceMetric_ *metric)']]],
+  ['bruteforceprebuilt_3',['BruteforcePrebuilt',['https://knncolle.github.io/knncolle/classknncolle_1_1BruteforcePrebuilt.html',1,'knncolle']]],
+  ['bruteforcesearcher_4',['BruteforceSearcher',['https://knncolle.github.io/knncolle/classknncolle_1_1BruteforceSearcher.html',1,'knncolle']]],
+  ['build_5fraw_5',['build_raw',['https://knncolle.github.io/knncolle/classknncolle_1_1BruteforceBuilder.html#a96c9cd26d07b09768dc73b2e73899510',1,'knncolle::BruteforceBuilder::build_raw()'],['https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html#acd18a78af362f948ede3ddd8d5f6e88c',1,'knncolle::Builder::build_raw()'],['https://knncolle.github.io/knncolle/classknncolle_1_1L2NormalizedBuilder.html#a437ca7f6f9a3b82fa32762edba0cd08b',1,'knncolle::L2NormalizedBuilder::build_raw()'],['https://knncolle.github.io/knncolle/classknncolle_1_1VptreeBuilder.html#aafa5db0eecf99ebab88d21f038b6b15a',1,'knncolle::VptreeBuilder::build_raw()'],['../classknncolle__hnsw_1_1HnswBuilder.html#ae96f13d033eff8af3996996b92e4f4b2',1,'knncolle_hnsw::HnswBuilder::build_raw()']]],
+  ['build_5fshared_6',['build_shared',['https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html#a9a7a0cb39688bedba6ab406e59da6c90',1,'knncolle::Builder']]],
+  ['build_5funique_7',['build_unique',['https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html#a93cac638de3e4ad31919bc5d677d16b7',1,'knncolle::Builder']]],
+  ['builder_8',['Builder',['https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html',1,'knncolle']]],
+  ['builder_2ehpp_9',['Builder.hpp',['https://knncolle.github.io/knncolle/Builder_8hpp.html',1,'']]],
+  ['builder_3c_20index_5f_2c_20data_5f_2c_20distance_5f_2c_20knncolle_3a_3asimplematrix_3c_20index_5f_2c_20data_5f_20_3e_20_3e_10',['Builder&lt; Index_, Data_, Distance_, knncolle::SimpleMatrix&lt; Index_, Data_ &gt; &gt;',['https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html',1,'knncolle']]],
+  ['builder_3c_20index_5f_2c_20data_5f_2c_20distance_5f_2c_20matrix_5f_20_3e_11',['Builder&lt; Index_, Data_, Distance_, Matrix_ &gt;',['https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html',1,'knncolle']]],
+  ['buildermatrix_12',['BuilderMatrix',['https://knncolle.github.io/knncolle/classknncolle_1_1L2NormalizedBuilder.html#abeaefcb9c85ef73693defd5f59503ff2',1,'knncolle::L2NormalizedBuilder']]],
+  ['building_20projects_13',['Building projects',['../index.html#autotoc_md4',1,'']]]
 ];

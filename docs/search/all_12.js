@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['vectorization_0',['Note on vectorization',['../index.html#autotoc_md7',1,'']]],
-  ['vptree_2ehpp_1',['Vptree.hpp',['https://knncolle.github.io/knncolle/Vptree_8hpp.html',1,'']]],
-  ['vptreebuilder_2',['VptreeBuilder',['https://knncolle.github.io/knncolle/classknncolle_1_1VptreeBuilder.html',1,'knncolle']]],
-  ['vptreeprebuilt_3',['VptreePrebuilt',['https://knncolle.github.io/knncolle/classknncolle_1_1VptreePrebuilt.html',1,'knncolle::VptreePrebuilt&lt; class Distance_, typename Dim_, typename Index_, typename Store_, typename Float_ &gt;'],['https://knncolle.github.io/knncolle/classknncolle_1_1VptreePrebuilt.html#a5391976fe1e6b957181229a8590a6ca3',1,'knncolle::VptreePrebuilt::VptreePrebuilt()']]],
-  ['vptreesearcher_4',['VptreeSearcher',['https://knncolle.github.io/knncolle/classknncolle_1_1VptreeSearcher.html',1,'knncolle']]]
+  ['the_20search_0',['Customizing the search',['../index.html#autotoc_md3',1,'']]],
+  ['tt_1',['tt',['../index.html#autotoc_md5',1,'CMake with &lt;tt&gt;FetchContent&lt;/tt&gt;'],['../index.html#autotoc_md6',1,'CMake with &lt;tt&gt;find_package()&lt;/tt&gt;']]],
+  ['tt_20fetchcontent_20tt_2',['CMake with &lt;tt&gt;FetchContent&lt;/tt&gt;',['../index.html#autotoc_md5',1,'']]],
+  ['tt_20find_5fpackage_20tt_3',['CMake with &lt;tt&gt;find_package()&lt;/tt&gt;',['../index.html#autotoc_md6',1,'']]]
 ];

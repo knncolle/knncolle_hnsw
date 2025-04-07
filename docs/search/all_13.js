@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['with_20tt_20fetchcontent_20tt_0',['CMake with &lt;tt&gt;FetchContent&lt;/tt&gt;',['../index.html#autotoc_md4',1,'']]],
-  ['with_20tt_20find_5fpackage_20tt_1',['CMake with &lt;tt&gt;find_package()&lt;/tt&gt;',['../index.html#autotoc_md5',1,'']]],
-  ['workspace_2',['Workspace',['https://knncolle.github.io/knncolle/structknncolle_1_1MockMatrix_1_1Workspace.html',1,'knncolle::MockMatrix']]]
+  ['vectorization_0',['Note on vectorization',['../index.html#autotoc_md8',1,'']]],
+  ['vptree_2ehpp_1',['Vptree.hpp',['https://knncolle.github.io/knncolle/Vptree_8hpp.html',1,'']]],
+  ['vptreebuilder_2',['VptreeBuilder',['https://knncolle.github.io/knncolle/classknncolle_1_1VptreeBuilder.html',1,'knncolle::VptreeBuilder&lt; typename Index_, typename Data_, typename Distance_, class Matrix_, class DistanceMetric_ &gt;'],['https://knncolle.github.io/knncolle/classknncolle_1_1VptreeBuilder.html#a13f00af67d227d117fa4b9910861a438',1,'knncolle::VptreeBuilder::VptreeBuilder(std::shared_ptr&lt; const DistanceMetric_ &gt; metric)'],['https://knncolle.github.io/knncolle/classknncolle_1_1VptreeBuilder.html#a29abc6777bdd31820ef66a6ee518a8aa',1,'knncolle::VptreeBuilder::VptreeBuilder(const DistanceMetric_ *metric)']]],
+  ['vptreeprebuilt_3',['VptreePrebuilt',['https://knncolle.github.io/knncolle/classknncolle_1_1VptreePrebuilt.html',1,'knncolle']]],
+  ['vptreesearcher_4',['VptreeSearcher',['https://knncolle.github.io/knncolle/classknncolle_1_1VptreeSearcher.html',1,'knncolle']]]
 ];

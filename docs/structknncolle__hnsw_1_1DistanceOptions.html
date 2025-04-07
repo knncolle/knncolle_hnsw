@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>knncolle_hnsw: knncolle_hnsw::DistanceOptions&lt; Dim_, InternalData_ &gt; Struct Template Reference</title>
+<title>knncolle_hnsw: knncolle_hnsw::DistanceOptions&lt; HnswData_ &gt; Struct Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -92,7 +92,7 @@ $(function(){ initResizable(false); });
   <div class="summary">
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structknncolle__hnsw_1_1DistanceOptions-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">knncolle_hnsw::DistanceOptions&lt; Dim_, InternalData_ &gt; Struct Template Reference</div></div>
+  <div class="headertitle"><div class="title">knncolle_hnsw::DistanceOptions&lt; HnswData_ &gt; Struct Template Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
@@ -103,49 +103,48 @@ $(function(){ initResizable(false); });
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a450d9f52efe81407caaac5718af983e1" id="r_a450d9f52efe81407caaac5718af983e1"><td class="memItemLeft" align="right" valign="top">std::function&lt; hnswlib::SpaceInterface&lt; InternalData_ &gt; *(Dim_)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a450d9f52efe81407caaac5718af983e1">create</a></td></tr>
-<tr class="separator:a450d9f52efe81407caaac5718af983e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a66809442cd1f399975c0a330aecf34d4" id="r_a66809442cd1f399975c0a330aecf34d4"><td class="memItemLeft" align="right" valign="top">std::function&lt; InternalData_(InternalData_)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a66809442cd1f399975c0a330aecf34d4">normalize</a></td></tr>
-<tr class="separator:a66809442cd1f399975c0a330aecf34d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fd0302b1bd4723ccf2445819a2822ac" id="r_a8fd0302b1bd4723ccf2445819a2822ac"><td class="memItemLeft" align="right" valign="top">std::function&lt; hnswlib::SpaceInterface&lt; HnswData_ &gt; *(size_t)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8fd0302b1bd4723ccf2445819a2822ac">create</a></td></tr>
+<tr class="separator:a8fd0302b1bd4723ccf2445819a2822ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae84f48ee15b1c5b868dcba1c525dd2c0" id="r_ae84f48ee15b1c5b868dcba1c525dd2c0"><td class="memItemLeft" align="right" valign="top">std::function&lt; HnswData_(HnswData_)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae84f48ee15b1c5b868dcba1c525dd2c0">normalize</a></td></tr>
+<tr class="separator:ae84f48ee15b1c5b868dcba1c525dd2c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename Dim_, typename InternalData_&gt;<br />
-struct knncolle_hnsw::DistanceOptions&lt; Dim_, InternalData_ &gt;</div><p>Distance options for the HNSW index. </p>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename HnswData_&gt;<br />
+struct knncolle_hnsw::DistanceOptions&lt; HnswData_ &gt;</div><p>Distance options for the HNSW index. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Dim_</td><td>Integer type for the number of dimensions. </td></tr>
-    <tr><td class="paramname">InternalData_</td><td>Floating point type for the HNSW index. </td></tr>
+    <tr><td class="paramname">HnswData_</td><td>Floating-point type for data in the HNSW index. </td></tr>
   </table>
   </dd>
 </dl>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a450d9f52efe81407caaac5718af983e1" name="a450d9f52efe81407caaac5718af983e1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a450d9f52efe81407caaac5718af983e1">&#9670;&#160;</a></span>create</h2>
+<a id="a8fd0302b1bd4723ccf2445819a2822ac" name="a8fd0302b1bd4723ccf2445819a2822ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fd0302b1bd4723ccf2445819a2822ac">&#9670;&#160;</a></span>create</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Dim_ , typename InternalData_ &gt; </div>
+template&lt;typename HnswData_ &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::function&lt;hnswlib::SpaceInterface&lt;InternalData_&gt;*(Dim_)&gt; <a class="el" href="structknncolle__hnsw_1_1DistanceOptions.html">knncolle_hnsw::DistanceOptions</a>&lt; Dim_, InternalData_ &gt;::create</td>
+          <td class="memname">std::function&lt;hnswlib::SpaceInterface&lt;HnswData_&gt;*(size_t)&gt; <a class="el" href="structknncolle__hnsw_1_1DistanceOptions.html">knncolle_hnsw::DistanceOptions</a>&lt; HnswData_ &gt;::create</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Create a <code>hnswlib::SpaceInterface</code> object, given the number of dimensions. If not provided, this defaults to <code>hnswlib::L2Space</code> if <code>InternalData_ = float</code>, otherwise it defaults to <code><a class="el" href="classknncolle__hnsw_1_1SquaredEuclideanDistance.html" title="Squared Euclidean distance.">SquaredEuclideanDistance</a></code>. </p>
+<p>Create a <code>hnswlib::SpaceInterface</code> object, given the number of dimensions. If not provided, this defaults to <code>hnswlib::L2Space</code> if <code>HnswData_ = float</code>, otherwise it defaults to <code><a class="el" href="classknncolle__hnsw_1_1SquaredEuclideanDistance.html" title="Squared Euclidean distance.">SquaredEuclideanDistance</a></code>. </p>
 
 </div>
 </div>
-<a id="a66809442cd1f399975c0a330aecf34d4" name="a66809442cd1f399975c0a330aecf34d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a66809442cd1f399975c0a330aecf34d4">&#9670;&#160;</a></span>normalize</h2>
+<a id="ae84f48ee15b1c5b868dcba1c525dd2c0" name="ae84f48ee15b1c5b868dcba1c525dd2c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae84f48ee15b1c5b868dcba1c525dd2c0">&#9670;&#160;</a></span>normalize</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Dim_ , typename InternalData_ &gt; </div>
+template&lt;typename HnswData_ &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">std::function&lt;InternalData_(InternalData_)&gt; <a class="el" href="structknncolle__hnsw_1_1DistanceOptions.html">knncolle_hnsw::DistanceOptions</a>&lt; Dim_, InternalData_ &gt;::normalize</td>
+          <td class="memname">std::function&lt;HnswData_(HnswData_)&gt; <a class="el" href="structknncolle__hnsw_1_1DistanceOptions.html">knncolle_hnsw::DistanceOptions</a>&lt; HnswData_ &gt;::normalize</td>
         </tr>
       </table>
 </div><div class="memdoc">

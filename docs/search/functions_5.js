@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['hnswbuilder_0',['HnswBuilder',['../classknncolle__hnsw_1_1HnswBuilder.html#a885e29970c6224827af556dc442149e1',1,'knncolle_hnsw::HnswBuilder::HnswBuilder(Options options)'],['../classknncolle__hnsw_1_1HnswBuilder.html#a98b348b3af8de5e5dcbd9cf89a936cb7',1,'knncolle_hnsw::HnswBuilder::HnswBuilder()=default']]]
+  ['get_5foptions_0',['get_options',['../classknncolle__hnsw_1_1HnswBuilder.html#a69f09f9e3a70555deacd75a68b22a79d',1,'knncolle_hnsw::HnswBuilder']]]
 ];

@@ -1,11 +1,10 @@
 var searchData=
 [
-  ['data_5ftype_0',['data_type',['https://knncolle.github.io/knncolle/classknncolle_1_1MockMatrix.html#a4acebbf0d2f4ba37a76fdc0c44ea3c37',1,'knncolle::MockMatrix']]],
-  ['denormalize_1',['denormalize',['https://knncolle.github.io/knncolle/structknncolle_1_1EuclideanDistance.html#a1bb3cf480fc39ebb740c9f840626a6a5',1,'knncolle::EuclideanDistance::denormalize()'],['https://knncolle.github.io/knncolle/structknncolle_1_1ManhattanDistance.html#a4cae134de658e4b96433db80b62a549e',1,'knncolle::ManhattanDistance::denormalize()'],['https://knncolle.github.io/knncolle/structknncolle_1_1MockDistance.html#ae3456039934506172efe9d6bde895d96',1,'knncolle::MockDistance::denormalize()']]],
-  ['dimension_5ftype_2',['dimension_type',['https://knncolle.github.io/knncolle/classknncolle_1_1MockMatrix.html#ab13717b8647616569554f3393572d86a',1,'knncolle::MockMatrix']]],
-  ['distance_5foptions_3',['distance_options',['../structknncolle__hnsw_1_1HnswOptions.html#ab227b6637e409e1cab8d26496c7061d1',1,'knncolle_hnsw::HnswOptions']]],
-  ['distanceoptions_4',['DistanceOptions',['../structknncolle__hnsw_1_1DistanceOptions.html',1,'knncolle_hnsw']]],
-  ['distanceoptions_3c_20int_2c_20float_20_3e_5',['DistanceOptions&lt; int, float &gt;',['../structknncolle__hnsw_1_1DistanceOptions.html',1,'knncolle_hnsw']]],
-  ['distanceoptions_3c_20typename_20knncolle_3a_3asimplematrix_3c_20int_2c_20int_2c_20double_20_3e_3a_3adimension_5ftype_2c_20float_20_3e_6',['DistanceOptions&lt; typename knncolle::SimpleMatrix&lt; int, int, double &gt;::dimension_type, float &gt;',['../structknncolle__hnsw_1_1DistanceOptions.html',1,'knncolle_hnsw']]],
-  ['distances_2ehpp_7',['distances.hpp',['../distances_8hpp.html',1,'(Global Namespace)'],['https://knncolle.github.io/knncolle/distances_8hpp.html',1,'(Global Namespace)']]]
+  ['can_5fsearch_5fall_0',['can_search_all',['https://knncolle.github.io/knncolle/classknncolle_1_1BruteforceSearcher.html#a7ae415a6fa177b498359371211c007a1',1,'knncolle::BruteforceSearcher::can_search_all()'],['https://knncolle.github.io/knncolle/classknncolle_1_1Searcher.html#a175ab05c339e3aa39b974f1ceebc21a3',1,'knncolle::Searcher::can_search_all()'],['https://knncolle.github.io/knncolle/classknncolle_1_1VptreeSearcher.html#a8df5ca5cd6c2f305da615f7839ba7894',1,'knncolle::VptreeSearcher::can_search_all()']]],
+  ['cap_5fk_1',['cap_k',['https://knncolle.github.io/knncolle/namespaceknncolle.html#a926c81cd626de7081b073a891d352543',1,'knncolle']]],
+  ['cmake_20with_20tt_20fetchcontent_20tt_2',['CMake with &lt;tt&gt;FetchContent&lt;/tt&gt;',['../index.html#autotoc_md5',1,'']]],
+  ['cmake_20with_20tt_20find_5fpackage_20tt_3',['CMake with &lt;tt&gt;find_package()&lt;/tt&gt;',['../index.html#autotoc_md6',1,'']]],
+  ['count_5fall_5fneighbors_5fwithout_5fself_4',['count_all_neighbors_without_self',['https://knncolle.github.io/knncolle/namespaceknncolle.html#ab636bced615a3a669ef0e207b5d848cc',1,'knncolle']]],
+  ['create_5',['create',['../structknncolle__hnsw_1_1DistanceOptions.html#a8fd0302b1bd4723ccf2445819a2822ac',1,'knncolle_hnsw::DistanceOptions']]],
+  ['customizing_20the_20search_6',['Customizing the search',['../index.html#autotoc_md3',1,'']]]
 ];
