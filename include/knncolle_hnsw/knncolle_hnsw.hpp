@@ -29,10 +29,7 @@ namespace knncolle_hnsw {
  *
  * This can also be created via using the `HnswBuilder::Options` definition,
  * which ensures consistency of template parameters with `HnswBuilder`.
- *
- * @tparam HnswData_ Floating-point type for data in the HNSW index.
  */
-template<typename HnswData_ = float>
 struct HnswOptions {
     /**
      * Number of bidirectional links for each node.
@@ -54,11 +51,6 @@ struct HnswOptions {
      * see [here](https://github.com/nmslib/hnswlib/blob/master/ALGO_PARAMS.md#search-parameters) for details.
      */
     int ef_search = 10;
-
-    /**
-     * Choice of distance metric to be used during HNSW index construction and search.
-     */
-    DistanceOptions<HnswData_> distance_options;
 };
 
 template<typename Index_, typename Data_, typename Distance_, typename HnswData_>
@@ -72,7 +64,7 @@ class HnswPrebuilt;
  * @tparam Index_ Integer type for the observation indices.
  * @tparam Data_ Numeric type for the input and query data.
  * @tparam Distance_ Floating-point type for the distances.
- * @tparam HnswData_ Floating-point type for data in the HNSW index.
+ * @tparam HnswData_ Type of data in the HNSW index, usually floating-point.
  */
 template<typename Index_, typename Data_, typename Distance_, typename HnswData_>
 class HnswSearcher final : public knncolle::Searcher<Index_, Data_, Distance_> {
@@ -210,7 +202,7 @@ public:
  * @tparam Index_ Integer type for the observation indices.
  * @tparam Data_ Numeric type for the input and query data.
  * @tparam Distance_ Floating point type for the distances.
- * @tparam HnswData_ Floating-point type for data in the HNSW index.
+ * @tparam HnswData_ Type of data in the HNSW index, usually floating-point.
  */
 template<typename Index_, typename Data_, typename Distance_, typename HnswData_>
 class HnswPrebuilt : public knncolle::Prebuilt<Index_, Data_, Distance_> {
@@ -219,27 +211,11 @@ public:
      * @cond
      */
     template<class Matrix_>
-    HnswPrebuilt(const Matrix_& data, const HnswOptions<HnswData_>& options) :
+    HnswPrebuilt(const Matrix_& data, const DistanceConfig<HnswData_>& distance_config, const HnswOptions& options) :
         my_dim(data.num_dimensions()),
         my_obs(data.num_observations()),
-        my_space([&]{
-            if (options.distance_options.create) {
-                return options.distance_options.create(my_dim);
-            } else if constexpr(std::is_same<HnswData_, float>::value) {
-                return static_cast<hnswlib::SpaceInterface<HnswData_>*>(new hnswlib::L2Space(my_dim));
-            } else {
-                return static_cast<hnswlib::SpaceInterface<HnswData_>*>(new SquaredEuclideanDistance<HnswData_>(my_dim));
-            }
-        }()),
-        my_normalize([&]{
-            if (options.distance_options.normalize) {
-                return options.distance_options.normalize;
-            } else if (options.distance_options.create) {
-                return std::function<HnswData_(HnswData_)>();
-            } else {
-                return std::function<HnswData_(HnswData_)>([](HnswData_ x) -> HnswData_ { return std::sqrt(x); });
-            }
-        }()),
+        my_space(distance_config.create(my_dim)),
+        my_normalize(distance_config.normalize),
         my_index(my_space.get(), my_obs, options.num_links, options.ef_construction)
     {
         auto work = data.new_extractor();
@@ -315,7 +291,7 @@ public:
  * @tparam Distance_ Floating point type for the distances.
  * @tparam Matrix_ Class of the input data matrix. 
  * This should satisfy the `knncolle::Matrix` interface.
- * @tparam HnswData_ Floating-point type for data in the HNSW index.
+ * @tparam HnswData_ Type of data in the HNSW index, usually floating-point.
  * This defaults to a `float` instead of a `double` to sacrifice some accuracy for performance.
  */
 template<
@@ -326,30 +302,31 @@ template<
     typename HnswData_ = float
 >
 class HnswBuilder : public knncolle::Builder<Index_, Data_, Distance_, Matrix_> {
-public:
-    /**
-     * Convenient name for the `HnswOptions` class that ensures consistent template parametrization.
-     */
-    typedef HnswOptions<HnswData_> Options;
-
 private:
-    Options my_options;
+    DistanceConfig<HnswData_> my_distance_config;
+    HnswOptions my_options;
 
 public:
     /**
+     * @param distance_config Configuration for computing distances in the HNSW index, e.g., `makeEuclideanDistanceConfig()`.
      * @param options Further options for HNSW index construction and searching.
      */
-    HnswBuilder(Options options) : my_options(std::move(options)) {}
+    HnswBuilder(DistanceConfig<HnswData_> distance_config, HnswOptions options) : my_distance_config(std::move(distance_config)), my_options(std::move(options)) {
+        if (!my_distance_config.create) {
+            throw std::runtime_error("'distance_config.create' was not provided");
+        }
+    }
 
     /**
-     * Default constructor.
+     * Overload that uses the default `Options`.
+     * @param distance_config Configuration for computing distances in the HNSW index, e.g., `makeEuclideanDistanceConfig()`.
      */
-    HnswBuilder() = default;
+    HnswBuilder(DistanceConfig<HnswData_> distance_config) : HnswBuilder(std::move(distance_config), {}) {}
 
     /**
      * @return Options for HNSW, to be modified prior to calling `build_raw()` and friends.
      */
-    Options& get_options() {
+    HnswOptions& get_options() {
         return my_options;
     }
 
@@ -358,7 +335,7 @@ public:
      * Creates a `HnswPrebuilt` instance.
      */
     knncolle::Prebuilt<Index_, Data_, Distance_>* build_raw(const Matrix_& data) const {
-        return new HnswPrebuilt<Index_, Data_, Distance_, HnswData_>(data, my_options);
+        return new HnswPrebuilt<Index_, Data_, Distance_, HnswData_>(data, my_distance_config, my_options);
     }
 };
 

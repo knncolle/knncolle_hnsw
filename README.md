@@ -27,7 +27,8 @@ std::vector<double> matrix(ndim * nobs); // column-major ndim * nobs matrix.
 knncolle::SimpleMatrix<int, double> mat(ndim, nobs, matrix.data());
 
 // Build a HNSW index, defaulting to Euclidean distances.
-knncolle_hnsw::HnswBuilder<int, double, double> h_builder;
+auto euclid_config = knncolle_hnsw::makeEuclideanDistanceConfig();
+knncolle_hnsw::HnswBuilder<int, double, double> h_builder(euclid_config);
 auto h_index = h_builder.build_unique(mat);
 
 // Find 10 (approximate) nearest neighbors of every element.
@@ -38,18 +39,18 @@ Check out the [reference documentation](https://knncolle.github.io/knncolle_hnsw
 
 ## Customizing the search
 
-We can also customize the construction of the `HnswBuilder` by passing in options:
+We can also customize the construction of the `HnswBuilder` by passing in options or specifying a different distance metric:
 
 ```cpp
-knncolle_hnsw::HnswOptions<> h_opts;
+knncolle_hnsw::HnswOptions h_opts;
 h_opts.num_links = 100;
-h_opts.distance_options.create = [](int dim) -> hnswlib::SpaceInterface<float>* {
-    return new knncolle_hnsw::ManhattanDistance<float>(dim);
-};
-knncolle_hnsw::HnswBuilder<int, double, double> h_builder2(h_opts);
+knncolle_hnsw::HnswBuilder<int, double, double> h_builder2(
+    knncolle_hnsw::newManhattanDistanceConfig(),
+    h_opts
+);
 ```
 
-We could also modify the builder after construction:
+We could also modify the builder after construction, which will affect all subsequently constructed indices:
 
 ```cpp
 auto& more_opt = h_builder.get_options()
@@ -70,6 +71,10 @@ typedef knncolle_annoy::HnswBuilder<
 
     // The type for the distances, maybe we'll use floats to save space.
     float,
+
+    // The type of matrix that the AnnoyBuilder takes as input: forcing it
+    // to be a SimpleMatrix to enable devirtualization.
+    knncolle::SimpleMatrix<size_t, uint8_t>,
 
     // The type of data in the HNSW index, using floats for performance.
     float

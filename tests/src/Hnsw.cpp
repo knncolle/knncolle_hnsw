@@ -68,9 +68,11 @@ protected:
 
 TEST_P(HnswTest, FindEuclidean) {
     int k = std::get<1>(GetParam());    
+    auto euconfig = knncolle_hnsw::makeEuclideanDistanceConfig();
+    knncolle::EuclideanDistance<double, double> eudist; 
 
     knncolle::SimpleMatrix<int, double> mat(ndim, nobs, data.data());
-    knncolle_hnsw::HnswBuilder<int, double, double> builder;
+    knncolle_hnsw::HnswBuilder<int, double, double> builder(euconfig);
     auto bptr = builder.build_unique(mat);
     EXPECT_EQ(bptr->num_dimensions(), ndim);
     EXPECT_EQ(bptr->num_observations(), nobs);
@@ -79,14 +81,12 @@ TEST_P(HnswTest, FindEuclidean) {
     // Trying with a different interface type such that Data_ == HnswData_ == float.
     std::vector<float> fdata(data.begin(), data.end());
     knncolle::SimpleMatrix<int, float> mat2(ndim, nobs, fdata.data());
-    knncolle_hnsw::HnswBuilder<int, float, double> builder2;
+    knncolle_hnsw::HnswBuilder<int, float, double> builder2(euconfig);
     auto bptr2 = builder2.build_unique(mat2);
     auto bsptr2 = bptr2->initialize();
 
     std::vector<int> ires, ires0, ires2;
     std::vector<double> dres, dres0, dres2;
-
-    knncolle::EuclideanDistance<double, double> eudist; 
 
     for (int x = 0; x < nobs; ++x) {
         bsptr->search(x, k, &ires, &dres);
@@ -117,20 +117,16 @@ TEST_P(HnswTest, FindEuclidean) {
 
 TEST_P(HnswTest, FindManhattan) {
     int k = std::get<1>(GetParam());    
+    auto manconfig = knncolle_hnsw::makeManhattanDistanceConfig();
+    knncolle::ManhattanDistance<double, double> mandist; 
 
     knncolle::SimpleMatrix<int, double> mat(ndim, nobs, data.data());
-    knncolle_hnsw::HnswBuilder<int, double, double> builder;
-    builder.get_options().distance_options.create = [&](int d) -> hnswlib::SpaceInterface<float>* { 
-        return new knncolle_hnsw::ManhattanDistance<float>(d); 
-    };
-
+    knncolle_hnsw::HnswBuilder<int, double, double> builder(manconfig);
     auto bptr = builder.build_unique(mat);
     auto bsptr = bptr->initialize();
 
     std::vector<int> ires;
     std::vector<double> dres;
-
-    knncolle::ManhattanDistance<double, double> mandist; 
 
     for (int x = 0; x < nobs; ++x) {
         bsptr->search(x, k, &ires, &dres);
@@ -150,16 +146,17 @@ TEST_P(HnswTest, FindManhattan) {
 
 TEST_P(HnswTest, QueryEuclidean) {
     int k = std::get<1>(GetParam());    
+    auto euconfig = knncolle_hnsw::makeEuclideanDistanceConfig();
 
     knncolle::SimpleMatrix<int, double> mat(ndim, nobs, data.data());
-    knncolle_hnsw::HnswBuilder<int, double, double> builder;
+    knncolle_hnsw::HnswBuilder<int, double, double> builder(euconfig);
     auto bptr = builder.build_unique(mat);
     auto bsptr = bptr->initialize();
 
     // Trying with a different type.
     std::vector<float> fdata(data.begin(), data.end());
     knncolle::SimpleMatrix<int, float> mat2(ndim, nobs, fdata.data());
-    knncolle_hnsw::HnswBuilder<int, float, double> builder2;
+    knncolle_hnsw::HnswBuilder<int, float, double> builder2(euconfig);
     auto bptr2 = builder2.build_unique(mat2);
     auto bsptr2 = bptr2->initialize();
 
@@ -205,14 +202,26 @@ INSTANTIATE_TEST_SUITE_P(
 );
 
 TEST(Hnsw, Constructor) {
-    knncolle_hnsw::HnswBuilder<int, double, double> def;
+    auto euconfig = knncolle_hnsw::makeEuclideanDistanceConfig<float>();
+
+    knncolle_hnsw::HnswBuilder<int, double, double> def(euconfig);
     auto def_opt = def.get_options();
     EXPECT_NE(def_opt.num_links, 10000);
 
     // Checking that this is respected in the overloaded constructor.
     def_opt.num_links = 1000;
-    knncolle_hnsw::HnswBuilder<int, double, double> mutant(def_opt);
+    knncolle_hnsw::HnswBuilder<int, double, double> mutant(euconfig, def_opt);
     EXPECT_EQ(mutant.get_options().num_links, 1000);
+
+    // Checking that we throw errors correctly if the configuration has no distance.
+    knncolle_hnsw::DistanceConfig<float> emptydist;
+    std::string msg;
+    try {
+        knncolle_hnsw::HnswBuilder<int, double, double> emptyobj(emptydist);
+    } catch (std::exception& e) {
+        msg = e.what();
+    }
+    EXPECT_TRUE(msg.find("not provided") != std::string::npos);
 }
 
 class HnswMiscTest : public TestCore, public ::testing::Test {
@@ -223,14 +232,13 @@ protected:
 };
 
 TEST_F(HnswMiscTest, EuclideanDouble) {
-    knncolle::SimpleMatrix<int, double> mat(ndim, nobs, data.data());
+    knncolle::EuclideanDistance<double, double> eudist;
+    auto euconfig = knncolle_hnsw::makeEuclideanDistanceConfig<double>(); // using HnswData_ = double to check that we dispatch correctly to a SquaredEuclideanDistance.
 
-    // using a double as the InternalData_ to check that we dispatch correctly to a SquaredEuclideanDistance.
-    knncolle_hnsw::HnswBuilder<int, double, double> builder; 
+    knncolle::SimpleMatrix<int, double> mat(ndim, nobs, data.data());
+    knncolle_hnsw::HnswBuilder<int, double, double, knncolle::SimpleMatrix<int, double>, double> builder(std::move(euconfig));
     auto bptr = builder.build_unique(mat);
     auto bsptr = bptr->initialize();
-
-    knncolle::EuclideanDistance<double, double> eudist;
 
     std::vector<int> ires;
     std::vector<double> dres;
@@ -248,11 +256,12 @@ TEST_F(HnswMiscTest, EuclideanDouble) {
 }
 
 TEST_F(HnswMiscTest, EuclideanNormalize) {
-    knncolle::SimpleMatrix<int, double> mat(ndim, nobs, data.data());
-
     // Checking that the normalization option is respected.
-    knncolle_hnsw::HnswBuilder<int, double, double> builder; 
-    builder.get_options().distance_options.normalize = [&](float x) -> float { return x + 1; };
+    auto distconfig = knncolle_hnsw::makeEuclideanDistanceConfig<float>();
+    distconfig.normalize = [](float x) -> float { return x + 1; };
+
+    knncolle::SimpleMatrix<int, double> mat(ndim, nobs, data.data());
+    knncolle_hnsw::HnswBuilder<int, double, double> builder(std::move(distconfig)); 
     auto bptr = builder.build_unique(mat);
     auto bsptr = bptr->initialize();
 
@@ -281,7 +290,7 @@ TEST(Hnsw, Duplicates) {
     std::vector<double> data(ndim * nobs);
     knncolle::SimpleMatrix<int, double> mat(ndim, nobs, data.data());
 
-    knncolle_hnsw::HnswBuilder<int, double, double> builder; 
+    knncolle_hnsw::HnswBuilder<int, double, double> builder(knncolle_hnsw::makeEuclideanDistanceConfig()); 
     auto bptr = builder.build_unique(mat);
     auto bsptr = bptr->initialize();
 
@@ -305,4 +314,3 @@ TEST(Hnsw, Duplicates) {
         EXPECT_EQ(ires, ires0);
     }
 }
-
