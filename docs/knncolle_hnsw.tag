@@ -25,10 +25,10 @@
     <filename>structknncolle__hnsw_1_1DistanceConfig.html</filename>
     <templarg>typename HnswData_</templarg>
     <member kind="variable">
-      <type>std::function&lt; hnswlib::SpaceInterface&lt; HnswData_ &gt; *(size_t)&gt;</type>
+      <type>std::function&lt; hnswlib::SpaceInterface&lt; HnswData_ &gt; *(std::size_t)&gt;</type>
       <name>create</name>
       <anchorfile>structknncolle__hnsw_1_1DistanceConfig.html</anchorfile>
-      <anchor>a8f77e65af9a95fd9c3bee0194e8f6f64</anchor>
+      <anchor>a58ad45a2489b1fb8617fe53f50add65e</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
@@ -135,8 +135,8 @@
       <type></type>
       <name>ManhattanDistance</name>
       <anchorfile>classknncolle__hnsw_1_1ManhattanDistance.html</anchorfile>
-      <anchor>ada1953be51051bdb1629d58d46c10bf2</anchor>
-      <arglist>(size_t dim)</arglist>
+      <anchor>ae6006a4cedae0ba35fb2481de5a289bf</anchor>
+      <arglist>(std::size_t dim)</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -147,8 +147,8 @@
       <type></type>
       <name>SquaredEuclideanDistance</name>
       <anchorfile>classknncolle__hnsw_1_1SquaredEuclideanDistance.html</anchorfile>
-      <anchor>a2e24b25ce5f76fcdfa015bc645a9b95b</anchor>
-      <arglist>(size_t dim)</arglist>
+      <anchor>a11b2b4962b2a2746e624f057e10360ce</anchor>
+      <arglist>(std::size_t dim)</arglist>
     </member>
   </compound>
   <compound kind="namespace">

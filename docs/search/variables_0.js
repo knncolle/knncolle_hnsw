@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['create_0',['create',['../structknncolle__hnsw_1_1DistanceConfig.html#a8f77e65af9a95fd9c3bee0194e8f6f64',1,'knncolle_hnsw::DistanceConfig']]]
+  ['create_0',['create',['../structknncolle__hnsw_1_1DistanceConfig.html#a58ad45a2489b1fb8617fe53f50add65e',1,'knncolle_hnsw::DistanceConfig']]]
 ];
