@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <functional>
+#include <cstddef>
 
 /**
  * @file distances.hpp
@@ -21,7 +22,7 @@ struct DistanceConfig {
     /**
      * Create a `hnswlib::SpaceInterface` object, given the number of dimensions.
      */
-    std::function<hnswlib::SpaceInterface<HnswData_>*(size_t)> create;
+    std::function<hnswlib::SpaceInterface<HnswData_>*(std::size_t)> create;
 
     /**
      * Normalization function to convert distance measures from `hnswlib::SpaceInterface::get_dist_func()` into actual distances.
@@ -38,20 +39,20 @@ struct DistanceConfig {
 template<typename HnswData_ = float>
 class ManhattanDistance : public hnswlib::SpaceInterface<HnswData_> {
 private:
-    size_t my_data_size;
-    size_t my_dim;
+    std::size_t my_data_size;
+    std::size_t my_dim;
 
 public:
     /**
      * @param dim Number of dimensions over which to compute the distance.
      */
-    ManhattanDistance(size_t dim) : my_data_size(dim * sizeof(HnswData_)), my_dim(dim) {}
+    ManhattanDistance(std::size_t dim) : my_data_size(dim * sizeof(HnswData_)), my_dim(dim) {}
 
     /**
      * @cond
      */
 public:
-    size_t get_data_size() {
+    std::size_t get_data_size() {
         return my_data_size;
     }
 
@@ -67,7 +68,7 @@ private:
     static HnswData_ L1(const void *pVect1v, const void *pVect2v, const void *qty_ptr) {
         const HnswData_* pVect1 = static_cast<const HnswData_*>(pVect1v);
         const HnswData_* pVect2 = static_cast<const HnswData_*>(pVect2v);
-        size_t qty = *((size_t *) qty_ptr);
+        std::size_t qty = *((size_t *) qty_ptr);
         HnswData_ res = 0;
         for (; qty > 0; --qty, ++pVect1, ++pVect2) {
             res += std::abs(*pVect1 - *pVect2);
@@ -87,20 +88,20 @@ private:
 template<typename HnswData_ = float>
 class SquaredEuclideanDistance : public hnswlib::SpaceInterface<HnswData_> {
 private:
-    size_t my_data_size;
-    size_t my_dim;
+    std::size_t my_data_size;
+    std::size_t my_dim;
 
 public:
     /**
      * @param dim Number of dimensions over which to compute the distance.
      */
-    SquaredEuclideanDistance(size_t dim) : my_data_size(dim * sizeof(HnswData_)), my_dim(dim) {}
+    SquaredEuclideanDistance(std::size_t dim) : my_data_size(dim * sizeof(HnswData_)), my_dim(dim) {}
 
     /**
      * @cond
      */
 public:
-    size_t get_data_size() {
+    std::size_t get_data_size() {
         return my_data_size;
     }
 
@@ -116,7 +117,7 @@ private:
     static HnswData_ L2(const void *pVect1v, const void *pVect2v, const void *qty_ptr) {
         const HnswData_* pVect1 = static_cast<const HnswData_*>(pVect1v);
         const HnswData_* pVect2 = static_cast<const HnswData_*>(pVect2v);
-        size_t qty = *((size_t *) qty_ptr);
+        std::size_t qty = *((size_t *) qty_ptr);
         HnswData_ res = 0;
         for (; qty > 0; --qty, ++pVect1, ++pVect2) {
             auto delta = *pVect1 - *pVect2;
@@ -137,7 +138,7 @@ private:
 template<typename HnswData_ = float>
 DistanceConfig<HnswData_> makeEuclideanDistanceConfig() {
     DistanceConfig<HnswData_> output;
-    output.create = [](size_t dim) -> hnswlib::SpaceInterface<HnswData_>* {
+    output.create = [](std::size_t dim) -> hnswlib::SpaceInterface<HnswData_>* {
         if constexpr(std::is_same<HnswData_, float>::value) {
             return static_cast<hnswlib::SpaceInterface<HnswData_>*>(new hnswlib::L2Space(dim));
         } else {
@@ -157,7 +158,7 @@ DistanceConfig<HnswData_> makeEuclideanDistanceConfig() {
 template<typename HnswData_ = float>
 DistanceConfig<HnswData_> makeManhattanDistanceConfig() {
     DistanceConfig<HnswData_> output;
-    output.create = [](size_t dim) -> hnswlib::SpaceInterface<HnswData_>* {
+    output.create = [](std::size_t dim) -> hnswlib::SpaceInterface<HnswData_>* {
         return static_cast<hnswlib::SpaceInterface<HnswData_>*>(new knncolle_hnsw::ManhattanDistance<HnswData_>(dim));
     };
     return output;

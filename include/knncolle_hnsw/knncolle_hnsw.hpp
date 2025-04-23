@@ -6,6 +6,7 @@
 #include <queue>
 #include <algorithm>
 #include <memory>
+#include <cstddef>
 
 #include "knncolle/knncolle.hpp"
 #include "hnswlib/hnswalg.h"
@@ -161,7 +162,7 @@ private:
             output_distances->resize(k);
         }
 
-        size_t position = k;
+        auto position = k;
         while (!my_queue.empty()) {
             const auto& top = my_queue.top();
             --position;
@@ -241,7 +242,7 @@ public:
      */
 
 private:
-    size_t my_dim;
+    std::size_t my_dim;
     Index_ my_obs;
 
     // The following must be a pointer for polymorphism, but also so that
@@ -254,7 +255,7 @@ private:
     friend class HnswSearcher<Index_, Data_, Distance_, HnswData_>;
 
 public:
-    size_t num_dimensions() const {
+    std::size_t num_dimensions() const {
         return my_dim;
     }
 
