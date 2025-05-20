@@ -171,7 +171,8 @@ CMake with <code>FetchContent</code></h2>
 <div class="line"> </div>
 <div class="line"># For libaries</div>
 <div class="line">target_link_libraries(mylib INTERFACE knncolle::knncolle_hnsw)</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md6"></a>
+</div><!-- fragment --><p>By default, this will use <code>FetchContent</code> to fetch all external dependencies. Applications are advised to pin the versions of each dependency for stability - see <a href="extern/CMakeLists.txt"><code>extern/CMakeLists.txt</code></a> for suggested versions. If you want to install them manually, use <code>-DKNNCOLLE_HNSW_FETCH_EXTERN=OFF</code>.</p>
+<h2><a class="anchor" id="autotoc_md6"></a>
 CMake with <code>find_package()</code></h2>
 <div class="fragment"><div class="line">find_package(knncolle_knncolle_hnsw CONFIG REQUIRED)</div>
 <div class="line">target_link_libraries(mylib INTERFACE knncolle::knncolle_hnsw)</div>
@@ -179,10 +180,10 @@ CMake with <code>find_package()</code></h2>
 <div class="fragment"><div class="line">mkdir build &amp;&amp; cd build</div>
 <div class="line">cmake .. -DKNNCOLLE_HNSW_TESTS=OFF</div>
 <div class="line">cmake --build . --target install</div>
-</div><!-- fragment --><p>By default, this will use <code>FetchContent</code> to fetch all external dependencies. If you want to install them manually, use <code>-DKNNCOLLE_HNSW_FETCH_EXTERN=OFF</code>. See <a href="extern/CMakeLists.txt"><code>extern/CMakeLists.txt</code></a> to find compatible versions of each dependency.</p>
+</div><!-- fragment --><p>Again, this will automatically acquire all its dependencies, see recommendations above.</p>
 <h2><a class="anchor" id="autotoc_md7"></a>
 Manual</h2>
-<p>If you're not using CMake, the simple approach is to just copy the files in <code>include/</code> - either directly or with Git submodules - and include their path during compilation with, e.g., GCC's <code>-I</code>. See <a href="extern/CMakeLists.txt"><code>extern/CMakeLists.txt</code></a> to find compatible versions of each dependency.</p>
+<p>If you're not using CMake, the simple approach is to just copy the files in <code>include/</code> - either directly or with Git submodules - and include their path during compilation with, e.g., GCC's <code>-I</code>. This will also require the external dependencies listed in <a href="extern/CMakeLists.txt"><code>extern/CMakeLists.txt</code></a>.</p>
 <h1><a class="anchor" id="autotoc_md8"></a>
 Note on vectorization</h1>
 <p>HNSW will attempt to perform manual vectorization based on SSE and/or AVX instructions. This may result in differences in the results across machines due to changes in numeric precision across architectures with varying support for SSE/AVX intrinsics. For the most part, such differences can be avoided by consistently compiling for the "near-lowest common denominator" (such as the typical <code>x86-64</code> default for GCC and Clang) and ensuring that the more specific instruction subsets like SSE3 and AVX are not enabled (which are typically off by default anyway). Nonetheless, if reproducibility across architectures is important, it can be achieved at the cost of some speed by defining the <code>NO_MANUAL_VECTORIZATION</code> macro, which will instruct Hnsw to disable its vectorized optimizations. </p>
