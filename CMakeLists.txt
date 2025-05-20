@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.24)
 
 project(knncolle_hnsw
-    VERSION 0.1.1
+    VERSION 0.2.0
     DESCRIPTION "knncolle bindings for HNSW search"
     LANGUAGES CXX)
 
@@ -22,7 +22,7 @@ option(KNNCOLLE_HNSW_FETCH_EXTERN "Automatically fetch knncolle_hnsw's external 
 if(KNNCOLLE_HNSW_FETCH_EXTERN)
     add_subdirectory(extern)
 else()
-    find_package(knncolle_knncolle 2.0.0 CONFIG REQUIRED)
+    find_package(knncolle_knncolle 3.0.0 CONFIG REQUIRED)
     find_package(hnswlib CONFIG REQUIRED)
 endif()
 

@@ -109,6 +109,10 @@ target_link_libraries(myexe knncolle::knncolle_hnsw)
 target_link_libraries(mylib INTERFACE knncolle::knncolle_hnsw)
 ```
 
+By default, this will use `FetchContent` to fetch all external dependencies.
+Applications are advised to pin the versions of each dependency for stability - see [`extern/CMakeLists.txt`](extern/CMakeLists.txt) for suggested versions.
+If you want to install them manually, use `-DKNNCOLLE_HNSW_FETCH_EXTERN=OFF`.
+
 ### CMake with `find_package()`
 
 ```cmake
@@ -124,14 +128,12 @@ cmake .. -DKNNCOLLE_HNSW_TESTS=OFF
 cmake --build . --target install
 ```
 
-By default, this will use `FetchContent` to fetch all external dependencies.
-If you want to install them manually, use `-DKNNCOLLE_HNSW_FETCH_EXTERN=OFF`.
-See [`extern/CMakeLists.txt`](extern/CMakeLists.txt) to find compatible versions of each dependency.
+Again, this will automatically acquire all its dependencies, see recommendations above.
 
 ### Manual
 
 If you're not using CMake, the simple approach is to just copy the files in `include/` - either directly or with Git submodules - and include their path during compilation with, e.g., GCC's `-I`.
-See [`extern/CMakeLists.txt`](extern/CMakeLists.txt) to find compatible versions of each dependency.
+This will also require the external dependencies listed in [`extern/CMakeLists.txt`](extern/CMakeLists.txt). 
 
 ## Note on vectorization
 
