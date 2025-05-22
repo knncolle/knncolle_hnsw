@@ -299,7 +299,7 @@ template<
     typename Index_,
     typename Data_,
     typename Distance_,
-    class Matrix_ = knncolle::SimpleMatrix<Index_, Data_>, 
+    class Matrix_ = knncolle::Matrix<Index_, Data_>, 
     typename HnswData_ = float
 >
 class HnswBuilder : public knncolle::Builder<Index_, Data_, Distance_, Matrix_> {
