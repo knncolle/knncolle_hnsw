@@ -106,7 +106,7 @@ Inheritance diagram for knncolle_hnsw::HnswBuilder&lt; Index_, Data_, Distance_,
  <div class="center">
   <img src="classknncolle__hnsw_1_1HnswBuilder.png" usemap="#knncolle_5Fhnsw::HnswBuilder_3C_20Index_5F_2C_20Data_5F_2C_20Distance_5F_2C_20Matrix_5F_2C_20HnswData_5F_20_3E_map" alt=""/>
   <map id="knncolle_5Fhnsw::HnswBuilder_3C_20Index_5F_2C_20Data_5F_2C_20Distance_5F_2C_20Matrix_5F_2C_20HnswData_5F_20_3E_map" name="knncolle_5Fhnsw::HnswBuilder_3C_20Index_5F_2C_20Data_5F_2C_20Distance_5F_2C_20Matrix_5F_2C_20HnswData_5F_20_3E_map">
-<area target="_parent" href="https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html" alt="knncolle::Builder&lt; typename Index_, typename Data_, typename Distance_, class Matrix_ &gt;" shape="rect" coords="0,0,510,24"/>
+<area target="_parent" href="https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html" alt="knncolle::Builder&lt; typename Index_, typename Data_, typename Distance_, class Matrix_ &gt;" shape="rect" coords="0,0,473,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -129,7 +129,7 @@ std::unique_ptr&lt; <a class="elRef" href="https://knncolle.github.io/knncolle/c
 <tr class="separator:a93cac638de3e4ad31919bc5d677d16b7 inherit pub_methods_classknncolle_1_1Builder"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><div class="compoundTemplParams">template&lt;typename Index_, typename Data_, typename Distance_, class Matrix_ = knncolle::SimpleMatrix&lt;Index_, Data_&gt;, typename HnswData_ = float&gt;<br />
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename Index_, typename Data_, typename Distance_, class Matrix_ = knncolle::Matrix&lt;Index_, Data_&gt;, typename HnswData_ = float&gt;<br />
 class knncolle_hnsw::HnswBuilder&lt; Index_, Data_, Distance_, Matrix_, HnswData_ &gt;</div><p>Perform an approximate nearest neighbor search with HNSW. </p>
 <p>In the HNSW algorithm (Malkov and Yashunin, 2016), each point is a node in a "nagivable small world" graph. The nearest neighbor search proceeds by starting at a node and walking through the graph to obtain closer neighbors to a given query point. Nagivable small world graphs are used to maintain connectivity across the data set by creating links between distant points. This speeds up the search by ensuring that the algorithm does not need to take many small steps to move from one cluster to another. The HNSW algorithm extends this idea by using a hierarchy of such graphs containing links of different lengths, which avoids wasting time on small steps in the early stages of the search where the current node position is far from the query.</p>
 <dl class="section see"><dt>See also</dt><dd>Malkov YA, Yashunin DA (2016). Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs. <em>arXiv</em>. <a href="https://arxiv.org/abs/1603.09320">https://arxiv.org/abs/1603.09320</a></dd></dl>
@@ -150,7 +150,7 @@ class knncolle_hnsw::HnswBuilder&lt; Index_, Data_, Distance_, Matrix_, HnswData
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Index_ , typename Data_ , typename Distance_ , class Matrix_  = knncolle::SimpleMatrix&lt;Index_, Data_&gt;, typename HnswData_  = float&gt; </div>
+template&lt;typename Index_ , typename Data_ , typename Distance_ , class Matrix_  = knncolle::Matrix&lt;Index_, Data_&gt;, typename HnswData_  = float&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -188,7 +188,7 @@ template&lt;typename Index_ , typename Data_ , typename Distance_ , class Matrix
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Index_ , typename Data_ , typename Distance_ , class Matrix_  = knncolle::SimpleMatrix&lt;Index_, Data_&gt;, typename HnswData_  = float&gt; </div>
+template&lt;typename Index_ , typename Data_ , typename Distance_ , class Matrix_  = knncolle::Matrix&lt;Index_, Data_&gt;, typename HnswData_  = float&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -222,7 +222,7 @@ template&lt;typename Index_ , typename Data_ , typename Distance_ , class Matrix
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Index_ , typename Data_ , typename Distance_ , class Matrix_  = knncolle::SimpleMatrix&lt;Index_, Data_&gt;, typename HnswData_  = float&gt; </div>
+template&lt;typename Index_ , typename Data_ , typename Distance_ , class Matrix_  = knncolle::Matrix&lt;Index_, Data_&gt;, typename HnswData_  = float&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -252,7 +252,7 @@ template&lt;typename Index_ , typename Data_ , typename Distance_ , class Matrix
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Index_ , typename Data_ , typename Distance_ , class Matrix_  = knncolle::SimpleMatrix&lt;Index_, Data_&gt;, typename HnswData_  = float&gt; </div>
+template&lt;typename Index_ , typename Data_ , typename Distance_ , class Matrix_  = knncolle::Matrix&lt;Index_, Data_&gt;, typename HnswData_  = float&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">

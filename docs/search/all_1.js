@@ -10,7 +10,7 @@ var searchData=
   ['build_5funique_7',['build_unique',['https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html#a93cac638de3e4ad31919bc5d677d16b7',1,'knncolle::Builder']]],
   ['builder_8',['Builder',['https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html',1,'knncolle']]],
   ['builder_2ehpp_9',['Builder.hpp',['https://knncolle.github.io/knncolle/Builder_8hpp.html',1,'']]],
-  ['builder_3c_20index_5f_2c_20data_5f_2c_20distance_5f_2c_20knncolle_3a_3asimplematrix_3c_20index_5f_2c_20data_5f_20_3e_20_3e_10',['Builder&lt; Index_, Data_, Distance_, knncolle::SimpleMatrix&lt; Index_, Data_ &gt; &gt;',['https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html',1,'knncolle']]],
+  ['builder_3c_20index_5f_2c_20data_5f_2c_20distance_5f_2c_20knncolle_3a_3amatrix_3c_20index_5f_2c_20data_5f_20_3e_20_3e_10',['Builder&lt; Index_, Data_, Distance_, knncolle::Matrix&lt; Index_, Data_ &gt; &gt;',['https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html',1,'knncolle']]],
   ['builder_3c_20index_5f_2c_20data_5f_2c_20distance_5f_2c_20matrix_5f_20_3e_11',['Builder&lt; Index_, Data_, Distance_, Matrix_ &gt;',['https://knncolle.github.io/knncolle/classknncolle_1_1Builder.html',1,'knncolle']]],
   ['buildermatrix_12',['BuilderMatrix',['https://knncolle.github.io/knncolle/classknncolle_1_1L2NormalizedBuilder.html#abeaefcb9c85ef73693defd5f59503ff2',1,'knncolle::L2NormalizedBuilder']]],
   ['building_20projects_13',['Building projects',['../index.html#autotoc_md4',1,'']]]
