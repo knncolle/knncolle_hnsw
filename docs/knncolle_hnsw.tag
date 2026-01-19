@@ -15,8 +15,6 @@
     <filename>knncolle__hnsw_8hpp.html</filename>
     <includes id="distances_8hpp" name="distances.hpp" local="yes" import="no" module="no" objc="no">distances.hpp</includes>
     <class kind="struct">knncolle_hnsw::HnswOptions</class>
-    <class kind="class">knncolle_hnsw::HnswSearcher</class>
-    <class kind="class">knncolle_hnsw::HnswPrebuilt</class>
     <class kind="class">knncolle_hnsw::HnswBuilder</class>
     <namespace>knncolle_hnsw</namespace>
   </compound>
@@ -70,10 +68,24 @@
       <arglist>()</arglist>
     </member>
     <member kind="function">
-      <type>knncolle::Prebuilt&lt; Index_, Data_, Distance_ &gt; *</type>
-      <name>build_raw</name>
+      <type>auto</type>
+      <name>build_known_raw</name>
       <anchorfile>classknncolle__hnsw_1_1HnswBuilder.html</anchorfile>
-      <anchor>ae96f13d033eff8af3996996b92e4f4b2</anchor>
+      <anchor>ad26bd41f4c63a16511fd3b231ffb41b5</anchor>
+      <arglist>(const Matrix_ &amp;data) const</arglist>
+    </member>
+    <member kind="function">
+      <type>auto</type>
+      <name>build_known_unique</name>
+      <anchorfile>classknncolle__hnsw_1_1HnswBuilder.html</anchorfile>
+      <anchor>ae79eae5cc0c86c99e7ac32433f4f9d7e</anchor>
+      <arglist>(const Matrix_ &amp;data) const</arglist>
+    </member>
+    <member kind="function">
+      <type>auto</type>
+      <name>build_known_shared</name>
+      <anchorfile>classknncolle__hnsw_1_1HnswBuilder.html</anchorfile>
+      <anchor>a6c895af22e4e8e94eb745905f4ca7696</anchor>
       <arglist>(const Matrix_ &amp;data) const</arglist>
     </member>
   </compound>
@@ -101,31 +113,6 @@
       <anchor>af1492d2ff195c4b59aa3d179efbcd394</anchor>
       <arglist></arglist>
     </member>
-  </compound>
-  <compound kind="class">
-    <name>knncolle_hnsw::HnswPrebuilt</name>
-    <filename>classknncolle__hnsw_1_1HnswPrebuilt.html</filename>
-    <templarg>typename Index_</templarg>
-    <templarg>typename Data_</templarg>
-    <templarg>typename Distance_</templarg>
-    <templarg>typename HnswData_</templarg>
-    <base>knncolle::Prebuilt&lt; Index_, Data_, Distance_ &gt;</base>
-    <member kind="function">
-      <type>std::unique_ptr&lt; knncolle::Searcher&lt; Index_, Data_, Distance_ &gt; &gt;</type>
-      <name>initialize</name>
-      <anchorfile>classknncolle__hnsw_1_1HnswPrebuilt.html</anchorfile>
-      <anchor>a7e68dbb7ed19a02b2abd3f51e85fc0f5</anchor>
-      <arglist>() const</arglist>
-    </member>
-  </compound>
-  <compound kind="class">
-    <name>knncolle_hnsw::HnswSearcher</name>
-    <filename>classknncolle__hnsw_1_1HnswSearcher.html</filename>
-    <templarg>typename Index_</templarg>
-    <templarg>typename Data_</templarg>
-    <templarg>typename Distance_</templarg>
-    <templarg>typename HnswData_</templarg>
-    <base>knncolle::Searcher&lt; Index_, Data_, Distance_ &gt;</base>
   </compound>
   <compound kind="class">
     <name>knncolle_hnsw::ManhattanDistance</name>
@@ -157,8 +144,6 @@
     <class kind="struct">knncolle_hnsw::DistanceConfig</class>
     <class kind="class">knncolle_hnsw::HnswBuilder</class>
     <class kind="struct">knncolle_hnsw::HnswOptions</class>
-    <class kind="class">knncolle_hnsw::HnswPrebuilt</class>
-    <class kind="class">knncolle_hnsw::HnswSearcher</class>
     <class kind="class">knncolle_hnsw::ManhattanDistance</class>
     <class kind="class">knncolle_hnsw::SquaredEuclideanDistance</class>
     <member kind="function">
