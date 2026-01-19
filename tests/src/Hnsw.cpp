@@ -122,7 +122,7 @@ TEST_P(HnswTest, FindManhattan) {
 
     knncolle::SimpleMatrix<int, double> mat(ndim, nobs, data.data());
     knncolle_hnsw::HnswBuilder<int, double, double> builder(manconfig);
-    auto bptr = builder.build_unique(mat);
+    auto bptr = builder.build_shared(mat); // making a shared pointer for some variety.
     auto bsptr = bptr->initialize();
 
     std::vector<int> ires;
@@ -150,7 +150,7 @@ TEST_P(HnswTest, QueryEuclidean) {
 
     knncolle::SimpleMatrix<int, double> mat(ndim, nobs, data.data());
     knncolle_hnsw::HnswBuilder<int, double, double> builder(euconfig);
-    auto bptr = builder.build_unique(mat);
+    auto bptr = builder.build_known_unique(mat); // test coverage for known overrides.
     auto bsptr = bptr->initialize();
 
     // Trying with a different type.
@@ -237,7 +237,7 @@ TEST_F(HnswMiscTest, EuclideanDouble) {
 
     knncolle::SimpleMatrix<int, double> mat(ndim, nobs, data.data());
     knncolle_hnsw::HnswBuilder<int, double, double, knncolle::SimpleMatrix<int, double>, double> builder(std::move(euconfig));
-    auto bptr = builder.build_unique(mat);
+    auto bptr = builder.build_known_shared(mat); // test coverage for known overrides.
     auto bsptr = bptr->initialize();
 
     std::vector<int> ires;
