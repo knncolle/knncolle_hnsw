@@ -254,7 +254,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>        my_normalize(distance_config.normalize),</div>
 <div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>        my_index(my_space.get(), my_obs, options.num_links, options.ef_construction)</div>
 <div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    {</div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>        <span class="keyword">auto</span> work = data.new_extractor();</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>        <span class="keyword">auto</span> work = data.new_known_extractor();</div>
 <div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>        <span class="keywordflow">if</span> <span class="keyword">constexpr</span>(std::is_same&lt;Data_, HnswData_&gt;::value) {</div>
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>            <span class="keywordflow">for</span> (Index_ i = 0; i &lt; my_obs; ++i) {</div>
 <div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>                <span class="keyword">auto</span> ptr = work-&gt;next();</div>
