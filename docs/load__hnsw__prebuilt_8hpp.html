@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.12.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>knncolle_hnsw: knncolle_hnsw/knncolle_hnsw.hpp File Reference</title>
+<title>knncolle_hnsw: knncolle_hnsw/load_hnsw_prebuilt.hpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -91,34 +91,27 @@ $(function(){ initResizable(false); });
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#namespaces">Namespaces</a>  </div>
-  <div class="headertitle"><div class="title">knncolle_hnsw.hpp File Reference</div></div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle"><div class="title">load_hnsw_prebuilt.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Approximate nearest neighbor search with HNSW.  
+<p>Load a prebuilt HNSW index.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;vector&gt;</code><br />
-<code>#include &lt;type_traits&gt;</code><br />
-<code>#include &lt;queue&gt;</code><br />
-<code>#include &lt;algorithm&gt;</code><br />
-<code>#include &lt;memory&gt;</code><br />
+<div class="textblock"><code>#include &quot;utils.hpp&quot;</code><br />
+<code>#include &quot;<a class="el" href="knncolle__hnsw_8hpp_source.html">knncolle_hnsw.hpp</a>&quot;</code><br />
 <code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;cstring&gt;</code><br />
+<code>#include &lt;stdexcept&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
 <code>#include &quot;<a class="elRef" href="https://knncolle.github.io/knncolle/knncolle_8hpp.html">knncolle/knncolle.hpp</a>&quot;</code><br />
-<code>#include &quot;hnswlib/hnswalg.h&quot;</code><br />
-<code>#include &quot;<a class="el" href="distances_8hpp_source.html">distances.hpp</a>&quot;</code><br />
-<code>#include &quot;utils.hpp&quot;</code><br />
 </div>
-<p><a href="knncolle__hnsw_8hpp_source.html">Go to the source code of this file.</a></p>
+<p><a href="load__hnsw__prebuilt_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structknncolle__hnsw_1_1HnswOptions.html">knncolle_hnsw::HnswOptions</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Options for <code><a class="el" href="classknncolle__hnsw_1_1HnswBuilder.html" title="Perform an approximate nearest neighbor search with HNSW.">HnswBuilder</a></code> and <code>HnswPrebuilt</code>.  <a href="structknncolle__hnsw_1_1HnswOptions.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classknncolle__hnsw_1_1HnswBuilder.html">knncolle_hnsw::HnswBuilder&lt; Index_, Data_, Distance_, Matrix_, HnswData_ &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform an approximate nearest neighbor search with HNSW.  <a href="classknncolle__hnsw_1_1HnswBuilder.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structknncolle__hnsw_1_1HnswPrebuiltTypes.html">knncolle_hnsw::HnswPrebuiltTypes</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Template types of a saved HNSW index.  <a href="structknncolle__hnsw_1_1HnswPrebuiltTypes.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -126,9 +119,17 @@ Namespaces</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceknncolle__hnsw.html">knncolle_hnsw</a></td></tr>
 <tr class="memdesc:namespaceknncolle__hnsw"><td class="mdescLeft">&#160;</td><td class="mdescRight">knncolle bindings for HNSW search. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ac7dba32a21f28000a286bf843dd06e37" id="r_ac7dba32a21f28000a286bf843dd06e37"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structknncolle__hnsw_1_1HnswPrebuiltTypes.html">HnswPrebuiltTypes</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceknncolle__hnsw.html#ac7dba32a21f28000a286bf843dd06e37">knncolle_hnsw::load_hnsw_prebuilt_types</a> (const std::string &amp;prefix)</td></tr>
+<tr class="separator:ac7dba32a21f28000a286bf843dd06e37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a346a21cc3b5f9146d23e5c9a060f3f4e" id="r_a346a21cc3b5f9146d23e5c9a060f3f4e"><td class="memTemplParams" colspan="2">template&lt;typename Index_ , typename Data_ , typename Distance_ , typename HnswData_ &gt; </td></tr>
+<tr class="memitem:a346a21cc3b5f9146d23e5c9a060f3f4e"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceknncolle__hnsw.html#a346a21cc3b5f9146d23e5c9a060f3f4e">knncolle_hnsw::load_hnsw_prebuilt</a> (const std::string &amp;prefix)</td></tr>
+<tr class="separator:a346a21cc3b5f9146d23e5c9a060f3f4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Approximate nearest neighbor search with HNSW. </p>
+<div class="textblock"><p>Load a prebuilt HNSW index. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

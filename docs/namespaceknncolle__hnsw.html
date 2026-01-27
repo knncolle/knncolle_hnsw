@@ -106,6 +106,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structknncolle__hnsw_1_1HnswOptions.html">HnswOptions</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Options for <code><a class="el" href="classknncolle__hnsw_1_1HnswBuilder.html" title="Perform an approximate nearest neighbor search with HNSW.">HnswBuilder</a></code> and <code>HnswPrebuilt</code>.  <a href="structknncolle__hnsw_1_1HnswOptions.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structknncolle__hnsw_1_1HnswPrebuiltTypes.html">HnswPrebuiltTypes</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Template types of a saved HNSW index.  <a href="structknncolle__hnsw_1_1HnswPrebuiltTypes.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classknncolle__hnsw_1_1ManhattanDistance.html">ManhattanDistance</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manhattan distance.  <a href="classknncolle__hnsw_1_1ManhattanDistance.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -121,10 +124,85 @@ Functions</h2></td></tr>
 <tr class="memitem:add8b061d7a40e3362e014dec07b59677" id="r_add8b061d7a40e3362e014dec07b59677"><td class="memTemplParams" colspan="2">template&lt;typename HnswData_  = float&gt; </td></tr>
 <tr class="memitem:add8b061d7a40e3362e014dec07b59677"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="structknncolle__hnsw_1_1DistanceConfig.html">DistanceConfig</a>&lt; HnswData_ &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#add8b061d7a40e3362e014dec07b59677">makeManhattanDistanceConfig</a> ()</td></tr>
 <tr class="separator:add8b061d7a40e3362e014dec07b59677"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7dba32a21f28000a286bf843dd06e37" id="r_ac7dba32a21f28000a286bf843dd06e37"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structknncolle__hnsw_1_1HnswPrebuiltTypes.html">HnswPrebuiltTypes</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac7dba32a21f28000a286bf843dd06e37">load_hnsw_prebuilt_types</a> (const std::string &amp;prefix)</td></tr>
+<tr class="separator:ac7dba32a21f28000a286bf843dd06e37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a346a21cc3b5f9146d23e5c9a060f3f4e" id="r_a346a21cc3b5f9146d23e5c9a060f3f4e"><td class="memTemplParams" colspan="2">template&lt;typename Index_ , typename Data_ , typename Distance_ , typename HnswData_ &gt; </td></tr>
+<tr class="memitem:a346a21cc3b5f9146d23e5c9a060f3f4e"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a346a21cc3b5f9146d23e5c9a060f3f4e">load_hnsw_prebuilt</a> (const std::string &amp;prefix)</td></tr>
+<tr class="separator:a346a21cc3b5f9146d23e5c9a060f3f4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>knncolle bindings for HNSW search. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
+<a id="a346a21cc3b5f9146d23e5c9a060f3f4e" name="a346a21cc3b5f9146d23e5c9a060f3f4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a346a21cc3b5f9146d23e5c9a060f3f4e">&#9670;&#160;</a></span>load_hnsw_prebuilt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Index_ , typename Data_ , typename Distance_ , typename HnswData_ &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">auto knncolle_hnsw::load_hnsw_prebuilt </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>prefix</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Helper function to define a <code><a class="elRef" href="https://knncolle.github.io/knncolle/namespaceknncolle.html#af5bf682899b815f8e1d4a4c6ef80408a">knncolle::LoadPrebuiltFunction</a></code> for HNSW in <code>knncolle::load_prebuilt()</code>.</p>
+<p>In an HNSW-specific <code><a class="elRef" href="https://knncolle.github.io/knncolle/namespaceknncolle.html#af5bf682899b815f8e1d4a4c6ef80408a">knncolle::LoadPrebuiltFunction</a></code>, users should first call <code>scan_prebuilt_save_config()</code> to figure out the saved index's <code>HNSWData_</code>. Then, they can call <code><a class="el" href="#a346a21cc3b5f9146d23e5c9a060f3f4e">load_hnsw_prebuilt()</a></code> with the specified types to return a pointer to a <code><a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Prebuilt.html">knncolle::Prebuilt</a></code> object. This can be registered in <code>load_prebuilt_registry()</code> with the key in <code>knncolle_hnsw::save_name</code>.</p>
+<p>We do not define a default function for loading HNSW indices as there are too many possible combinations of types. Instead, the user is responsible for deciding which combinations of types should be handled. This avoids binary bloat from repeated instantiations of the HNSW template classes, if an application only deals with a certain subset of combinations. For types or distances that are unknown to <code><a class="elRef" href="https://knncolle.github.io/knncolle/namespaceknncolle.html#a84e640363d9246c58008c93166021f26">knncolle::get_numeric_type()</a></code> or <code>get_distance_name()</code>, respectively, users can store additional information on disk via <code>customize_save_for_hnsw_types()</code> for use in loading.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Index_</td><td>Integer type for the observation indices. </td></tr>
+    <tr><td class="paramname">Data_</td><td>Numeric type for the input and query data. </td></tr>
+    <tr><td class="paramname">Distance_</td><td>Floating-point type for the distances. </td></tr>
+    <tr><td class="paramname">HnswData_</td><td>Floating-point type for data in the HNSW index. This should be the same as the type reported by <code><a class="el" href="structknncolle__hnsw_1_1HnswPrebuiltTypes.html#a2e774092081ba86c4a178c49db3cf1ad">HnswPrebuiltTypes::data</a></code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">prefix</td><td>Prefix of the file paths in which a prebuilt HNSW index was saved. An HNSW index is typically saved by calling the <code><a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Prebuilt.html#a87930f878bf3a22297b851173caaf893">knncolle::Prebuilt::save()</a></code> method of the HNSW subclass instance.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Pointer to a <code><a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Prebuilt.html">knncolle::Prebuilt</a></code> HNSW index. </dd></dl>
+
+</div>
+</div>
+<a id="ac7dba32a21f28000a286bf843dd06e37" name="ac7dba32a21f28000a286bf843dd06e37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7dba32a21f28000a286bf843dd06e37">&#9670;&#160;</a></span>load_hnsw_prebuilt_types()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structknncolle__hnsw_1_1HnswPrebuiltTypes.html">HnswPrebuiltTypes</a> knncolle_hnsw::load_hnsw_prebuilt_types </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>prefix</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">prefix</td><td>Prefix of the file paths in which a prebuilt HNSW index was saved. An HNSW index is typically saved by calling the <code><a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Prebuilt.html#a87930f878bf3a22297b851173caaf893">knncolle::Prebuilt::save()</a></code> method of the HNSW subclass instance.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Template types of the saved instance of a <code><a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Prebuilt.html">knncolle::Prebuilt</a></code> HNSW subclass. This is typically used to choose template parameters for <code><a class="el" href="#a346a21cc3b5f9146d23e5c9a060f3f4e">load_hnsw_prebuilt()</a></code>. </dd></dl>
+
+</div>
+</div>
 <a id="af72480cec632d4f9798b27f65c378a64" name="af72480cec632d4f9798b27f65c378a64"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af72480cec632d4f9798b27f65c378a64">&#9670;&#160;</a></span>makeEuclideanDistanceConfig()</h2>
 

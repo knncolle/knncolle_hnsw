@@ -18,6 +18,14 @@
     <class kind="class">knncolle_hnsw::HnswBuilder</class>
     <namespace>knncolle_hnsw</namespace>
   </compound>
+  <compound kind="file">
+    <name>load_hnsw_prebuilt.hpp</name>
+    <path>knncolle_hnsw/</path>
+    <filename>load__hnsw__prebuilt_8hpp.html</filename>
+    <includes id="knncolle__hnsw_8hpp" name="knncolle_hnsw.hpp" local="yes" import="no" module="no" objc="no">knncolle_hnsw.hpp</includes>
+    <class kind="struct">knncolle_hnsw::HnswPrebuiltTypes</class>
+    <namespace>knncolle_hnsw</namespace>
+  </compound>
   <compound kind="struct">
     <name>knncolle_hnsw::DistanceConfig</name>
     <filename>structknncolle__hnsw_1_1DistanceConfig.html</filename>
@@ -114,6 +122,17 @@
       <arglist></arglist>
     </member>
   </compound>
+  <compound kind="struct">
+    <name>knncolle_hnsw::HnswPrebuiltTypes</name>
+    <filename>structknncolle__hnsw_1_1HnswPrebuiltTypes.html</filename>
+    <member kind="variable">
+      <type>knncolle::NumericType</type>
+      <name>data</name>
+      <anchorfile>structknncolle__hnsw_1_1HnswPrebuiltTypes.html</anchorfile>
+      <anchor>a2e774092081ba86c4a178c49db3cf1ad</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
   <compound kind="class">
     <name>knncolle_hnsw::ManhattanDistance</name>
     <filename>classknncolle__hnsw_1_1ManhattanDistance.html</filename>
@@ -144,6 +163,7 @@
     <class kind="struct">knncolle_hnsw::DistanceConfig</class>
     <class kind="class">knncolle_hnsw::HnswBuilder</class>
     <class kind="struct">knncolle_hnsw::HnswOptions</class>
+    <class kind="struct">knncolle_hnsw::HnswPrebuiltTypes</class>
     <class kind="class">knncolle_hnsw::ManhattanDistance</class>
     <class kind="class">knncolle_hnsw::SquaredEuclideanDistance</class>
     <member kind="function">
@@ -159,6 +179,20 @@
       <anchorfile>namespaceknncolle__hnsw.html</anchorfile>
       <anchor>add8b061d7a40e3362e014dec07b59677</anchor>
       <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>HnswPrebuiltTypes</type>
+      <name>load_hnsw_prebuilt_types</name>
+      <anchorfile>namespaceknncolle__hnsw.html</anchorfile>
+      <anchor>ac7dba32a21f28000a286bf843dd06e37</anchor>
+      <arglist>(const std::string &amp;prefix)</arglist>
+    </member>
+    <member kind="function">
+      <type>auto</type>
+      <name>load_hnsw_prebuilt</name>
+      <anchorfile>namespaceknncolle__hnsw.html</anchorfile>
+      <anchor>a346a21cc3b5f9146d23e5c9a060f3f4e</anchor>
+      <arglist>(const std::string &amp;prefix)</arglist>
     </member>
   </compound>
   <compound kind="page">
