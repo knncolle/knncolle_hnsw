@@ -8,6 +8,7 @@
 #include <memory>
 #include <cstddef>
 #include <cstring>
+#include <cmath>
 
 #include "knncolle/knncolle.hpp"
 #include "hnswlib/hnswalg.h"
@@ -75,6 +76,24 @@ public:
         }
     }
 
+private:
+    void normalize_distances(std::vector<Distance_>& output_distances) const {
+        switch(my_parent.my_normalize_method) {
+            case DistanceNormalizeMethod::SQRT:
+                for (auto& d : output_distances) {
+                    d = std::sqrt(d);
+                }
+                break;
+            case DistanceNormalizeMethod::CUSTOM:
+                for (auto& d : output_distances) {
+                    d = my_parent.my_custom_normalize(d);
+                }
+                break;
+            case DistanceNormalizeMethod::NONE:
+                break;
+        }
+    }
+
 public:
     void search(Index_ i, Index_ k, std::vector<Index_>* output_indices, std::vector<Distance_>* output_distances) {
         my_buffer = my_parent.my_index.template getDataByLabel<HnswData_>(i);
@@ -128,10 +147,8 @@ public:
             }
         }
 
-        if (output_distances && my_parent.my_normalize) {
-            for (auto& d : *output_distances) {
-                d = my_parent.my_normalize(d);
-            }
+        if (output_distances) {
+            normalize_distances(*output_distances);
         }
     }
 
@@ -160,10 +177,8 @@ private:
             my_queue.pop();
         }
 
-        if (output_distances && my_parent.my_normalize) {
-            for (auto& d : *output_distances) {
-                d = my_parent.my_normalize(d);
-            }
+        if (output_distances) {
+            normalize_distances(*output_distances);
         }
     }
 
@@ -187,7 +202,8 @@ public:
         my_dim(data.num_dimensions()),
         my_obs(data.num_observations()),
         my_space(distance_config.create(my_dim)),
-        my_normalize(distance_config.normalize),
+        my_normalize_method(distance_config.normalize_method),
+        my_custom_normalize(distance_config.custom_normalize),
         my_index(my_space.get(), my_obs, options.num_links, options.ef_construction)
     {
         auto work = data.new_known_extractor();
@@ -217,7 +233,9 @@ private:
     // references to the object in my_index are still valid after copying.
     std::shared_ptr<hnswlib::SpaceInterface<HnswData_> > my_space;
 
-    std::function<HnswData_(HnswData_)> my_normalize;
+    DistanceNormalizeMethod my_normalize_method;
+    std::function<HnswData_(HnswData_)> my_custom_normalize;
+
     hnswlib::HierarchicalNSW<HnswData_> my_index;
 
     friend class HnswSearcher<Index_, Data_, Distance_, HnswData_>;
@@ -262,9 +280,7 @@ public:
         }
         knncolle::quick_save(prefix + "distance", distname, std::strlen(distname));
 
-        // TODO: provide standard normalizations.
-        const int normalize = bool(my_normalize);
-        knncolle::quick_save(prefix + "normalize", &normalize, 1);
+        knncolle::quick_save(prefix + "normalize", &my_normalize_method, 1);
 
         // Dear God, make saveIndex() const.
         auto index_ptr = const_cast<hnswlib::HierarchicalNSW<HnswData_>*>(&my_index);
@@ -309,14 +325,10 @@ public:
             return static_cast<hnswlib::SpaceInterface<HnswData_>*>(NULL);
         }()),
 
-        my_normalize([&]() {
-            int norm;
+        my_normalize_method([&]() {
+            DistanceNormalizeMethod norm;
             knncolle::quick_load(prefix + "normalize", &norm, 1);
-            if (norm) {
-                return std::function<HnswData_(HnswData_)>([](HnswData_ x) -> HnswData_ { return std::sqrt(x); });
-            } else {
-                return std::function<HnswData_(HnswData_)>();
-            }
+            return norm;
         }()),
 
         my_index(my_space.get(), prefix + "index")
@@ -370,6 +382,9 @@ public:
     HnswBuilder(DistanceConfig<HnswData_> distance_config, HnswOptions options) : my_distance_config(std::move(distance_config)), my_options(std::move(options)) {
         if (!my_distance_config.create) {
             throw std::runtime_error("'distance_config.create' was not provided");
+        }
+        if (my_distance_config.normalize_method == DistanceNormalizeMethod::CUSTOM && !my_distance_config.custom_normalize) {
+            throw std::runtime_error("'distance_config.custom_normalize' was not provided");
         }
     }
 

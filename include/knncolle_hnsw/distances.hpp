@@ -13,6 +13,15 @@
 namespace knncolle_hnsw {
 
 /**
+ * Methods for distance normalization.
+ * 
+ * - `SQRT` applies a square root, typically in conjunction with `hnswlib::L2Space` or `SquaredEuclideanDistance` to obtain the Euclidean distance.
+ * - `CUSTOM` applies a custom normalization function in `DistanceConfig::custom_normalize`.
+ * - `NONE` does not apply any normalization of the distances.
+ */
+enum class DistanceNormalizeMethod : char { SQRT, CUSTOM, NONE };
+
+/**
  * @brief Distance configuration for the HNSW index.
  *
  * @tparam HnswData_ Floating-point type for data in the HNSW index.
@@ -20,15 +29,20 @@ namespace knncolle_hnsw {
 template<typename HnswData_ = float>
 struct DistanceConfig {
     /**
-     * Create a `hnswlib::SpaceInterface` object, given the number of dimensions.
+     * Function that returns a pointer to a `hnswlib::SpaceInterface` instance, given the number of dimensions.
      */
     std::function<hnswlib::SpaceInterface<HnswData_>*(std::size_t)> create;
 
     /**
-     * Normalization function to convert distance measures from `hnswlib::SpaceInterface::get_dist_func()` into actual distances.
-     * If not provided , this defaults to a no-op.
+     * Method for normalizing distances.
      */
-    std::function<HnswData_(HnswData_)> normalize;
+    DistanceNormalizeMethod normalize_method;
+
+    /**
+     * Normalization function to convert distance measures from `hnswlib::SpaceInterface::get_dist_func()` into actual distances.
+     * This should be provided if `normalize_method = DistanceNormalizeMethod::CUSTOM`, otherwise it is ignored.
+     */
+    std::function<HnswData_(HnswData_)> custom_normalize;
 };
 
 /**
@@ -145,9 +159,7 @@ DistanceConfig<HnswData_> makeEuclideanDistanceConfig() {
             return static_cast<hnswlib::SpaceInterface<HnswData_>*>(new SquaredEuclideanDistance<HnswData_>(dim));
         }
     };
-    output.normalize = [](HnswData_ x) -> HnswData_ {
-        return std::sqrt(x);
-    };
+    output.normalize_method = DistanceNormalizeMethod::SQRT;
     return output;
 }
 
@@ -161,6 +173,7 @@ DistanceConfig<HnswData_> makeManhattanDistanceConfig() {
     output.create = [](std::size_t dim) -> hnswlib::SpaceInterface<HnswData_>* {
         return static_cast<hnswlib::SpaceInterface<HnswData_>*>(new knncolle_hnsw::ManhattanDistance<HnswData_>(dim));
     };
+    output.normalize_method = DistanceNormalizeMethod::NONE;
     return output;
 }
 

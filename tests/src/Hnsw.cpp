@@ -163,14 +163,25 @@ TEST(Hnsw, Constructor) {
     EXPECT_EQ(mutant.get_options().num_links, 1000);
 
     // Checking that we throw errors correctly if the configuration has no distance.
-    knncolle_hnsw::DistanceConfig<float> emptydist;
+    knncolle_hnsw::DistanceConfig<double, float> emptydist;
     std::string msg;
     try {
         knncolle_hnsw::HnswBuilder<int, double, double> emptyobj(emptydist);
     } catch (std::exception& e) {
         msg = e.what();
     }
-    EXPECT_TRUE(msg.find("not provided") != std::string::npos);
+    EXPECT_TRUE(msg.find("create") != std::string::npos);
+
+    // Checking that we throw errors correctly if the custom normalize is not supplied.
+    auto nocust = euconfig;
+    nocust.normalize_method = knncolle_hnsw::DistanceNormalizeMethod::CUSTOM;
+    msg.clear();
+    try {
+        knncolle_hnsw::HnswBuilder<int, double, double> emptyobj(nocust);
+    } catch (std::exception& e) {
+        msg = e.what();
+    }
+    EXPECT_TRUE(msg.find("custom_normalize") != std::string::npos);
 }
 
 #include <filesystem>
@@ -207,10 +218,11 @@ TEST_F(HnswMiscTest, EuclideanDouble) {
     }
 }
 
-TEST_F(HnswMiscTest, EuclideanNormalize) {
+TEST_F(HnswMiscTest, CustomNormalize) {
     // Checking that the normalization option is respected.
     auto distconfig = knncolle_hnsw::makeEuclideanDistanceConfig<float>();
-    distconfig.normalize = [](float x) -> float { return x + 1; };
+    distconfig.normalize_method = knncolle_hnsw::DistanceNormalizeMethod::CUSTOM;
+    distconfig.custom_normalize = [](float x) -> float { return x + 1; };
 
     knncolle::SimpleMatrix<int, double> mat(ndim, nobs, data.data());
     knncolle_hnsw::HnswBuilder<int, double, double> builder(std::move(distconfig)); 
