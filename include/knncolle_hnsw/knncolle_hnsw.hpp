@@ -7,11 +7,13 @@
 #include <algorithm>
 #include <memory>
 #include <cstddef>
+#include <cstring>
 
 #include "knncolle/knncolle.hpp"
 #include "hnswlib/hnswalg.h"
 
 #include "distances.hpp"
+#include "utils.hpp"
 
 /**
  * @file knncolle_hnsw.hpp
@@ -241,6 +243,88 @@ public:
     auto initialize_known() const {
         return std::make_unique<HnswSearcher<Index_, Data_, Distance_, HnswData_> >(*this);
     }
+
+public:
+    void save(const std::string& prefix) const {
+        knncolle::quick_save(prefix + "ALGORITHM", save_name, std::strlen(save_name));
+        knncolle::quick_save(prefix + "num_obs", &my_obs, 1);
+        knncolle::quick_save(prefix + "num_dim", &my_dim, 1);
+
+        auto type = knncolle::get_numeric_type<HnswData_>();
+        knncolle::quick_save(prefix + "type", &type, 1);
+
+        const char* distname;
+        if (dynamic_cast<const hnswlib::L2Space*>(my_space.get()) != NULL) {
+            distname = "l2";
+        } else if (dynamic_cast<const SquaredEuclideanDistance<HnswData_>*>(my_space.get()) != NULL) {
+            distname = "squared_euclidean";
+        } else if (dynamic_cast<const ManhattanDistance<HnswData_>*>(my_space.get()) != NULL) {
+            distname = "manhattan";
+        } else {
+            // TODO: put a custom handler in here.
+            distname = "unknown";
+        }
+        knncolle::quick_save(prefix + "distance", distname, std::strlen(distname));
+
+        // TODO: provide standard normalizations.
+        const int normalize = bool(my_normalize);
+        knncolle::quick_save(prefix + "normalize", &normalize, 1);
+
+        // Dear God, make saveIndex() const.
+        auto index_ptr = const_cast<hnswlib::HierarchicalNSW<HnswData_>*>(&my_index);
+        index_ptr->saveIndex(prefix + "index");
+    }
+
+    HnswPrebuilt(const std::string& prefix) : 
+        my_dim([&]() {
+            std::size_t dim;
+            knncolle::quick_load(prefix + "num_dim", &dim, 1);
+            return dim;
+        }()),
+
+        my_obs([&]() {
+            Index_ obs;
+            knncolle::quick_load(prefix + "num_obs", &obs, 1);
+            return obs;
+        }()),
+
+        my_space([&]() {
+            std::ifstream input(prefix + "distance");
+            if (!input) {
+                throw std::runtime_error("failed to open the distance file");
+            }
+
+            input.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+            std::string method( (std::istreambuf_iterator<char>(input)), (std::istreambuf_iterator<char>()) );
+
+            if constexpr(std::is_same<HnswData_, float>::value) {
+                if (method == "l2") {
+                    return static_cast<hnswlib::SpaceInterface<HnswData_>*>(new hnswlib::L2Space(my_dim));
+                }
+            }
+
+            if (method == "squared_euclidean") {
+                return static_cast<hnswlib::SpaceInterface<HnswData_>*>(new SquaredEuclideanDistance<HnswData_>(my_dim));
+            } else if (method == "manhattan") {
+                return static_cast<hnswlib::SpaceInterface<HnswData_>*>(new ManhattanDistance<HnswData_>(my_dim));
+            }
+
+            throw std::runtime_error("unknown space calculation");
+            return static_cast<hnswlib::SpaceInterface<HnswData_>*>(NULL);
+        }()),
+
+        my_normalize([&]() {
+            int norm;
+            knncolle::quick_load(prefix + "normalize", &norm, 1);
+            if (norm) {
+                return std::function<HnswData_(HnswData_)>([](HnswData_ x) -> HnswData_ { return std::sqrt(x); });
+            } else {
+                return std::function<HnswData_(HnswData_)>();
+            }
+        }()),
+
+        my_index(my_space.get(), prefix + "index")
+    {}
 };
 /**
  * @endcond
