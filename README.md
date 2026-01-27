@@ -27,7 +27,7 @@ std::vector<double> matrix(ndim * nobs); // column-major ndim * nobs matrix.
 knncolle::SimpleMatrix<int, double> mat(ndim, nobs, matrix.data());
 
 // Build a HNSW index, defaulting to Euclidean distances.
-auto euclid_config = knncolle_hnsw::makeEuclideanDistanceConfig();
+auto euclid_config = knncolle_hnsw::configure_euclidean_distance<double>();
 knncolle_hnsw::HnswBuilder<int, double, double> h_builder(euclid_config);
 auto h_index = h_builder.build_unique(mat);
 

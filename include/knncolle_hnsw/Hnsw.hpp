@@ -198,7 +198,7 @@ template<typename Index_, typename Data_, typename Distance_, typename HnswData_
 class HnswPrebuilt : public knncolle::Prebuilt<Index_, Data_, Distance_> {
 public:
     template<class Matrix_>
-    HnswPrebuilt(const Matrix_& data, const DistanceConfig<HnswData_>& distance_config, const HnswOptions& options) :
+    HnswPrebuilt(const Matrix_& data, const DistanceConfig<Distance_, HnswData_>& distance_config, const HnswOptions& options) :
         my_dim(data.num_dimensions()),
         my_obs(data.num_observations()),
         my_space(distance_config.create(my_dim)),
@@ -234,7 +234,7 @@ private:
     std::shared_ptr<hnswlib::SpaceInterface<HnswData_> > my_space;
 
     DistanceNormalizeMethod my_normalize_method;
-    std::function<HnswData_(HnswData_)> my_custom_normalize;
+    std::function<Distance_(Distance_)> my_custom_normalize;
 
     hnswlib::HierarchicalNSW<HnswData_> my_index;
 
@@ -371,15 +371,18 @@ template<
 >
 class HnswBuilder : public knncolle::Builder<Index_, Data_, Distance_, Matrix_> {
 private:
-    DistanceConfig<HnswData_> my_distance_config;
+    DistanceConfig<Distance_, HnswData_> my_distance_config;
     HnswOptions my_options;
 
 public:
     /**
-     * @param distance_config Configuration for computing distances in the HNSW index, e.g., `makeEuclideanDistanceConfig()`.
+     * @param distance_config Configuration for computing distances in the HNSW index, e.g., `configure_euclidean_distance()`.
      * @param options Further options for HNSW index construction and searching.
      */
-    HnswBuilder(DistanceConfig<HnswData_> distance_config, HnswOptions options) : my_distance_config(std::move(distance_config)), my_options(std::move(options)) {
+    HnswBuilder(DistanceConfig<Distance_, HnswData_> distance_config, HnswOptions options) :
+        my_distance_config(std::move(distance_config)),
+        my_options(std::move(options))
+    {
         if (!my_distance_config.create) {
             throw std::runtime_error("'distance_config.create' was not provided");
         }
@@ -390,9 +393,9 @@ public:
 
     /**
      * Overload that uses the default `Options`.
-     * @param distance_config Configuration for computing distances in the HNSW index, e.g., `makeEuclideanDistanceConfig()`.
+     * @param distance_config Configuration for computing distances in the HNSW index, e.g., `configure_euclidean_distance()`.
      */
-    HnswBuilder(DistanceConfig<HnswData_> distance_config) : HnswBuilder(std::move(distance_config), {}) {}
+    HnswBuilder(DistanceConfig<Distance_, HnswData_> distance_config) : HnswBuilder(std::move(distance_config), {}) {}
 
     /**
      * @return Options for HNSW, to be modified prior to calling `build_raw()` and friends.

@@ -1,9 +1,9 @@
 #ifndef KNNCOLLE_HNSW_DISTANCES_HPP
 #define KNNCOLLE_HNSW_DISTANCES_HPP
 
-#include <cmath>
 #include <functional>
 #include <cstddef>
+#include <type_traits>
 
 /**
  * @file distances.hpp
@@ -24,9 +24,10 @@ enum class DistanceNormalizeMethod : char { SQRT, CUSTOM, NONE };
 /**
  * @brief Distance configuration for the HNSW index.
  *
+ * @tparam Distance_ Floating-point type for the distances.
  * @tparam HnswData_ Floating-point type for data in the HNSW index.
  */
-template<typename HnswData_ = float>
+template<typename Distance_, typename HnswData_ = float>
 struct DistanceConfig {
     /**
      * Function that returns a pointer to a `hnswlib::SpaceInterface` instance, given the number of dimensions.
@@ -39,10 +40,10 @@ struct DistanceConfig {
     DistanceNormalizeMethod normalize_method;
 
     /**
-     * Normalization function to convert distance measures from `hnswlib::SpaceInterface::get_dist_func()` into actual distances.
-     * This should be provided if `normalize_method = DistanceNormalizeMethod::CUSTOM`, otherwise it is ignored.
+     * Normalization function to convert the output of `hnswlib::SpaceInterface::get_dist_func()` into actual distances.
+     * This must be provided if `normalize_method = DistanceNormalizeMethod::CUSTOM`, otherwise it is ignored.
      */
-    std::function<HnswData_(HnswData_)> custom_normalize;
+    std::function<Distance_(Distance_)> custom_normalize;
 };
 
 /**
@@ -145,13 +146,14 @@ private:
 };
 
 /**
+ * @tparam Distance_ Floating-point type for the distances.
  * @tparam HnswData_ Type of data in the HNSW index, usually floating-point.
  * @return Configuration for using Euclidean distances in the HNSW index.
  * `DistanceConfig::create` is set to `hnswlib::L2Space` if `HnswData_ = float`, otherwise it is set to `SquaredEuclideanDistance`.
  */
-template<typename HnswData_ = float>
-DistanceConfig<HnswData_> makeEuclideanDistanceConfig() {
-    DistanceConfig<HnswData_> output;
+template<typename Distance_, typename HnswData_>
+DistanceConfig<Distance_, HnswData_> configure_euclidean_distance() {
+    DistanceConfig<Distance_, HnswData_> output;
     output.create = [](std::size_t dim) -> hnswlib::SpaceInterface<HnswData_>* {
         if constexpr(std::is_same<HnswData_, float>::value) {
             return static_cast<hnswlib::SpaceInterface<HnswData_>*>(new hnswlib::L2Space(dim));
@@ -164,18 +166,36 @@ DistanceConfig<HnswData_> makeEuclideanDistanceConfig() {
 }
 
 /**
+ * @tparam Distance_ Floating-point type for the distances.
  * @tparam HnswData_ Type of data in the HNSW index, usually floating-point.
  * @return Configuration for using Manhattan distances in the HNSW index.
  */
-template<typename HnswData_ = float>
-DistanceConfig<HnswData_> makeManhattanDistanceConfig() {
-    DistanceConfig<HnswData_> output;
+template<typename Distance_, typename HnswData_>
+DistanceConfig<Distance_, HnswData_> configure_manhattan_distance() {
+    DistanceConfig<Distance_, HnswData_> output;
     output.create = [](std::size_t dim) -> hnswlib::SpaceInterface<HnswData_>* {
         return static_cast<hnswlib::SpaceInterface<HnswData_>*>(new knncolle_hnsw::ManhattanDistance<HnswData_>(dim));
     };
     output.normalize_method = DistanceNormalizeMethod::NONE;
     return output;
 }
+
+/**
+ * @cond
+ */
+// Preserved for back-compatibility.
+template<typename HnswData_ = float, typename Distance_ = double>
+DistanceConfig<Distance_, HnswData_> makeEuclideanDistanceConfig() {
+    return configure_euclidean_distance<Distance_, HnswData_>();
+}
+
+template<typename HnswData_ = float, typename Distance_ = double>
+DistanceConfig<Distance_, HnswData_> makeManhattanDistanceConfig() {
+    return configure_manhattan_distance<Distance_, HnswData_>();
+}
+/**
+ * @endcond
+ */
 
 }
 
