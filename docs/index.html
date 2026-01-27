@@ -106,16 +106,16 @@ Quick start</h1>
 <div class="line"><a class="code hl_classRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1SimpleMatrix.html">knncolle::SimpleMatrix&lt;int, double&gt;</a> mat(ndim, nobs, matrix.data());</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Build a HNSW index, defaulting to Euclidean distances.</span></div>
-<div class="line"><span class="keyword">auto</span> euclid_config = <a class="code hl_function" href="namespaceknncolle__hnsw.html#af72480cec632d4f9798b27f65c378a64">knncolle_hnsw::makeEuclideanDistanceConfig</a>();</div>
+<div class="line"><span class="keyword">auto</span> euclid_config = <a class="code hl_function" href="namespaceknncolle__hnsw.html#a939b7a0484ad0abb8ad2771e22b2f763">knncolle_hnsw::configure_euclidean_distance&lt;double&gt;</a>();</div>
 <div class="line"><a class="code hl_class" href="classknncolle__hnsw_1_1HnswBuilder.html">knncolle_hnsw::HnswBuilder&lt;int, double, double&gt;</a> h_builder(euclid_config);</div>
 <div class="line"><span class="keyword">auto</span> h_index = h_builder.build_unique(mat);</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Find 10 (approximate) nearest neighbors of every element.</span></div>
 <div class="line"><span class="keyword">auto</span> results = <a class="code hl_functionRef" href="https://knncolle.github.io/knncolle/namespaceknncolle.html#a2c6d8b116464bab254bda34216338c3c">knncolle::find_nearest_neighbors</a>(*h_index, 10); </div>
 <div class="ttc" id="aclassknncolle_1_1SimpleMatrix_html"><div class="ttname"><a href="https://knncolle.github.io/knncolle/classknncolle_1_1SimpleMatrix.html">knncolle::SimpleMatrix</a></div></div>
-<div class="ttc" id="aclassknncolle__hnsw_1_1HnswBuilder_html"><div class="ttname"><a href="classknncolle__hnsw_1_1HnswBuilder.html">knncolle_hnsw::HnswBuilder</a></div><div class="ttdoc">Perform an approximate nearest neighbor search with HNSW.</div><div class="ttdef"><b>Definition</b> knncolle_hnsw.hpp:364</div></div>
+<div class="ttc" id="aclassknncolle__hnsw_1_1HnswBuilder_html"><div class="ttname"><a href="classknncolle__hnsw_1_1HnswBuilder.html">knncolle_hnsw::HnswBuilder</a></div><div class="ttdoc">Perform an approximate nearest neighbor search with HNSW.</div><div class="ttdef"><b>Definition</b> Hnsw.hpp:372</div></div>
 <div class="ttc" id="aknncolle__hnsw_8hpp_html"><div class="ttname"><a href="knncolle__hnsw_8hpp.html">knncolle_hnsw.hpp</a></div><div class="ttdoc">Approximate nearest neighbor search with HNSW.</div></div>
-<div class="ttc" id="anamespaceknncolle__hnsw_html_af72480cec632d4f9798b27f65c378a64"><div class="ttname"><a href="namespaceknncolle__hnsw.html#af72480cec632d4f9798b27f65c378a64">knncolle_hnsw::makeEuclideanDistanceConfig</a></div><div class="ttdeci">DistanceConfig&lt; HnswData_ &gt; makeEuclideanDistanceConfig()</div><div class="ttdef"><b>Definition</b> distances.hpp:139</div></div>
+<div class="ttc" id="anamespaceknncolle__hnsw_html_a939b7a0484ad0abb8ad2771e22b2f763"><div class="ttname"><a href="namespaceknncolle__hnsw.html#a939b7a0484ad0abb8ad2771e22b2f763">knncolle_hnsw::configure_euclidean_distance</a></div><div class="ttdeci">DistanceConfig&lt; Distance_, HnswData_ &gt; configure_euclidean_distance()</div><div class="ttdef"><b>Definition</b> distances.hpp:155</div></div>
 <div class="ttc" id="anamespaceknncolle_html_a2c6d8b116464bab254bda34216338c3c"><div class="ttname"><a href="https://knncolle.github.io/knncolle/namespaceknncolle.html#a2c6d8b116464bab254bda34216338c3c">knncolle::find_nearest_neighbors</a></div><div class="ttdeci">NeighborList&lt; Index_, Distance_ &gt; find_nearest_neighbors(const Prebuilt&lt; Index_, Data_, Distance_ &gt; &amp;index, int k, int num_threads=1)</div></div>
 </div><!-- fragment --><p>Check out the <a href="https://knncolle.github.io/knncolle_hnsw/">reference documentation</a> for more details.</p>
 <h1><a class="anchor" id="autotoc_md3"></a>
@@ -127,8 +127,8 @@ Customizing the search</h1>
 <div class="line">    knncolle_hnsw::newManhattanDistanceConfig(),</div>
 <div class="line">    h_opts</div>
 <div class="line">);</div>
-<div class="ttc" id="astructknncolle__hnsw_1_1HnswOptions_html"><div class="ttname"><a href="structknncolle__hnsw_1_1HnswOptions.html">knncolle_hnsw::HnswOptions</a></div><div class="ttdoc">Options for HnswBuilder and HnswPrebuilt.</div><div class="ttdef"><b>Definition</b> knncolle_hnsw.hpp:36</div></div>
-<div class="ttc" id="astructknncolle__hnsw_1_1HnswOptions_html_a53d97ffff91e897c5612aefe23b17d97"><div class="ttname"><a href="structknncolle__hnsw_1_1HnswOptions.html#a53d97ffff91e897c5612aefe23b17d97">knncolle_hnsw::HnswOptions::num_links</a></div><div class="ttdeci">int num_links</div><div class="ttdef"><b>Definition</b> knncolle_hnsw.hpp:42</div></div>
+<div class="ttc" id="astructknncolle__hnsw_1_1HnswOptions_html"><div class="ttname"><a href="structknncolle__hnsw_1_1HnswOptions.html">knncolle_hnsw::HnswOptions</a></div><div class="ttdoc">Options for HnswBuilder and HnswPrebuilt.</div><div class="ttdef"><b>Definition</b> Hnsw.hpp:33</div></div>
+<div class="ttc" id="astructknncolle__hnsw_1_1HnswOptions_html_a53d97ffff91e897c5612aefe23b17d97"><div class="ttname"><a href="structknncolle__hnsw_1_1HnswOptions.html#a53d97ffff91e897c5612aefe23b17d97">knncolle_hnsw::HnswOptions::num_links</a></div><div class="ttdeci">int num_links</div><div class="ttdef"><b>Definition</b> Hnsw.hpp:39</div></div>
 </div><!-- fragment --><p>We could also modify the builder after construction, which will affect all subsequently constructed indices:</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span>&amp; more_opt = h_builder.get_options()</div>
 <div class="line">more_opt.ef_construction = 250;</div>

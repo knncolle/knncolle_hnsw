@@ -13,35 +13,41 @@
     <name>knncolle_hnsw.hpp</name>
     <path>knncolle_hnsw/</path>
     <filename>knncolle__hnsw_8hpp.html</filename>
+    <includes id="load__hnsw__prebuilt_8hpp" name="load_hnsw_prebuilt.hpp" local="yes" import="no" module="no" objc="no">load_hnsw_prebuilt.hpp</includes>
     <includes id="distances_8hpp" name="distances.hpp" local="yes" import="no" module="no" objc="no">distances.hpp</includes>
-    <class kind="struct">knncolle_hnsw::HnswOptions</class>
-    <class kind="class">knncolle_hnsw::HnswBuilder</class>
     <namespace>knncolle_hnsw</namespace>
   </compound>
   <compound kind="file">
     <name>load_hnsw_prebuilt.hpp</name>
     <path>knncolle_hnsw/</path>
     <filename>load__hnsw__prebuilt_8hpp.html</filename>
-    <includes id="knncolle__hnsw_8hpp" name="knncolle_hnsw.hpp" local="yes" import="no" module="no" objc="no">knncolle_hnsw.hpp</includes>
     <class kind="struct">knncolle_hnsw::HnswPrebuiltTypes</class>
     <namespace>knncolle_hnsw</namespace>
   </compound>
   <compound kind="struct">
     <name>knncolle_hnsw::DistanceConfig</name>
     <filename>structknncolle__hnsw_1_1DistanceConfig.html</filename>
+    <templarg>typename Distance_</templarg>
     <templarg>typename HnswData_</templarg>
     <member kind="variable">
       <type>std::function&lt; hnswlib::SpaceInterface&lt; HnswData_ &gt; *(std::size_t)&gt;</type>
       <name>create</name>
       <anchorfile>structknncolle__hnsw_1_1DistanceConfig.html</anchorfile>
-      <anchor>a58ad45a2489b1fb8617fe53f50add65e</anchor>
+      <anchor>a631f9820cbc2e7fbbeab10a78019d483</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
-      <type>std::function&lt; HnswData_(HnswData_)&gt;</type>
-      <name>normalize</name>
+      <type>DistanceNormalizeMethod</type>
+      <name>normalize_method</name>
       <anchorfile>structknncolle__hnsw_1_1DistanceConfig.html</anchorfile>
-      <anchor>a2af07892aaeeb8ff3a48548177580418</anchor>
+      <anchor>a4aaf38f2e2c2dbe37c237456fa958280</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>std::function&lt; Distance_(Distance_)&gt;</type>
+      <name>custom_normalize</name>
+      <anchorfile>structknncolle__hnsw_1_1DistanceConfig.html</anchorfile>
+      <anchor>a8304619fe87fcb3fdaa0d6e109ec1a97</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -58,15 +64,15 @@
       <type></type>
       <name>HnswBuilder</name>
       <anchorfile>classknncolle__hnsw_1_1HnswBuilder.html</anchorfile>
-      <anchor>a636724c701dc560c47b1ed73e855d859</anchor>
-      <arglist>(DistanceConfig&lt; HnswData_ &gt; distance_config, HnswOptions options)</arglist>
+      <anchor>ab5e4afeb34e906a90a335303cb4e6909</anchor>
+      <arglist>(DistanceConfig&lt; Distance_, HnswData_ &gt; distance_config, HnswOptions options)</arglist>
     </member>
     <member kind="function">
       <type></type>
       <name>HnswBuilder</name>
       <anchorfile>classknncolle__hnsw_1_1HnswBuilder.html</anchorfile>
-      <anchor>aff1faf7bbd1869ff3bad2a0f3021559b</anchor>
-      <arglist>(DistanceConfig&lt; HnswData_ &gt; distance_config)</arglist>
+      <anchor>a97efed8df629c04f9d629b3642961a97</anchor>
+      <arglist>(DistanceConfig&lt; Distance_, HnswData_ &gt; distance_config)</arglist>
     </member>
     <member kind="function">
       <type>HnswOptions &amp;</type>
@@ -166,18 +172,28 @@
     <class kind="struct">knncolle_hnsw::HnswPrebuiltTypes</class>
     <class kind="class">knncolle_hnsw::ManhattanDistance</class>
     <class kind="class">knncolle_hnsw::SquaredEuclideanDistance</class>
-    <member kind="function">
-      <type>DistanceConfig&lt; HnswData_ &gt;</type>
-      <name>makeEuclideanDistanceConfig</name>
+    <member kind="enumeration">
+      <type></type>
+      <name>DistanceNormalizeMethod</name>
       <anchorfile>namespaceknncolle__hnsw.html</anchorfile>
-      <anchor>af72480cec632d4f9798b27f65c378a64</anchor>
+      <anchor>a8040b86dbf364125600c3ffa0b17957d</anchor>
+      <arglist></arglist>
+      <enumvalue file="namespaceknncolle__hnsw.html" anchor="a8040b86dbf364125600c3ffa0b17957da36875f2500a09ee35d0bb7eb8c0b91b0">SQRT</enumvalue>
+      <enumvalue file="namespaceknncolle__hnsw.html" anchor="a8040b86dbf364125600c3ffa0b17957da72baef04098f035e8a320b03ad197818">CUSTOM</enumvalue>
+      <enumvalue file="namespaceknncolle__hnsw.html" anchor="a8040b86dbf364125600c3ffa0b17957dab50339a10e1de285ac99d4c3990b8693">NONE</enumvalue>
+    </member>
+    <member kind="function">
+      <type>DistanceConfig&lt; Distance_, HnswData_ &gt;</type>
+      <name>configure_euclidean_distance</name>
+      <anchorfile>namespaceknncolle__hnsw.html</anchorfile>
+      <anchor>a939b7a0484ad0abb8ad2771e22b2f763</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
-      <type>DistanceConfig&lt; HnswData_ &gt;</type>
-      <name>makeManhattanDistanceConfig</name>
+      <type>DistanceConfig&lt; Distance_, HnswData_ &gt;</type>
+      <name>configure_manhattan_distance</name>
       <anchorfile>namespaceknncolle__hnsw.html</anchorfile>
-      <anchor>add8b061d7a40e3362e014dec07b59677</anchor>
+      <anchor>ac959f593dc491c48398c92d0aa56e579</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['numerictype_0',['NumericType',['https://knncolle.github.io/knncolle/namespaceknncolle.html#a9aa73a4ad540791a911eb9fa64b51de3',1,'knncolle']]]
+  ['distancenormalizemethod_0',['DistanceNormalizeMethod',['../namespaceknncolle__hnsw.html#a8040b86dbf364125600c3ffa0b17957d',1,'knncolle_hnsw']]]
 ];
