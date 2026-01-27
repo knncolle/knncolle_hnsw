@@ -17,6 +17,7 @@ enable_testing()
 add_executable(
     libtest
     src/Hnsw.cpp
+    src/load_hnsw_prebuilt.cpp
 )
 
 target_link_libraries(

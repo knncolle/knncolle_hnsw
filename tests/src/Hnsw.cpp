@@ -1,63 +1,12 @@
 #include <gtest/gtest.h>
-#include "knncolle_hnsw/knncolle_hnsw.hpp"
+#include "knncolle_hnsw/Hnsw.hpp"
 
-#include <random>
 #include <vector>
+#include <tuple>
+#include <cmath>
+#include <random>
 
-class TestCore {
-protected:
-    inline static int nobs, ndim;
-    inline static std::vector<double> data;
-    inline static std::tuple<int, int> last_params;
-
-protected:
-    static void assemble(const std::tuple<int, int>& param) {
-        if (param == last_params) {
-            return;
-        }
-        last_params = param;
-
-        nobs = std::get<0>(param);
-        ndim = std::get<1>(param);
-
-        std::mt19937_64 rng(nobs * 10 + ndim);
-        std::normal_distribution distr;
-
-        data.resize(nobs * ndim);
-        for (auto& d : data) {
-            d = distr(rng);
-        }
-    }
-
-    template<class It_, class Rng_>
-    static void fill_random(It_ start, It_ end, Rng_& eng) {
-        std::normal_distribution distr;
-        while (start != end) {
-            *start = distr(eng);
-            ++start;
-        }
-    }
-
-protected:
-    static void sanity_checks(const std::vector<int>& indices, const std::vector<double>& distances) {
-        EXPECT_TRUE(std::is_sorted(distances.begin(), distances.end())); // sorted by increasing distance.
-
-        auto sorted = indices;
-        std::sort(sorted.begin(), sorted.end());
-        EXPECT_TRUE(std::adjacent_find(sorted.begin(), sorted.end()) == sorted.end()); // all neighbors are unique.
-    }
-
-    static void sanity_checks(const std::vector<int>& indices, const std::vector<double>& distances, int k, int self) { // for finding by index
-        EXPECT_EQ(indices.size(), distances.size());
-        EXPECT_EQ(indices.size(), std::min(k, nobs - 1));
-
-        for (const auto& ix : indices) { // self is not in there.
-            EXPECT_TRUE(ix != self);
-        }
-
-        sanity_checks(indices, distances);
-    }
-};
+#include "TestCore.h"
 
 class HnswTest : public TestCore, public ::testing::TestWithParam<std::tuple<std::tuple<int, int>, int> > {
 protected:
@@ -315,67 +264,5 @@ TEST(Hnsw, Duplicates) {
         EXPECT_EQ(dres, dres0);
         bsptr->search(x, 10, &ires0, NULL);
         EXPECT_EQ(ires, ires0);
-    }
-}
-
-class HnswLoadPrebuiltTest : public TestCore, public ::testing::Test {
-protected:
-    inline static std::filesystem::path savedir;
-
-    static void SetUpTestSuite() {
-        assemble({ 50, 5 });
-
-        savedir = "save-prebuilt-tests";
-        std::filesystem::remove_all(savedir);
-        std::filesystem::create_directory(savedir);
-
-        auto& reg = knncolle::load_prebuilt_registry<int, double, double>();
-        reg[knncolle_hnsw::save_name] = [](const std::string& prefix) -> knncolle::Prebuilt<int, double, double>* {
-            auto scanned = knncolle_hnsw::load_hnsw_prebuilt_types(prefix);
-            assert(scanned.data == knncolle::NumericType::FLOAT);
-            return knncolle_hnsw::load_hnsw_prebuilt<int, double, double, float>(prefix);
-        };
-    }
-};
-
-TEST_F(HnswLoadPrebuiltTest, Euclidean) {
-    knncolle_hnsw::HnswBuilder<int, double, double> ab(knncolle_hnsw::makeEuclideanDistanceConfig());
-    auto aptr = ab.build_unique(knncolle::SimpleMatrix<int, double>(ndim, nobs, data.data()));
-
-    const auto prefix = (savedir / "euclidean_").string();
-    aptr->save(prefix);
-
-    auto reloaded = knncolle::load_prebuilt_shared<int, double, double>(prefix);
-    std::vector<int> output_i, output_i2;
-    std::vector<double> output_d, output_d2;
-
-    auto searcher = aptr->initialize();
-    auto researcher = reloaded->initialize();
-    for (int x = 0; x < nobs; ++x) {
-        searcher->search(x, 5, &output_i, &output_d);
-        researcher->search(x, 5, &output_i2, &output_d2);
-        EXPECT_EQ(output_i, output_i2);
-        EXPECT_EQ(output_d, output_d2);
-    }
-}
-
-TEST_F(HnswLoadPrebuiltTest, Manhattan) {
-    knncolle_hnsw::HnswBuilder<int, double, double> ab(knncolle_hnsw::makeManhattanDistanceConfig());
-    auto aptr = ab.build_unique(knncolle::SimpleMatrix<int, double>(ndim, nobs, data.data()));
-
-    const auto prefix = (savedir / "manhattan_").string();
-    aptr->save(prefix);
-
-    auto reloaded = knncolle::load_prebuilt_shared<int, double, double>(prefix);
-    std::vector<int> output_i, output_i2;
-    std::vector<double> output_d, output_d2;
-
-    auto searcher = aptr->initialize();
-    auto researcher = reloaded->initialize();
-    for (int x = 0; x < nobs; ++x) {
-        searcher->search(x, 5, &output_i, &output_d);
-        researcher->search(x, 5, &output_i2, &output_d2);
-        EXPECT_EQ(output_i, output_i2);
-        EXPECT_EQ(output_d, output_d2);
     }
 }

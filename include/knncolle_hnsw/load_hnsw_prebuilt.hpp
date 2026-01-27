@@ -2,7 +2,7 @@
 #define KNNCOLLE_HNSW_LOAD_PREBUILT_HPP
 
 #include "utils.hpp"
-#include "knncolle_hnsw.hpp"
+#include "Hnsw.hpp"
 
 #include <cstddef>
 #include <stdexcept>
