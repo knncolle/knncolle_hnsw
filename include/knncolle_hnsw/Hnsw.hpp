@@ -306,20 +306,13 @@ public:
         }()),
 
         my_space([&]() {
-            std::ifstream input(prefix + "distance");
-            if (!input) {
-                throw std::runtime_error("failed to open the distance file");
-            }
-
-            input.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-            std::string method( (std::istreambuf_iterator<char>(input)), (std::istreambuf_iterator<char>()) );
+            std::string method = knncolle::quick_load_as_string(prefix + "distance");
 
             if constexpr(std::is_same<HnswData_, float>::value) {
                 if (method == "l2") {
                     return static_cast<hnswlib::SpaceInterface<HnswData_>*>(new hnswlib::L2Space(my_dim));
                 }
             }
-
             if (method == "squared_euclidean") {
                 return static_cast<hnswlib::SpaceInterface<HnswData_>*>(new SquaredEuclideanDistance<HnswData_>(my_dim));
             } else if (method == "manhattan") {
