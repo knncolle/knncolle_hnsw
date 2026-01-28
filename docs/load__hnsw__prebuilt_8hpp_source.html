@@ -122,7 +122,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>}</div>
 </div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Index_, <span class="keyword">typename</span> Data_, <span class="keyword">typename</span> Distance_, <span class="keyword">typename</span> HnswData_&gt;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> Index_, <span class="keyword">typename</span> Data_, <span class="keyword">typename</span> Distance_, <span class="keyword">typename</span> HnswData_ = <span class="keywordtype">float</span>&gt;</div>
 <div class="foldopen" id="foldopen00073" data-start="{" data-end="}">
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="namespaceknncolle__hnsw.html#a346a21cc3b5f9146d23e5c9a060f3f4e">   73</a></span><span class="keyword">auto</span> <a class="code hl_function" href="namespaceknncolle__hnsw.html#a346a21cc3b5f9146d23e5c9a060f3f4e">load_hnsw_prebuilt</a>(<span class="keyword">const</span> std::string&amp; prefix) {</div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordflow">return</span> <span class="keyword">new</span> HnswPrebuilt&lt;Index_, Data_, Distance_, HnswData_&gt;(prefix);</div>
