@@ -261,7 +261,7 @@ template&lt;typename HnswData_ &gt; </div>
 </div><div class="memdoc">
 <p>Define a global function to create a distance metric that is not known to <code><a class="el" href="#aaa9ea4c3758a81f63581b0880ae0434c">get_distance_name()</a></code> when loading a HNSW index from disk. Users are expected to provide their own function to regenerate any distance metric that was saved by <code><a class="el" href="#a7174a48a7415da18109520f5739da471">custom_save_for_hnsw_distance()</a></code>. Any modifications to this function are not thread-safe and should be done in a serial section.</p>
 <p>The first argument to the global function is a file path <code>prefix</code>, same as that used in <code><a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Prebuilt.html#a87930f878bf3a22297b851173caaf893">knncolle::Prebuilt::save()</a></code>. The second argument should be the number of dimensions in the dataset. The global function should return a pointer to a <code>hnswlib::SpaceInterface</code> instance, similar to the behavior of <code><a class="el" href="structknncolle__hnsw_1_1DistanceConfig.html#a631f9820cbc2e7fbbeab10a78019d483">DistanceConfig::create()</a></code>.</p>
-<p>The global function will only be called if the distance metric saved to <code>prefix</code> is unknown to <code><a class="el" href="#aaa9ea4c3758a81f63581b0880ae0434c">get_distance_name()</a></code>, otherwise it will ignored. An error is raised if no global function is set when attempting to load an index where <code><a class="el" href="#aaa9ea4c3758a81f63581b0880ae0434c">get_distance_name()</a></code> returns <code>"unknown"</code>.</p>
+<p>The global function will only be called if the distance metric saved to <code>prefix</code> is unknown to <code><a class="el" href="#aaa9ea4c3758a81f63581b0880ae0434c">get_distance_name()</a></code>, otherwise it will ignored. An error is raised if no global function is set when attempting to load an index with an unknown distance metric.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">HnswData_</td><td>Type of data in the HNSW index, usually floating-point.</td></tr>
@@ -290,7 +290,7 @@ template&lt;typename Distance_ &gt; </div>
 </div><div class="memdoc">
 <p>Define a global function to create a custom distance normalization function when loading a H NSW index from disk. Users are expected to provide their own function to regenerate any normalization function that was saved by <code><a class="el" href="#af9593664dfabcb51e7d8aa8b4eb73728">custom_save_for_hnsw_normalize()</a></code>. Any modifications to this function are not thread-safe and should be done in a serial section.</p>
 <p>The sole argument to the global function is a file path <code>prefix</code>, same as that used in <code><a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Prebuilt.html#a87930f878bf3a22297b851173caaf893">knncolle::Prebuilt::save()</a></code>. The global function should return a normalization function equivalent to the <code><a class="el" href="structknncolle__hnsw_1_1DistanceConfig.html#a8304619fe87fcb3fdaa0d6e109ec1a97">DistanceConfig::custom_normalize()</a></code>.</p>
-<p>The global function is only used when the <code><a class="el" href="structknncolle__hnsw_1_1DistanceConfig.html#a4aaf38f2e2c2dbe37c237456fa958280">DistanceConfig::normalize_method</a></code> saved to <code>prefix</code> is equal to <code>DistanceNormalizeMethod::CUSTOM</code>. otherwise it is ignored. An error is raised if no global function is set when attempting to load an index where <code><a class="el" href="structknncolle__hnsw_1_1DistanceConfig.html#a4aaf38f2e2c2dbe37c237456fa958280">DistanceConfig::normalize_method</a> == DistanceNormalizeMethod::CUSTOM</code>.</p>
+<p>The global function is only used when the <code><a class="el" href="structknncolle__hnsw_1_1DistanceConfig.html#a4aaf38f2e2c2dbe37c237456fa958280">DistanceConfig::normalize_method</a></code> saved to <code>prefix</code> is equal to <code>DistanceNormalizeMethod::CUSTOM</code>. otherwise it is ignored. An error is raised if no global function is set when attempting to load an index with a custom normalization function.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">Distance_</td><td>Floating point type for the distances.</td></tr>
@@ -412,11 +412,17 @@ template&lt;typename HnswData_ &gt; </div>
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">distance</td><td>Pointer to a distance metric. </td></tr>
+    <tr><td class="paramname">distance</td><td>Pointer to a distance metric.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>String containing a name for each known metric, e.g., <code>"squared_euclidean"</code> for <code><a class="el" href="classknncolle__hnsw_1_1SquaredEuclideanDistance.html" title="Squared Euclidean distance.">SquaredEuclideanDistance</a></code>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>String containing a name for each known metric:</dd></dl>
+<ul>
+<li><code>"l2"</code> for <code>hnswlib::L2Space</code>.</li>
+<li><code>"squared_euclidean"</code> for <code><a class="el" href="classknncolle__hnsw_1_1SquaredEuclideanDistance.html" title="Squared Euclidean distance.">SquaredEuclideanDistance</a></code>.</li>
+<li><code>"manhattan"</code> for <code><a class="el" href="classknncolle__hnsw_1_1ManhattanDistance.html" title="Manhattan distance.">ManhattanDistance</a></code>.</li>
+<li>otherwise, <code>"unknown"</code>. </li>
+</ul>
 
 </div>
 </div>
