@@ -21,17 +21,42 @@ protected:
         auto& reg = knncolle::load_prebuilt_registry<int, double, double>();
         reg[knncolle_hnsw::save_name] = [](const std::string& prefix) -> knncolle::Prebuilt<int, double, double>* {
             auto scanned = knncolle_hnsw::load_hnsw_prebuilt_types(prefix);
-            assert(scanned.data == knncolle::NumericType::FLOAT);
-            return knncolle_hnsw::load_hnsw_prebuilt<int, double, double, float>(prefix);
+            if (scanned.data == knncolle::NumericType::FLOAT) {
+                return knncolle_hnsw::load_hnsw_prebuilt<int, double, double, float>(prefix);
+            } else {
+                assert(scanned.data == knncolle::NumericType::DOUBLE);
+                return knncolle_hnsw::load_hnsw_prebuilt<int, double, double, double>(prefix);
+            }
         };
     }
 };
 
-TEST_F(HnswLoadPrebuiltTest, Euclidean) {
+TEST_F(HnswLoadPrebuiltTest, L2Space) {
     knncolle_hnsw::HnswBuilder<int, double, double> ab(knncolle_hnsw::makeEuclideanDistanceConfig());
     auto aptr = ab.build_unique(knncolle::SimpleMatrix<int, double>(ndim, nobs, data.data()));
 
-    const auto prefix = (savedir / "euclidean_").string();
+    const auto prefix = (savedir / "l2_").string();
+    aptr->save(prefix);
+
+    auto reloaded = knncolle::load_prebuilt_shared<int, double, double>(prefix);
+    std::vector<int> output_i, output_i2;
+    std::vector<double> output_d, output_d2;
+
+    auto searcher = aptr->initialize();
+    auto researcher = reloaded->initialize();
+    for (int x = 0; x < nobs; ++x) {
+        searcher->search(x, 5, &output_i, &output_d);
+        researcher->search(x, 5, &output_i2, &output_d2);
+        EXPECT_EQ(output_i, output_i2);
+        EXPECT_EQ(output_d, output_d2);
+    }
+}
+
+TEST_F(HnswLoadPrebuiltTest, SquaredEuclidean) {
+    knncolle_hnsw::HnswBuilder<int, double, double, knncolle::Matrix<int, double>, double> ab(knncolle_hnsw::configure_euclidean_distance<double, double>());
+    auto aptr = ab.build_unique(knncolle::SimpleMatrix<int, double>(ndim, nobs, data.data()));
+
+    const auto prefix = (savedir / "sqeuclidean_").string();
     aptr->save(prefix);
 
     auto reloaded = knncolle::load_prebuilt_shared<int, double, double>(prefix);
