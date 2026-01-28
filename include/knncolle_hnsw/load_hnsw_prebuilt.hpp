@@ -69,7 +69,7 @@ inline HnswPrebuiltTypes load_hnsw_prebuilt_types(const std::string& prefix) {
  *
  * @return Pointer to a `knncolle::Prebuilt` HNSW index.
  */
-template<typename Index_, typename Data_, typename Distance_, typename HnswData_>
+template<typename Index_, typename Data_, typename Distance_, typename HnswData_ = float>
 auto load_hnsw_prebuilt(const std::string& prefix) {
     return new HnswPrebuilt<Index_, Data_, Distance_, HnswData_>(prefix);
 }

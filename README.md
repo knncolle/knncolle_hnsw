@@ -61,7 +61,7 @@ Advanced users can configure the template parameters to use more suitable types 
 A hypothetical configuration is shown below with (mostly made up) reasons:
 
 ```cpp
-typedef knncolle_annoy::HnswBuilder<
+typedef knncolle_hnsw::HnswBuilder<
     // The type for the observation indices - perhaps int isn't big enough to
     // hold all the indices for a large dataset, so we'll use size_t.
     size_t,
@@ -72,13 +72,83 @@ typedef knncolle_annoy::HnswBuilder<
     // The type for the distances, maybe we'll use floats to save space.
     float,
 
-    // The type of matrix that the AnnoyBuilder takes as input: forcing it
+    // The type of matrix that the HnswBuilder takes as input: forcing it
     // to be a SimpleMatrix to enable devirtualization.
     knncolle::SimpleMatrix<size_t, uint8_t>,
 
     // The type of data in the HNSW index, using floats for performance.
     float
 > MyHnswBuilder;
+```
+
+## Saving and reloading indices
+
+To save and reload HNSW indices from disk, we need to register a loading function into **knncolle**'s `load_prebuilt()` registry.
+This is a little complicated as we must decide on which HNSW types we want to deal with.
+Here, we only consider the default type, though more could also be supported at the cost of larger binaries and longer compile times.
+
+```cpp
+auto& reg = knncolle::load_prebuilt_registry<int, double, double>();
+reg[knncolle_hnsw::save_name] = [](const std::string& prefix) -> Prebuilt<int, double, double>* {
+    auto config = knncolle_hnsw::scan_prebuilt_save_config(prefix);
+
+    // Check that the HnswData_ type is the same as the default.
+    if (config.data != knncolle_hnsw::get_numeric_type<float>()) {
+        throw std::runtime_error("unexpected type for the HNSW data");
+    }
+
+    return knncolle_hnsw::load_hnsw_prebuilt<int, double, double>();
+};
+```
+
+Then we can save and reload the `Prebuilt` HNSW indices.
+Note the caveats on `knncolle::Prebuilt::save()` -
+specifically, the files are not guaranteed to be portable between machines or even different versions of **knncolle_hnsw**.
+
+```cpp
+std::string path_prefix = "hnsw/location/here_";
+an_index.save(path_prefix);
+auto reloaded = knncolle::load_prebuilt(path_prefix);
+```
+
+For custom distances, users can define their own saving and loading methods.
+For example, if we had a custom distance:
+
+```cpp
+// Mock up a custom distance.
+class MyCustomDistance : public hnswlib::SpaceInterface<float> {
+    // Assume we implemented all the methods here.
+};
+
+// Define a function to save information about this custom distance during .save() calls.
+knncolle_hnsw::custom_save_for_hnsw_distance<float>() = [](const std::string& prefix, const hnswlib::SparseInterface<float>* ptr) -> void {
+    if (dynamic_cast<const MyCustomDistance*>(ptr) == NULL) {
+        throw std::runtime_error("unknown distance");
+    }
+    const auto path = prefix + ".custom_distance";
+    const std::string msg = "hi this is a custom distance";
+    knncolle::quick_save(path, msg.c_str(), msg.size());
+};
+
+// Define a function to recreate our custom distance during load_prebuilt() calls.
+knncolle_hnsw::custom_load_for_hnsw_distance<float>() = [](const std::string& prefix, std::size_t ndim) -> hnswlib::SparseInterface<float>* ptr) {
+    const auto path = prefix + ".custom_distance";
+    const std:string msg = knncolle::quick_load_as_string(path);
+    if (msg != "hi this is a custom distance") {
+        throw std::runtime_error("unknown custom distance");
+    }
+    return new MyCustomDistance(ndim);
+};
+
+std::string custom_prefix = "hnsw/location/custom_";
+knncolle_hnsw::DistanceConfig<double, float> custom_config;
+custom_config.create = [](std::size_t n) -> hnswlib::SparseInterface<float>* {
+    return new MyCustomDistance(n);
+};
+knncolle_hnsw::HnswBuilder<int, double, double> custom_builder(std::move(custom_config));
+auto custom_index = custom_builder.build_unique(mat);
+custom_index.save(custom_prefix);
+auto custom_reloaded = knncolle::load_prebuilt(custom_prefix);
 ```
 
 ## Building projects 
