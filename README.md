@@ -45,7 +45,7 @@ We can also customize the construction of the `HnswBuilder` by passing in option
 knncolle_hnsw::HnswOptions h_opts;
 h_opts.num_links = 100;
 knncolle_hnsw::HnswBuilder<int, double, double> h_builder2(
-    knncolle_hnsw::newManhattanDistanceConfig(),
+    knncolle_hnsw::configure_manhattan_distance<double>(),
     h_opts
 );
 ```
@@ -90,10 +90,10 @@ Here, we only consider the default type, though more could also be supported at 
 ```cpp
 auto& reg = knncolle::load_prebuilt_registry<int, double, double>();
 reg[knncolle_hnsw::save_name] = [](const std::string& prefix) -> Prebuilt<int, double, double>* {
-    auto config = knncolle_hnsw::scan_prebuilt_save_config(prefix);
+    auto config = knncolle_hnsw::load_hnsw_prebuilt_types(prefix);
 
     // Check that the HnswData_ type is the same as the default.
-    if (config.data != knncolle_hnsw::get_numeric_type<float>()) {
+    if (config.data != knncolle::get_numeric_type<float>()) {
         throw std::runtime_error("unexpected type for the HNSW data");
     }
 
@@ -141,7 +141,7 @@ knncolle_hnsw::custom_load_for_hnsw_distance<float>() = [](const std::string& pr
 };
 
 std::string custom_prefix = "hnsw/location/custom_";
-knncolle_hnsw::DistanceConfig<double, float> custom_config;
+knncolle_hnsw::DistanceConfig<double> custom_config;
 custom_config.create = [](std::size_t n) -> hnswlib::SparseInterface<float>* {
     return new MyCustomDistance(n);
 };

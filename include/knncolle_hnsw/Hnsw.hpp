@@ -1,5 +1,5 @@
-#ifndef KNNCOLLE_HNSW_HPP
-#define KNNCOLLE_HNSW_HPP
+#ifndef KNNCOLLE_HNSW_HNSW_HPP
+#define KNNCOLLE_HNSW_HNSW_HPP
 
 #include <vector>
 #include <type_traits>

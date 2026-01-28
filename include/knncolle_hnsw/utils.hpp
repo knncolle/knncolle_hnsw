@@ -107,7 +107,7 @@ std::function<void(const std::string&, const std::function<Distance_(Distance_)>
  *
  * The global function will only be called if the distance metric saved to `prefix` is unknown to `get_distance_name()`,
  * otherwise it will ignored.
- * An error is raised if no global function is set when attempting to load an index where `get_distance_name()` returns `"unknown"`.
+ * An error is raised if no global function is set when attempting to load an index with an unknown distance metric.
  * 
  * @tparam HnswData_ Type of data in the HNSW index, usually floating-point.
  *
@@ -131,7 +131,7 @@ std::function<hnswlib::SpaceInterface<HnswData_>*(const std::string&, std::size_
  *
  * The global function is only used when the `DistanceConfig::normalize_method` saved to `prefix` is equal to `DistanceNormalizeMethod::CUSTOM`.
  * otherwise it is ignored.
- * An error is raised if no global function is set when attempting to load an index where `DistanceConfig::normalize_method == DistanceNormalizeMethod::CUSTOM`.
+ * An error is raised if no global function is set when attempting to load an index with a custom normalization function.
  * 
  * @tparam Distance_ Floating point type for the distances.
  *
