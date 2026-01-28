@@ -196,7 +196,7 @@ public:
 };
 
 template<typename Index_, typename Data_, typename Distance_, typename HnswData_>
-class HnswPrebuilt : public knncolle::Prebuilt<Index_, Data_, Distance_> {
+class HnswPrebuilt final : public knncolle::Prebuilt<Index_, Data_, Distance_> {
 public:
     template<class Matrix_>
     HnswPrebuilt(const Matrix_& data, const DistanceConfig<Distance_, HnswData_>& distance_config, const HnswOptions& options) :
@@ -380,7 +380,7 @@ template<
     class Matrix_ = knncolle::Matrix<Index_, Data_>, 
     typename HnswData_ = float
 >
-class HnswBuilder : public knncolle::Builder<Index_, Data_, Distance_, Matrix_> {
+class HnswBuilder final : public knncolle::Builder<Index_, Data_, Distance_, Matrix_> {
 private:
     DistanceConfig<Distance_, HnswData_> my_distance_config;
     HnswOptions my_options;

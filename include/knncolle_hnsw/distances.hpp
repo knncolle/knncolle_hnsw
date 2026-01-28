@@ -52,7 +52,7 @@ struct DistanceConfig {
  * @tparam HnswData_ Type of data in the HNSW index, usually floating-point.
  */
 template<typename HnswData_ = float>
-class ManhattanDistance : public hnswlib::SpaceInterface<HnswData_> {
+class ManhattanDistance final : public hnswlib::SpaceInterface<HnswData_> {
 private:
     std::size_t my_data_size;
     std::size_t my_dim;
@@ -101,7 +101,7 @@ private:
  * @tparam HnswData_ Type of data in the HNSW index, usually floating-point.
  */
 template<typename HnswData_ = float>
-class SquaredEuclideanDistance : public hnswlib::SpaceInterface<HnswData_> {
+class SquaredEuclideanDistance final : public hnswlib::SpaceInterface<HnswData_> {
 private:
     std::size_t my_data_size;
     std::size_t my_dim;
