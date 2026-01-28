@@ -11,6 +11,7 @@
 #include <cmath>
 
 #include "knncolle/knncolle.hpp"
+#include "sanisizer/sanisizer.hpp"
 #include "hnswlib/hnswalg.h"
 
 #include "distances.hpp"
@@ -72,7 +73,7 @@ private:
 public:
     HnswSearcher(const HnswPrebuilt<Index_, Data_, Distance_, HnswData_>& parent) : my_parent(parent) {
         if constexpr(!same_internal_data) {
-            my_buffer.resize(my_parent.my_dim);
+            sanisizer::resize(my_buffer, my_parent.my_dim);
         }
     }
 
@@ -213,7 +214,7 @@ public:
                 my_index.addPoint(ptr, i);
             }
         } else {
-            std::vector<HnswData_> incoming(my_dim);
+            auto incoming = sanisizer::create<std::vector<HnswData_> >(my_dim);
             for (Index_ i = 0; i < my_obs; ++i) {
                 auto ptr = work->next(); 
                 std::copy_n(ptr, my_dim, incoming.begin());

@@ -23,10 +23,11 @@ if(KNNCOLLE_HNSW_FETCH_EXTERN)
     add_subdirectory(extern)
 else()
     find_package(knncolle_knncolle 3.0.0 CONFIG REQUIRED)
+    find_package(ltla_sanisizer 0.1.0 CONFIG REQUIRED)
     find_package(hnswlib CONFIG REQUIRED)
 endif()
 
-target_link_libraries(knncolle_hnsw INTERFACE knncolle::knncolle hnswlib::hnswlib)
+target_link_libraries(knncolle_hnsw INTERFACE knncolle::knncolle hnswlib::hnswlib ltla::sanisizer)
 
 # Tests
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
