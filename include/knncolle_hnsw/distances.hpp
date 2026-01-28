@@ -197,6 +197,24 @@ DistanceConfig<Distance_, HnswData_> makeManhattanDistanceConfig() {
  * @endcond
  */
 
+/**
+ * @tparam HnswData_ Type of data in the HNSW index, usually floating-point.
+ * @param distance Pointer to a distance metric.
+ * @return String containing a name for each known metric, e.g., `"squared_euclidean"` for `SquaredEuclideanDistance`.
+ */
+template<typename HnswData_>
+const char* get_distance_name(const hnswlib::SpaceInterface<HnswData_>* distance) {
+    if (dynamic_cast<const hnswlib::L2Space*>(distance) != NULL) {
+        return "l2";
+    } else if (dynamic_cast<const SquaredEuclideanDistance<HnswData_>*>(distance) != NULL) {
+        return "squared_euclidean";
+    } else if (dynamic_cast<const ManhattanDistance<HnswData_>*>(distance) != NULL) {
+        return "manhattan";
+    } else {
+        return "unknown";
+    }
+}
+
 }
 
 #endif

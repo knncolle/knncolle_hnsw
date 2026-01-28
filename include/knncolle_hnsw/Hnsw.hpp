@@ -267,20 +267,25 @@ public:
         auto type = knncolle::get_numeric_type<HnswData_>();
         knncolle::quick_save(prefix + "type", &type, 1);
 
-        const char* distname;
-        if (dynamic_cast<const hnswlib::L2Space*>(my_space.get()) != NULL) {
-            distname = "l2";
-        } else if (dynamic_cast<const SquaredEuclideanDistance<HnswData_>*>(my_space.get()) != NULL) {
-            distname = "squared_euclidean";
-        } else if (dynamic_cast<const ManhattanDistance<HnswData_>*>(my_space.get()) != NULL) {
-            distname = "manhattan";
-        } else {
-            // TODO: put a custom handler in here.
-            distname = "unknown";
-        }
+        const char* distname = get_distance_name(my_space.get());;
         knncolle::quick_save(prefix + "distance", distname, std::strlen(distname));
-
         knncolle::quick_save(prefix + "normalize", &my_normalize_method, 1);
+
+        // Custom normalization functions.
+        auto& datafunc = custom_save_for_hnsw_data<HnswData_>();
+        if (datafunc) {
+            datafunc(prefix);
+        }
+
+        auto& distfunc = custom_save_for_hnsw_distance<HnswData_>();
+        if (std::strcmp(distname, "unknown") == 0 && distfunc) {
+            distfunc(prefix, my_space.get());
+        }
+
+        auto& normfunc = custom_save_for_hnsw_normalize<Distance_>();
+        if (my_normalize_method == DistanceNormalizeMethod::CUSTOM && normfunc) {
+            normfunc(prefix, my_custom_normalize);
+        }
 
         // Dear God, make saveIndex() const.
         auto index_ptr = const_cast<hnswlib::HierarchicalNSW<HnswData_>*>(&my_index);
@@ -321,8 +326,11 @@ public:
                 return static_cast<hnswlib::SpaceInterface<HnswData_>*>(new ManhattanDistance<HnswData_>(my_dim));
             }
 
-            throw std::runtime_error("unknown space calculation");
-            return static_cast<hnswlib::SpaceInterface<HnswData_>*>(NULL);
+            auto& loadfun = custom_load_for_hnsw_distance<HnswData_>();
+            if (!loadfun) {
+                throw std::runtime_error("no loader provided for an unknown distance");
+            }
+            return static_cast<hnswlib::SpaceInterface<HnswData_>*>(loadfun(prefix, my_dim));
         }()),
 
         my_normalize_method([&]() {
@@ -332,7 +340,16 @@ public:
         }()),
 
         my_index(my_space.get(), prefix + "index")
-    {}
+
+    {
+        if (my_normalize_method == DistanceNormalizeMethod::CUSTOM) {
+            auto& normfun = custom_load_for_hnsw_normalize<Distance_>();
+            if (!normfun) {
+                throw std::runtime_error("no loader provided for an unknown normalization");
+            }
+            my_custom_normalize = normfun(prefix);
+        }
+    }
 };
 /**
  * @endcond
