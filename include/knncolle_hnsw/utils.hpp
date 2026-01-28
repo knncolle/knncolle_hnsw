@@ -5,8 +5,18 @@
 
 #include <functional>
 #include <string>
+#include <type_traits>
 
 namespace knncolle_hnsw {
+
+/**
+ * @cond
+ */
+template<typename Input_>
+using I = std::remove_cv_t<std::remove_reference_t<Input_> >;
+/**
+ * @endcond
+ */
 
 /**
  * Name to store in the `ALGORITHM` file for HNSW `knncolle::Prebuilt` instances,
