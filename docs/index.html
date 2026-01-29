@@ -156,24 +156,26 @@ Customizing the search</h1>
 Saving and reloading indices</h1>
 <p>To save and reload HNSW indices from disk, we need to register a loading function into <b>knncolle</b>'s <code>load_prebuilt()</code> registry. This is a little complicated as we must decide on which HNSW types we want to deal with. Here, we only consider the default type, though more could also be supported at the cost of larger binaries and longer compile times.</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span>&amp; reg = <a class="code hl_functionRef" href="https://knncolle.github.io/knncolle/namespaceknncolle.html#aa08de1eb1a23d5e13dc11e23ad7967ea">knncolle::load_prebuilt_registry&lt;int, double, double&gt;</a>();</div>
-<div class="line">reg[knncolle_hnsw::save_name] = [](<span class="keyword">const</span> std::string&amp; prefix) -&gt; Prebuilt&lt;int, double, double&gt;* {</div>
-<div class="line">    <span class="keyword">auto</span> config = <a class="code hl_function" href="namespaceknncolle__hnsw.html#ab387a5c2fdff9fea73a4f25675e4c805">knncolle_hnsw::load_hnsw_prebuilt_types</a>(prefix);</div>
+<div class="line">reg[knncolle_hnsw::save_name] = [](<span class="keyword">const</span> std::filesystem::path&amp; dir) -&gt; Prebuilt&lt;int, double, double&gt;* {</div>
+<div class="line">    <span class="keyword">auto</span> config = <a class="code hl_function" href="namespaceknncolle__hnsw.html#ab387a5c2fdff9fea73a4f25675e4c805">knncolle_hnsw::load_hnsw_prebuilt_types</a>(dir);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Check that the HnswData_ type is the same as the default.</span></div>
 <div class="line">    <span class="keywordflow">if</span> (config.data != <a class="code hl_functionRef" href="https://knncolle.github.io/knncolle/namespaceknncolle.html#a84e640363d9246c58008c93166021f26">knncolle::get_numeric_type&lt;float&gt;</a>()) {</div>
 <div class="line">        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;unexpected type for the HNSW data&quot;</span>);</div>
 <div class="line">    }</div>
 <div class="line"> </div>
-<div class="line">    <span class="keywordflow">return</span> <a class="code hl_function" href="namespaceknncolle__hnsw.html#a25828b7350e5b3d45b882488b2a3485f">knncolle_hnsw::load_hnsw_prebuilt&lt;int, double, double&gt;</a>();</div>
+<div class="line">    <span class="keywordflow">return</span> <a class="code hl_function" href="namespaceknncolle__hnsw.html#a25828b7350e5b3d45b882488b2a3485f">knncolle_hnsw::load_hnsw_prebuilt&lt;int, double, double&gt;</a>(dir);</div>
 <div class="line">};</div>
 <div class="ttc" id="anamespaceknncolle__hnsw_html_a25828b7350e5b3d45b882488b2a3485f"><div class="ttname"><a href="namespaceknncolle__hnsw.html#a25828b7350e5b3d45b882488b2a3485f">knncolle_hnsw::load_hnsw_prebuilt</a></div><div class="ttdeci">auto load_hnsw_prebuilt(const std::filesystem::path &amp;dir)</div><div class="ttdef"><b>Definition</b> load_hnsw_prebuilt.hpp:73</div></div>
 <div class="ttc" id="anamespaceknncolle__hnsw_html_ab387a5c2fdff9fea73a4f25675e4c805"><div class="ttname"><a href="namespaceknncolle__hnsw.html#ab387a5c2fdff9fea73a4f25675e4c805">knncolle_hnsw::load_hnsw_prebuilt_types</a></div><div class="ttdeci">HnswPrebuiltTypes load_hnsw_prebuilt_types(const std::filesystem::path &amp;dir)</div><div class="ttdef"><b>Definition</b> load_hnsw_prebuilt.hpp:39</div></div>
 <div class="ttc" id="anamespaceknncolle_html_a84e640363d9246c58008c93166021f26"><div class="ttname"><a href="https://knncolle.github.io/knncolle/namespaceknncolle.html#a84e640363d9246c58008c93166021f26">knncolle::get_numeric_type</a></div><div class="ttdeci">NumericType get_numeric_type()</div></div>
 <div class="ttc" id="anamespaceknncolle_html_aa08de1eb1a23d5e13dc11e23ad7967ea"><div class="ttname"><a href="https://knncolle.github.io/knncolle/namespaceknncolle.html#aa08de1eb1a23d5e13dc11e23ad7967ea">knncolle::load_prebuilt_registry</a></div><div class="ttdeci">std::unordered_map&lt; std::string, LoadPrebuiltFunction&lt; Index_, Data_, Distance_ &gt; &gt; &amp; load_prebuilt_registry()</div></div>
 </div><!-- fragment --><p>Then we can save and reload the <code>Prebuilt</code> HNSW indices. Note the caveats on <code><a class="elRef" href="https://knncolle.github.io/knncolle/classknncolle_1_1Prebuilt.html#add21dc74e08a6ad495c6e241fa3d5968">knncolle::Prebuilt::save()</a></code> - specifically, the files are not guaranteed to be portable between machines or even different versions of <b><a class="el" href="namespaceknncolle__hnsw.html" title="knncolle bindings for HNSW search.">knncolle_hnsw</a></b>.</p>
-<div class="fragment"><div class="line">std::string path_prefix = <span class="stringliteral">&quot;hnsw/location/here_&quot;</span>;</div>
-<div class="line">an_index.save(path_prefix);</div>
-<div class="line"><span class="keyword">auto</span> reloaded = knncolle::load_prebuilt(path_prefix);</div>
+<div class="fragment"><div class="line">std::string save_loc = <span class="stringliteral">&quot;hnsw/location/here&quot;</span>;</div>
+<div class="line">std::filesystem::create_directory(save_loc);</div>
+<div class="line">an_index.save(save_loc);</div>
+<div class="line"><span class="keyword">auto</span> reloaded = <a class="code hl_functionRef" href="https://knncolle.github.io/knncolle/namespaceknncolle.html#a9cb4f999cb4b25dd5bd4595bfb680f10">knncolle::load_prebuilt_unique</a>(save_loc);</div>
+<div class="ttc" id="anamespaceknncolle_html_a9cb4f999cb4b25dd5bd4595bfb680f10"><div class="ttname"><a href="https://knncolle.github.io/knncolle/namespaceknncolle.html#a9cb4f999cb4b25dd5bd4595bfb680f10">knncolle::load_prebuilt_unique</a></div><div class="ttdeci">std::unique_ptr&lt; Prebuilt&lt; Index_, Data_, Distance_ &gt; &gt; load_prebuilt_unique(const std::filesystem::path &amp;dir)</div></div>
 </div><!-- fragment --><p>For custom distances, users can define their own saving and loading methods. For example, if we had a custom distance:</p>
 <div class="fragment"><div class="line"><span class="comment">// Mock up a custom distance.</span></div>
 <div class="line"><span class="keyword">class </span>MyCustomDistance : <span class="keyword">public</span> hnswlib::SpaceInterface&lt;float&gt; {</div>
@@ -181,18 +183,18 @@ Saving and reloading indices</h1>
 <div class="line">};</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Define a function to save information about this custom distance during .save() calls.</span></div>
-<div class="line"><a class="code hl_function" href="namespaceknncolle__hnsw.html#a61b2d818fa7c4cf8e1a8075a1d60297e">knncolle_hnsw::custom_save_for_hnsw_distance&lt;float&gt;</a>() = [](<span class="keyword">const</span> std::string&amp; prefix, <span class="keyword">const</span> hnswlib::SparseInterface&lt;float&gt;* ptr) -&gt; <span class="keywordtype">void</span> {</div>
+<div class="line"><a class="code hl_function" href="namespaceknncolle__hnsw.html#a61b2d818fa7c4cf8e1a8075a1d60297e">knncolle_hnsw::custom_save_for_hnsw_distance&lt;float&gt;</a>() = [](<span class="keyword">const</span> std::filesystem::path&amp; dir, <span class="keyword">const</span> hnswlib::SparseInterface&lt;float&gt;* ptr) -&gt; <span class="keywordtype">void</span> {</div>
 <div class="line">    <span class="keywordflow">if</span> (<span class="keyword">dynamic_cast&lt;</span><span class="keyword">const </span>MyCustomDistance*<span class="keyword">&gt;</span>(ptr) == NULL) {</div>
 <div class="line">        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;unknown distance&quot;</span>);</div>
 <div class="line">    }</div>
-<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> path = prefix + <span class="stringliteral">&quot;.custom_distance&quot;</span>;</div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> path = dir / <span class="stringliteral">&quot;custom_distance&quot;</span>;</div>
 <div class="line">    <span class="keyword">const</span> std::string msg = <span class="stringliteral">&quot;hi this is a custom distance&quot;</span>;</div>
 <div class="line">    <a class="code hl_functionRef" href="https://knncolle.github.io/knncolle/namespaceknncolle.html#acf69c31b24c8a2bda72371f64133f8b8">knncolle::quick_save</a>(path, msg.c_str(), msg.size());</div>
 <div class="line">};</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// Define a function to recreate our custom distance during load_prebuilt() calls.</span></div>
-<div class="line"><a class="code hl_function" href="namespaceknncolle__hnsw.html#acdb271a47b3cea4e62dd9fcbf5114a51">knncolle_hnsw::custom_load_for_hnsw_distance&lt;float&gt;</a>() = [](<span class="keyword">const</span> std::string&amp; prefix, std::size_t ndim) -&gt; hnswlib::SparseInterface&lt;float&gt;* ptr) {</div>
-<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> path = prefix + <span class="stringliteral">&quot;.custom_distance&quot;</span>;</div>
+<div class="line"><a class="code hl_function" href="namespaceknncolle__hnsw.html#acdb271a47b3cea4e62dd9fcbf5114a51">knncolle_hnsw::custom_load_for_hnsw_distance&lt;float&gt;</a>() = [](<span class="keyword">const</span> std::filesystem::dir&amp; dir, std::size_t ndim) -&gt; hnswlib::SparseInterface&lt;float&gt;* ptr) {</div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> path = dir / <span class="stringliteral">&quot;custom_distance&quot;</span>;</div>
 <div class="line">    <span class="keyword">const</span> std:<span class="keywordtype">string</span> msg = <a class="code hl_functionRef" href="https://knncolle.github.io/knncolle/namespaceknncolle.html#a9191267167f1e0d7201b276c8a9caa2a">knncolle::quick_load_as_string</a>(path);</div>
 <div class="line">    <span class="keywordflow">if</span> (msg != <span class="stringliteral">&quot;hi this is a custom distance&quot;</span>) {</div>
 <div class="line">        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;unknown custom distance&quot;</span>);</div>
@@ -200,15 +202,17 @@ Saving and reloading indices</h1>
 <div class="line">    <span class="keywordflow">return</span> <span class="keyword">new</span> MyCustomDistance(ndim);</div>
 <div class="line">};</div>
 <div class="line"> </div>
-<div class="line">std::string custom_prefix = <span class="stringliteral">&quot;hnsw/location/custom_&quot;</span>;</div>
 <div class="line"><a class="code hl_struct" href="structknncolle__hnsw_1_1DistanceConfig.html">knncolle_hnsw::DistanceConfig&lt;double&gt;</a> custom_config;</div>
 <div class="line">custom_config.<a class="code hl_variable" href="structknncolle__hnsw_1_1DistanceConfig.html#a631f9820cbc2e7fbbeab10a78019d483">create</a> = [](std::size_t n) -&gt; hnswlib::SparseInterface&lt;float&gt;* {</div>
 <div class="line">    <span class="keywordflow">return</span> <span class="keyword">new</span> MyCustomDistance(n);</div>
 <div class="line">};</div>
 <div class="line"><a class="code hl_class" href="classknncolle__hnsw_1_1HnswBuilder.html">knncolle_hnsw::HnswBuilder&lt;int, double, double&gt;</a> custom_builder(std::move(custom_config));</div>
 <div class="line"><span class="keyword">auto</span> custom_index = custom_builder.build_unique(mat);</div>
-<div class="line">custom_index.save(custom_prefix);</div>
-<div class="line"><span class="keyword">auto</span> custom_reloaded = knncolle::load_prebuilt(custom_prefix);</div>
+<div class="line"> </div>
+<div class="line">std::filesystem::path custom_dir = <span class="stringliteral">&quot;hnsw/location/custom_&quot;</span>;</div>
+<div class="line">std::filesystem::create_directory(custom_dir);</div>
+<div class="line">custom_index.save(custom_dir);</div>
+<div class="line"><span class="keyword">auto</span> custom_reloaded = <a class="code hl_functionRef" href="https://knncolle.github.io/knncolle/namespaceknncolle.html#a9cb4f999cb4b25dd5bd4595bfb680f10">knncolle::load_prebuilt_unique</a>(custom_dir);</div>
 <div class="ttc" id="anamespaceknncolle__hnsw_html_a61b2d818fa7c4cf8e1a8075a1d60297e"><div class="ttname"><a href="namespaceknncolle__hnsw.html#a61b2d818fa7c4cf8e1a8075a1d60297e">knncolle_hnsw::custom_save_for_hnsw_distance</a></div><div class="ttdeci">std::function&lt; void(const std::filesystem::path &amp;, const hnswlib::SpaceInterface&lt; HnswData_ &gt; *)&gt; &amp; custom_save_for_hnsw_distance()</div><div class="ttdef"><b>Definition</b> utils.hpp:63</div></div>
 <div class="ttc" id="anamespaceknncolle__hnsw_html_acdb271a47b3cea4e62dd9fcbf5114a51"><div class="ttname"><a href="namespaceknncolle__hnsw.html#acdb271a47b3cea4e62dd9fcbf5114a51">knncolle_hnsw::custom_load_for_hnsw_distance</a></div><div class="ttdeci">std::function&lt; hnswlib::SpaceInterface&lt; HnswData_ &gt; *(const std::filesystem::path &amp;, std::size_t)&gt; &amp; custom_load_for_hnsw_distance()</div><div class="ttdef"><b>Definition</b> utils.hpp:114</div></div>
 <div class="ttc" id="anamespaceknncolle_html_a9191267167f1e0d7201b276c8a9caa2a"><div class="ttname"><a href="https://knncolle.github.io/knncolle/namespaceknncolle.html#a9191267167f1e0d7201b276c8a9caa2a">knncolle::quick_load_as_string</a></div><div class="ttdeci">std::string quick_load_as_string(const std::filesystem::path &amp;path)</div></div>
