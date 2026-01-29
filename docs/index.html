@@ -154,7 +154,7 @@ Customizing the search</h1>
 <div class="line">&gt; MyHnswBuilder;</div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md4"></a>
 Saving and reloading indices</h1>
-<p>To save and reload HNSW indices from disk, we need to register a loading function into <b>knncolle</b>'s <code>load_prebuilt()</code> registry. This is a little complicated as we must decide on which HNSW types we want to deal with. Here, we only consider the default type, though more could also be supported at the cost of larger binaries and longer compile times.</p>
+<p>To save and reload HNSW indices from disk, we need to register a loading function into <b>knncolle</b>'s <code>load_prebuilt_registry()</code>. This is a little complicated as we must decide on which HNSW types we want to deal with. Here, we only consider the default type, though more could also be supported at the cost of larger binaries and longer compile times.</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span>&amp; reg = <a class="code hl_functionRef" href="https://knncolle.github.io/knncolle/namespaceknncolle.html#aa08de1eb1a23d5e13dc11e23ad7967ea">knncolle::load_prebuilt_registry&lt;int, double, double&gt;</a>();</div>
 <div class="line">reg[knncolle_hnsw::save_name] = [](<span class="keyword">const</span> std::filesystem::path&amp; dir) -&gt; Prebuilt&lt;int, double, double&gt;* {</div>
 <div class="line">    <span class="keyword">auto</span> config = <a class="code hl_function" href="namespaceknncolle__hnsw.html#ab387a5c2fdff9fea73a4f25675e4c805">knncolle_hnsw::load_hnsw_prebuilt_types</a>(dir);</div>
@@ -192,7 +192,7 @@ Saving and reloading indices</h1>
 <div class="line">    <a class="code hl_functionRef" href="https://knncolle.github.io/knncolle/namespaceknncolle.html#acf69c31b24c8a2bda72371f64133f8b8">knncolle::quick_save</a>(path, msg.c_str(), msg.size());</div>
 <div class="line">};</div>
 <div class="line"> </div>
-<div class="line"><span class="comment">// Define a function to recreate our custom distance during load_prebuilt() calls.</span></div>
+<div class="line"><span class="comment">// Define a function to recreate our custom distance during load_prebuilt_*() calls.</span></div>
 <div class="line"><a class="code hl_function" href="namespaceknncolle__hnsw.html#acdb271a47b3cea4e62dd9fcbf5114a51">knncolle_hnsw::custom_load_for_hnsw_distance&lt;float&gt;</a>() = [](<span class="keyword">const</span> std::filesystem::dir&amp; dir, std::size_t ndim) -&gt; hnswlib::SparseInterface&lt;float&gt;* ptr) {</div>
 <div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> path = dir / <span class="stringliteral">&quot;custom_distance&quot;</span>;</div>
 <div class="line">    <span class="keyword">const</span> std:<span class="keywordtype">string</span> msg = <a class="code hl_functionRef" href="https://knncolle.github.io/knncolle/namespaceknncolle.html#a9191267167f1e0d7201b276c8a9caa2a">knncolle::quick_load_as_string</a>(path);</div>
