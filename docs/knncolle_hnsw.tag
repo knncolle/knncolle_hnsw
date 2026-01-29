@@ -207,49 +207,49 @@
       <type>HnswPrebuiltTypes</type>
       <name>load_hnsw_prebuilt_types</name>
       <anchorfile>namespaceknncolle__hnsw.html</anchorfile>
-      <anchor>ac7dba32a21f28000a286bf843dd06e37</anchor>
-      <arglist>(const std::string &amp;prefix)</arglist>
+      <anchor>ab387a5c2fdff9fea73a4f25675e4c805</anchor>
+      <arglist>(const std::filesystem::path &amp;dir)</arglist>
     </member>
     <member kind="function">
       <type>auto</type>
       <name>load_hnsw_prebuilt</name>
       <anchorfile>namespaceknncolle__hnsw.html</anchorfile>
-      <anchor>a346a21cc3b5f9146d23e5c9a060f3f4e</anchor>
-      <arglist>(const std::string &amp;prefix)</arglist>
+      <anchor>a25828b7350e5b3d45b882488b2a3485f</anchor>
+      <arglist>(const std::filesystem::path &amp;dir)</arglist>
     </member>
     <member kind="function">
-      <type>std::function&lt; void(const std::string &amp;)&gt; &amp;</type>
+      <type>std::function&lt; void(const std::filesystem::path &amp;)&gt; &amp;</type>
       <name>custom_save_for_hnsw_data</name>
       <anchorfile>namespaceknncolle__hnsw.html</anchorfile>
-      <anchor>ad52c83b8e2126d6adac034de999fe3a5</anchor>
+      <anchor>a1131b1112c55a504b19e80b699620389</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
-      <type>std::function&lt; void(const std::string &amp;, const hnswlib::SpaceInterface&lt; HnswData_ &gt; *)&gt; &amp;</type>
+      <type>std::function&lt; void(const std::filesystem::path &amp;, const hnswlib::SpaceInterface&lt; HnswData_ &gt; *)&gt; &amp;</type>
       <name>custom_save_for_hnsw_distance</name>
       <anchorfile>namespaceknncolle__hnsw.html</anchorfile>
-      <anchor>a7174a48a7415da18109520f5739da471</anchor>
+      <anchor>a61b2d818fa7c4cf8e1a8075a1d60297e</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
-      <type>std::function&lt; void(const std::string &amp;, const std::function&lt; Distance_(Distance_)&gt; &amp;)&gt; &amp;</type>
+      <type>std::function&lt; void(const std::filesystem::path &amp;, const std::function&lt; Distance_(Distance_)&gt; &amp;)&gt; &amp;</type>
       <name>custom_save_for_hnsw_normalize</name>
       <anchorfile>namespaceknncolle__hnsw.html</anchorfile>
-      <anchor>af9593664dfabcb51e7d8aa8b4eb73728</anchor>
+      <anchor>a9d2700a5aa6462b00c57f033216a3c42</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
-      <type>std::function&lt; hnswlib::SpaceInterface&lt; HnswData_ &gt; *(const std::string &amp;, std::size_t)&gt; &amp;</type>
+      <type>std::function&lt; hnswlib::SpaceInterface&lt; HnswData_ &gt; *(const std::filesystem::path &amp;, std::size_t)&gt; &amp;</type>
       <name>custom_load_for_hnsw_distance</name>
       <anchorfile>namespaceknncolle__hnsw.html</anchorfile>
-      <anchor>a1f743bb7f2ce610e32706f7500e5e27c</anchor>
+      <anchor>acdb271a47b3cea4e62dd9fcbf5114a51</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
-      <type>std::function&lt; std::function&lt; Distance_(Distance_)&gt;(const std::string &amp;)&gt; &amp;</type>
+      <type>std::function&lt; std::function&lt; Distance_(Distance_)&gt;(const std::filesystem::path &amp;)&gt; &amp;</type>
       <name>custom_load_for_hnsw_normalize</name>
       <anchorfile>namespaceknncolle__hnsw.html</anchorfile>
-      <anchor>a70cce88a44f275e0c8d06d6b893dee2d</anchor>
+      <anchor>aaaa7e98607cdd63c3a2222219de1212e</anchor>
       <arglist>()</arglist>
     </member>
   </compound>
