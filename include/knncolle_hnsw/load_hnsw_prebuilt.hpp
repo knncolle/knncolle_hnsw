@@ -30,22 +30,22 @@ struct HnswPrebuiltTypes {
 };
 
 /**
- * @param prefix Prefix of the file paths in which a prebuilt HNSW index was saved.
+ * @param dir Path to a directory in which a prebuilt HNSW index was saved.
  * An HNSW index is typically saved by calling the `knncolle::Prebuilt::save()` method of the HNSW subclass instance.
  *
  * @return Template types of the saved instance of a `knncolle::Prebuilt` HNSW subclass.
  * This is typically used to choose template parameters for `load_hnsw_prebuilt()`.
  */
-inline HnswPrebuiltTypes load_hnsw_prebuilt_types(const std::string& prefix) {
+inline HnswPrebuiltTypes load_hnsw_prebuilt_types(const std::filesystem::path& dir) {
     knncolle::NumericType type;
-    knncolle::quick_load(prefix + "type", &type, 1);
+    knncolle::quick_load(dir / "TYPE", &type, 1);
     HnswPrebuiltTypes config;
     config.data = type;
     return config;
 }
 
 /**
- * Helper function to define a `knncolle::LoadPrebuiltFunction` for HNSW in `knncolle::load_prebuilt()`.
+ * Helper function to define a `knncolle::LoadPrebuiltFunction` for HNSW in `knncolle::load_prebuilt_raw()`.
  *
  * In an HNSW-specific `knncolle::LoadPrebuiltFunction`,
  * users should first call `scan_prebuilt_save_config()` to figure out the saved index's `HNSWData_`.
@@ -64,14 +64,14 @@ inline HnswPrebuiltTypes load_hnsw_prebuilt_types(const std::string& prefix) {
  * @tparam HnswData_ Floating-point type for data in the HNSW index.
  * This should be the same as the type reported by `HnswPrebuiltTypes::data`.
  *
- * @param prefix Prefix of the file paths in which a prebuilt HNSW index was saved.
+ * @param dir Path to a directory in which a prebuilt HNSW index was saved.
  * An HNSW index is typically saved by calling the `knncolle::Prebuilt::save()` method of the HNSW subclass instance.
  *
  * @return Pointer to a `knncolle::Prebuilt` HNSW index.
  */
 template<typename Index_, typename Data_, typename Distance_, typename HnswData_ = float>
-auto load_hnsw_prebuilt(const std::string& prefix) {
-    return new HnswPrebuilt<Index_, Data_, Distance_, HnswData_>(prefix);
+auto load_hnsw_prebuilt(const std::filesystem::path& dir) {
+    return new HnswPrebuilt<Index_, Data_, Distance_, HnswData_>(dir);
 }
 
 }

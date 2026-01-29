@@ -9,6 +9,7 @@
 #include <cstddef>
 #include <cstring>
 #include <cmath>
+#include <filesystem>
 
 #include "knncolle/knncolle.hpp"
 #include "sanisizer/sanisizer.hpp"
@@ -24,6 +25,11 @@
  */
 
 namespace knncolle_hnsw {
+
+/**
+ * Name of the HNSW algorithm when registering a loading function to `knncolle::load_prebuilt_registry()`.
+ */
+inline static constexpr const char* hnsw_prebuilt_save_name = "knncolle_hnsw::Hnsw";
 
 /**
  * @brief Options for `HnswBuilder` and `HnswPrebuilt`.
@@ -260,54 +266,54 @@ public:
     }
 
 public:
-    void save(const std::string& prefix) const {
-        knncolle::quick_save(prefix + "ALGORITHM", save_name, std::strlen(save_name));
-        knncolle::quick_save(prefix + "num_obs", &my_obs, 1);
-        knncolle::quick_save(prefix + "num_dim", &my_dim, 1);
+    void save(const std::filesystem::path& dir) const {
+        knncolle::quick_save(dir / "ALGORITHM", hnsw_prebuilt_save_name, std::strlen(hnsw_prebuilt_save_name));
+        knncolle::quick_save(dir / "NUM_OBS", &my_obs, 1);
+        knncolle::quick_save(dir / "NUM_DIM", &my_dim, 1);
 
         auto type = knncolle::get_numeric_type<HnswData_>();
-        knncolle::quick_save(prefix + "type", &type, 1);
+        knncolle::quick_save(dir / "TYPE", &type, 1);
 
         const char* distname = get_distance_name(my_space.get());;
-        knncolle::quick_save(prefix + "distance", distname, std::strlen(distname));
-        knncolle::quick_save(prefix + "normalize", &my_normalize_method, 1);
+        knncolle::quick_save(dir / "DISTANCE", distname, std::strlen(distname));
+        knncolle::quick_save(dir / "NORMALIZE", &my_normalize_method, 1);
 
         // Custom normalization functions.
         auto& datafunc = custom_save_for_hnsw_data<HnswData_>();
         if (datafunc) {
-            datafunc(prefix);
+            datafunc(dir);
         }
 
         auto& distfunc = custom_save_for_hnsw_distance<HnswData_>();
         if (std::strcmp(distname, "unknown") == 0 && distfunc) {
-            distfunc(prefix, my_space.get());
+            distfunc(dir, my_space.get());
         }
 
         auto& normfunc = custom_save_for_hnsw_normalize<Distance_>();
         if (my_normalize_method == DistanceNormalizeMethod::CUSTOM && normfunc) {
-            normfunc(prefix, my_custom_normalize);
+            normfunc(dir, my_custom_normalize);
         }
 
         // Dear God, make saveIndex() const.
         auto index_ptr = const_cast<hnswlib::HierarchicalNSW<HnswData_>*>(&my_index);
-        index_ptr->saveIndex(prefix + "index");
+        index_ptr->saveIndex(dir / "INDEX");
     }
 
-    HnswPrebuilt(const std::string& prefix) : 
+    HnswPrebuilt(const std::filesystem::path& dir) : 
         my_dim([&]() {
             std::size_t dim;
-            knncolle::quick_load(prefix + "num_dim", &dim, 1);
+            knncolle::quick_load(dir / "NUM_DIM", &dim, 1);
             return dim;
         }()),
 
         my_obs([&]() {
             Index_ obs;
-            knncolle::quick_load(prefix + "num_obs", &obs, 1);
+            knncolle::quick_load(dir / "NUM_OBS", &obs, 1);
             return obs;
         }()),
 
         my_space([&]() {
-            std::string method = knncolle::quick_load_as_string(prefix + "distance");
+            std::string method = knncolle::quick_load_as_string(dir / "DISTANCE");
 
             if constexpr(std::is_same<HnswData_, float>::value) {
                 if (method == "l2") {
@@ -324,16 +330,16 @@ public:
             if (!loadfun) {
                 throw std::runtime_error("no loader provided for an unknown distance");
             }
-            return static_cast<hnswlib::SpaceInterface<HnswData_>*>(loadfun(prefix, my_dim));
+            return static_cast<hnswlib::SpaceInterface<HnswData_>*>(loadfun(dir, my_dim));
         }()),
 
         my_normalize_method([&]() {
             DistanceNormalizeMethod norm;
-            knncolle::quick_load(prefix + "normalize", &norm, 1);
+            knncolle::quick_load(dir / "NORMALIZE", &norm, 1);
             return norm;
         }()),
 
-        my_index(my_space.get(), prefix + "index")
+        my_index(my_space.get(), dir / "INDEX")
 
     {
         if (my_normalize_method == DistanceNormalizeMethod::CUSTOM) {
@@ -341,7 +347,7 @@ public:
             if (!normfun) {
                 throw std::runtime_error("no loader provided for an unknown normalization");
             }
-            my_custom_normalize = normfun(prefix);
+            my_custom_normalize = normfun(dir);
         }
     }
 };

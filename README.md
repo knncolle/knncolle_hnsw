@@ -83,21 +83,21 @@ typedef knncolle_hnsw::HnswBuilder<
 
 ## Saving and reloading indices
 
-To save and reload HNSW indices from disk, we need to register a loading function into **knncolle**'s `load_prebuilt()` registry.
+To save and reload HNSW indices from disk, we need to register a loading function into **knncolle**'s `load_prebuilt_registry()`.
 This is a little complicated as we must decide on which HNSW types we want to deal with.
 Here, we only consider the default type, though more could also be supported at the cost of larger binaries and longer compile times.
 
 ```cpp
 auto& reg = knncolle::load_prebuilt_registry<int, double, double>();
-reg[knncolle_hnsw::save_name] = [](const std::string& prefix) -> Prebuilt<int, double, double>* {
-    auto config = knncolle_hnsw::load_hnsw_prebuilt_types(prefix);
+reg[knncolle_hnsw::save_name] = [](const std::filesystem::path& dir) -> Prebuilt<int, double, double>* {
+    auto config = knncolle_hnsw::load_hnsw_prebuilt_types(dir);
 
     // Check that the HnswData_ type is the same as the default.
     if (config.data != knncolle::get_numeric_type<float>()) {
         throw std::runtime_error("unexpected type for the HNSW data");
     }
 
-    return knncolle_hnsw::load_hnsw_prebuilt<int, double, double>();
+    return knncolle_hnsw::load_hnsw_prebuilt<int, double, double>(dir);
 };
 ```
 
@@ -106,9 +106,10 @@ Note the caveats on `knncolle::Prebuilt::save()` -
 specifically, the files are not guaranteed to be portable between machines or even different versions of **knncolle_hnsw**.
 
 ```cpp
-std::string path_prefix = "hnsw/location/here_";
-an_index.save(path_prefix);
-auto reloaded = knncolle::load_prebuilt(path_prefix);
+std::string save_loc = "hnsw/location/here";
+std::filesystem::create_directory(save_loc);
+an_index.save(save_loc);
+auto reloaded = knncolle::load_prebuilt_unique(save_loc);
 ```
 
 For custom distances, users can define their own saving and loading methods.
@@ -121,18 +122,18 @@ class MyCustomDistance : public hnswlib::SpaceInterface<float> {
 };
 
 // Define a function to save information about this custom distance during .save() calls.
-knncolle_hnsw::custom_save_for_hnsw_distance<float>() = [](const std::string& prefix, const hnswlib::SparseInterface<float>* ptr) -> void {
+knncolle_hnsw::custom_save_for_hnsw_distance<float>() = [](const std::filesystem::path& dir, const hnswlib::SparseInterface<float>* ptr) -> void {
     if (dynamic_cast<const MyCustomDistance*>(ptr) == NULL) {
         throw std::runtime_error("unknown distance");
     }
-    const auto path = prefix + ".custom_distance";
+    const auto path = dir / "custom_distance";
     const std::string msg = "hi this is a custom distance";
     knncolle::quick_save(path, msg.c_str(), msg.size());
 };
 
-// Define a function to recreate our custom distance during load_prebuilt() calls.
-knncolle_hnsw::custom_load_for_hnsw_distance<float>() = [](const std::string& prefix, std::size_t ndim) -> hnswlib::SparseInterface<float>* ptr) {
-    const auto path = prefix + ".custom_distance";
+// Define a function to recreate our custom distance during load_prebuilt_*() calls.
+knncolle_hnsw::custom_load_for_hnsw_distance<float>() = [](const std::filesystem::dir& dir, std::size_t ndim) -> hnswlib::SparseInterface<float>* ptr) {
+    const auto path = dir / "custom_distance";
     const std:string msg = knncolle::quick_load_as_string(path);
     if (msg != "hi this is a custom distance") {
         throw std::runtime_error("unknown custom distance");
@@ -140,15 +141,17 @@ knncolle_hnsw::custom_load_for_hnsw_distance<float>() = [](const std::string& pr
     return new MyCustomDistance(ndim);
 };
 
-std::string custom_prefix = "hnsw/location/custom_";
 knncolle_hnsw::DistanceConfig<double> custom_config;
 custom_config.create = [](std::size_t n) -> hnswlib::SparseInterface<float>* {
     return new MyCustomDistance(n);
 };
 knncolle_hnsw::HnswBuilder<int, double, double> custom_builder(std::move(custom_config));
 auto custom_index = custom_builder.build_unique(mat);
-custom_index.save(custom_prefix);
-auto custom_reloaded = knncolle::load_prebuilt(custom_prefix);
+
+std::filesystem::path custom_dir = "hnsw/location/custom_";
+std::filesystem::create_directory(custom_dir);
+custom_index.save(custom_dir);
+auto custom_reloaded = knncolle::load_prebuilt_unique(custom_dir);
 ```
 
 ## Building projects 

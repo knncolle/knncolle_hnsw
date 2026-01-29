@@ -19,13 +19,13 @@ protected:
         std::filesystem::create_directory(savedir);
 
         auto& reg = knncolle::load_prebuilt_registry<int, double, double>();
-        reg[knncolle_hnsw::save_name] = [](const std::string& prefix) -> knncolle::Prebuilt<int, double, double>* {
-            auto scanned = knncolle_hnsw::load_hnsw_prebuilt_types(prefix);
+        reg[knncolle_hnsw::hnsw_prebuilt_save_name] = [](const std::filesystem::path& dir) -> knncolle::Prebuilt<int, double, double>* {
+            auto scanned = knncolle_hnsw::load_hnsw_prebuilt_types(dir);
             if (scanned.data == knncolle::NumericType::FLOAT) {
-                return knncolle_hnsw::load_hnsw_prebuilt<int, double, double, float>(prefix);
+                return knncolle_hnsw::load_hnsw_prebuilt<int, double, double, float>(dir);
             } else {
                 assert(scanned.data == knncolle::NumericType::DOUBLE);
-                return knncolle_hnsw::load_hnsw_prebuilt<int, double, double, double>(prefix);
+                return knncolle_hnsw::load_hnsw_prebuilt<int, double, double, double>(dir);
             }
         };
     }
@@ -35,10 +35,11 @@ TEST_F(HnswLoadPrebuiltTest, L2Space) {
     knncolle_hnsw::HnswBuilder<int, double, double> ab(knncolle_hnsw::makeEuclideanDistanceConfig());
     auto aptr = ab.build_unique(knncolle::SimpleMatrix<int, double>(ndim, nobs, data.data()));
 
-    const auto prefix = (savedir / "l2_").string();
-    aptr->save(prefix);
+    const auto dir = savedir / "l2";
+    std::filesystem::create_directory(dir);
+    aptr->save(dir);
 
-    auto reloaded = knncolle::load_prebuilt_shared<int, double, double>(prefix);
+    auto reloaded = knncolle::load_prebuilt_shared<int, double, double>(dir);
     std::vector<int> output_i, output_i2;
     std::vector<double> output_d, output_d2;
 
@@ -56,10 +57,11 @@ TEST_F(HnswLoadPrebuiltTest, SquaredEuclidean) {
     knncolle_hnsw::HnswBuilder<int, double, double, knncolle::Matrix<int, double>, double> ab(knncolle_hnsw::configure_euclidean_distance<double, double>());
     auto aptr = ab.build_unique(knncolle::SimpleMatrix<int, double>(ndim, nobs, data.data()));
 
-    const auto prefix = (savedir / "sqeuclidean_").string();
-    aptr->save(prefix);
+    const auto dir = savedir / "sqeuclidean";
+    std::filesystem::create_directory(dir);
+    aptr->save(dir);
 
-    auto reloaded = knncolle::load_prebuilt_shared<int, double, double>(prefix);
+    auto reloaded = knncolle::load_prebuilt_shared<int, double, double>(dir);
     std::vector<int> output_i, output_i2;
     std::vector<double> output_d, output_d2;
 
@@ -77,10 +79,11 @@ TEST_F(HnswLoadPrebuiltTest, Manhattan) {
     knncolle_hnsw::HnswBuilder<int, double, double> ab(knncolle_hnsw::makeManhattanDistanceConfig());
     auto aptr = ab.build_unique(knncolle::SimpleMatrix<int, double>(ndim, nobs, data.data()));
 
-    const auto prefix = (savedir / "manhattan_").string();
-    aptr->save(prefix);
+    const auto dir = savedir / "manhattan";
+    std::filesystem::create_directory(dir);
+    aptr->save(dir);
 
-    auto reloaded = knncolle::load_prebuilt_shared<int, double, double>(prefix);
+    auto reloaded = knncolle::load_prebuilt_shared<int, double, double>(dir);
     std::vector<int> output_i, output_i2;
     std::vector<double> output_d, output_d2;
 
@@ -95,14 +98,14 @@ TEST_F(HnswLoadPrebuiltTest, Manhattan) {
 }
 
 TEST_F(HnswLoadPrebuiltTest, Custom) {
-    knncolle_hnsw::custom_save_for_hnsw_data<float>() = [](const std::string& prefix) -> void {
-        knncolle::quick_save(prefix + "WHEE", "stuff", 5);
+    knncolle_hnsw::custom_save_for_hnsw_data<float>() = [](const std::filesystem::path& dir) -> void {
+        knncolle::quick_save(dir / "WHEE", "stuff", 5);
     };
-    knncolle_hnsw::custom_save_for_hnsw_distance<float>() = [](const std::string& prefix, const hnswlib::SpaceInterface<float>*) -> void {
-        knncolle::quick_save(prefix + "FOO", "bar", 3);
+    knncolle_hnsw::custom_save_for_hnsw_distance<float>() = [](const std::filesystem::path& dir, const hnswlib::SpaceInterface<float>*) -> void {
+        knncolle::quick_save(dir / "FOO", "bar", 3);
     };
-    knncolle_hnsw::custom_save_for_hnsw_normalize<double>() = [](const std::string& prefix, const std::function<double(double)>&) -> void {
-        knncolle::quick_save(prefix + "YAY", "blah", 4);
+    knncolle_hnsw::custom_save_for_hnsw_normalize<double>() = [](const std::filesystem::path& dir, const std::function<double(double)>&) -> void {
+        knncolle::quick_save(dir / "YAY", "blah", 4);
     };
 
     // First we try with no custom distance/normalization.
@@ -110,16 +113,17 @@ TEST_F(HnswLoadPrebuiltTest, Custom) {
         knncolle_hnsw::HnswBuilder<int, double, double> ab(knncolle_hnsw::makeEuclideanDistanceConfig());
         auto aptr = ab.build_unique(knncolle::SimpleMatrix<int, double>(ndim, nobs, data.data()));
 
-        const auto prefix = (savedir / "custom_").string();
-        aptr->save(prefix);
+        const auto dir = savedir / "custom";
+        std::filesystem::create_directory(dir);
+        aptr->save(dir);
 
         // Custom function is only respected for the data.
-        EXPECT_EQ(knncolle::quick_load_as_string(prefix + "WHEE"), "stuff");
-        EXPECT_FALSE(std::filesystem::exists(prefix + "FOO"));
-        EXPECT_FALSE(std::filesystem::exists(prefix + "YAY"));
+        EXPECT_EQ(knncolle::quick_load_as_string(dir / "WHEE"), "stuff");
+        EXPECT_FALSE(std::filesystem::exists(dir / "FOO"));
+        EXPECT_FALSE(std::filesystem::exists(dir / "YAY"));
 
         // Everything else is still fine.
-        auto reloaded = knncolle::load_prebuilt_shared<int, double, double>(prefix);
+        auto reloaded = knncolle::load_prebuilt_shared<int, double, double>(dir);
         std::vector<int> output_i, output_i2;
         std::vector<double> output_d, output_d2;
 
@@ -174,22 +178,23 @@ TEST_F(HnswLoadPrebuiltTest, Custom) {
 
         knncolle_hnsw::HnswBuilder<int, double, double> ab(std::move(config));
         auto aptr = ab.build_unique(knncolle::SimpleMatrix<int, double>(ndim, nobs, data.data()));
-        const auto prefix = (savedir / "custom2_").string();
-        aptr->save(prefix);
+        const auto dir = savedir / "custom2";
+        std::filesystem::create_directory(dir);
+        aptr->save(dir);
 
         // If we load without setting the custom loaders, it crashes.
         {
             std::string errmsg;
             try {
-                knncolle::load_prebuilt_shared<int, double, double>(prefix);
+                knncolle::load_prebuilt_shared<int, double, double>(dir);
             } catch (std::exception& e){
                 errmsg = e.what();
             }
             EXPECT_TRUE(errmsg.find("unknown distance") != std::string::npos);
         }
 
-        knncolle_hnsw::custom_load_for_hnsw_distance<float>() = [](const std::string& prefix, std::size_t ndim) -> hnswlib::SpaceInterface<float>* {
-            auto payload = knncolle::quick_load_as_string(prefix + "FOO");
+        knncolle_hnsw::custom_load_for_hnsw_distance<float>() = [](const std::filesystem::path& dir, std::size_t ndim) -> hnswlib::SpaceInterface<float>* {
+            auto payload = knncolle::quick_load_as_string(dir / "FOO");
             EXPECT_EQ(payload, "bar"); 
             return new CustomEuclideanDistance(ndim);
         };
@@ -197,21 +202,21 @@ TEST_F(HnswLoadPrebuiltTest, Custom) {
         {
             std::string errmsg;
             try {
-                knncolle::load_prebuilt_shared<int, double, double>(prefix);
+                knncolle::load_prebuilt_shared<int, double, double>(dir);
             } catch (std::exception& e){
                 errmsg = e.what();
             }
             EXPECT_TRUE(errmsg.find("unknown normalization") != std::string::npos) << errmsg;
         }
 
-        knncolle_hnsw::custom_load_for_hnsw_normalize<double>() = [&](const std::string& prefix) -> std::function<double(double)> {
-            auto payload = knncolle::quick_load_as_string(prefix + "YAY");
+        knncolle_hnsw::custom_load_for_hnsw_normalize<double>() = [&](const std::filesystem::path& dir) -> std::function<double(double)> {
+            auto payload = knncolle::quick_load_as_string(dir / "YAY");
             EXPECT_EQ(payload, "blah"); 
             return std::function<double(double)>([](double x) -> double { return std::sqrt(x); });
         };
 
         // Now we can load it and everything is still fine.
-        auto reloaded = knncolle::load_prebuilt_shared<int, double, double>(prefix);
+        auto reloaded = knncolle::load_prebuilt_shared<int, double, double>(dir);
         std::vector<int> output_i, output_i2;
         std::vector<double> output_d, output_d2;
 
