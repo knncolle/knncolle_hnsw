@@ -151,7 +151,7 @@ private:
  * @return Configuration for using Euclidean distances in the HNSW index.
  * `DistanceConfig::create` is set to `hnswlib::L2Space` if `HnswData_ = float`, otherwise it is set to `SquaredEuclideanDistance`.
  */
-template<typename Distance_, typename HnswData_>
+template<typename Distance_, typename HnswData_ = float>
 DistanceConfig<Distance_, HnswData_> configure_euclidean_distance() {
     DistanceConfig<Distance_, HnswData_> output;
     output.create = [](std::size_t dim) -> hnswlib::SpaceInterface<HnswData_>* {
@@ -170,7 +170,7 @@ DistanceConfig<Distance_, HnswData_> configure_euclidean_distance() {
  * @tparam HnswData_ Type of data in the HNSW index, usually floating-point.
  * @return Configuration for using Manhattan distances in the HNSW index.
  */
-template<typename Distance_, typename HnswData_>
+template<typename Distance_, typename HnswData_ = float>
 DistanceConfig<Distance_, HnswData_> configure_manhattan_distance() {
     DistanceConfig<Distance_, HnswData_> output;
     output.create = [](std::size_t dim) -> hnswlib::SpaceInterface<HnswData_>* {
