@@ -89,7 +89,7 @@ Here, we only consider the default type, though more could also be supported at 
 
 ```cpp
 auto& reg = knncolle::load_prebuilt_registry<int, double, double>();
-reg[knncolle_hnsw::save_name] = [](const std::filesystem::path& dir) -> Prebuilt<int, double, double>* {
+reg[knncolle_hnsw::hnsw_prebuilt_save_name] = [](const std::filesystem::path& dir) -> knncolle::Prebuilt<int, double, double>* {
     auto config = knncolle_hnsw::load_hnsw_prebuilt_types(dir);
 
     // Check that the HnswData_ type is the same as the default.
@@ -101,7 +101,7 @@ reg[knncolle_hnsw::save_name] = [](const std::filesystem::path& dir) -> Prebuilt
 };
 ```
 
-Then we can save and reload the `Prebuilt` HNSW indices.
+Then we can save and reload the `knncolle::Prebuilt` HNSW indices.
 Note the caveats on `knncolle::Prebuilt::save()` -
 specifically, the files are not guaranteed to be portable between machines or even different versions of **knncolle_hnsw**.
 

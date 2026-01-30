@@ -50,7 +50,7 @@ inline HnswPrebuiltTypes load_hnsw_prebuilt_types(const std::filesystem::path& d
  * In an HNSW-specific `knncolle::LoadPrebuiltFunction`,
  * users should first call `scan_prebuilt_save_config()` to figure out the saved index's `HNSWData_`.
  * Then, they can call `load_hnsw_prebuilt()` with the specified types to return a pointer to a `knncolle::Prebuilt` object.
- * This can be registered in `load_prebuilt_registry()` with the key in `knncolle_hnsw::save_name`.
+ * This can be registered in `load_prebuilt_registry()` with the key in `knncolle_hnsw::hnsw_prebuilt_save_name`.
  * 
  * We do not define a default function for loading HNSW indices as there are too many possible combinations of types.
  * Instead, the user is responsible for deciding which combinations of types should be handled.
