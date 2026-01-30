@@ -156,7 +156,7 @@ Customizing the search</h1>
 Saving and reloading indices</h1>
 <p>To save and reload HNSW indices from disk, we need to register a loading function into <b>knncolle</b>'s <code>load_prebuilt_registry()</code>. This is a little complicated as we must decide on which HNSW types we want to deal with. Here, we only consider the default type, though more could also be supported at the cost of larger binaries and longer compile times.</p>
 <div class="fragment"><div class="line"><span class="keyword">auto</span>&amp; reg = <a class="code hl_functionRef" href="https://knncolle.github.io/knncolle/namespaceknncolle.html#aa08de1eb1a23d5e13dc11e23ad7967ea">knncolle::load_prebuilt_registry&lt;int, double, double&gt;</a>();</div>
-<div class="line">reg[knncolle_hnsw::save_name] = [](<span class="keyword">const</span> std::filesystem::path&amp; dir) -&gt; Prebuilt&lt;int, double, double&gt;* {</div>
+<div class="line">reg[knncolle_hnsw::hnsw_prebuilt_save_name] = [](<span class="keyword">const</span> std::filesystem::path&amp; dir) -&gt; Prebuilt&lt;int, double, double&gt;* {</div>
 <div class="line">    <span class="keyword">auto</span> config = <a class="code hl_function" href="namespaceknncolle__hnsw.html#ab387a5c2fdff9fea73a4f25675e4c805">knncolle_hnsw::load_hnsw_prebuilt_types</a>(dir);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Check that the HnswData_ type is the same as the default.</span></div>
