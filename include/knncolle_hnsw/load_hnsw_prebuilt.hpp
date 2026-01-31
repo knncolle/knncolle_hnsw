@@ -48,15 +48,15 @@ inline HnswPrebuiltTypes load_hnsw_prebuilt_types(const std::filesystem::path& d
  * Helper function to define a `knncolle::LoadPrebuiltFunction` for HNSW in `knncolle::load_prebuilt_raw()`.
  *
  * In an HNSW-specific `knncolle::LoadPrebuiltFunction`,
- * users should first call `scan_prebuilt_save_config()` to figure out the saved index's `HNSWData_`.
+ * users should first call `load_hnsw_prebuilt_types()` to figure out the saved index's `HNSWData_`.
  * Then, they can call `load_hnsw_prebuilt()` with the specified types to return a pointer to a `knncolle::Prebuilt` object.
- * This can be registered in `load_prebuilt_registry()` with the key in `knncolle_hnsw::hnsw_prebuilt_save_name`.
+ * This can be registered in `knncolle::load_prebuilt_registry()` with the key in `knncolle_hnsw::hnsw_prebuilt_save_name`.
  * 
  * We do not define a default function for loading HNSW indices as there are too many possible combinations of types.
  * Instead, the user is responsible for deciding which combinations of types should be handled.
  * This avoids binary bloat from repeated instantiations of the HNSW template classes, if an application only deals with a certain subset of combinations. 
  * For types or distances that are unknown to `knncolle::get_numeric_type()` or `get_distance_name()`, respectively,
- * users can store additional information on disk via `customize_save_for_hnsw_types()` for use in loading.
+ * users can store additional information on disk via `custom_save_for_hnsw_data()` for use in loading.
  * 
  * @tparam Index_ Integer type for the observation indices.
  * @tparam Data_ Numeric type for the input and query data.

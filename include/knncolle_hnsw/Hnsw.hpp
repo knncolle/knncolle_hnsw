@@ -415,16 +415,22 @@ public:
     HnswBuilder(DistanceConfig<Distance_, HnswData_> distance_config) : HnswBuilder(std::move(distance_config), {}) {}
 
     /**
-     * @return Options for HNSW, to be modified prior to calling `build_raw()` and friends.
+     * @return Options for HNSW, to be modified prior to calling `knncolle::Builder::build_raw()` and friends.
      */
     HnswOptions& get_options() {
         return my_options;
     }
 
 public:
+    /**
+     * @cond
+     */
     knncolle::Prebuilt<Index_, Data_, Distance_>* build_raw(const Matrix_& data) const {
         return build_known_raw(data);
     }
+    /**
+     * @endcond
+     */
 
 public:
     /**

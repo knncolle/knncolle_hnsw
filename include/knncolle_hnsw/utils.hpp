@@ -66,7 +66,7 @@ std::function<void(const std::filesystem::path&, const hnswlib::SpaceInterface<H
 }
 
 /**
- * Define a global function to save a custom distance normalization method for a prebuilt HNSW index.  
+ * Define a global function to save a custom distance normalization method for a prebuilt HNSW index.
  * Users should define their own function here to handle a `DistanceConfig::custom_normalize` function.
  * The action of setting/unsetting the global function is not thread-safe and should be done in a serial section. 
  *
@@ -117,7 +117,7 @@ std::function<hnswlib::SpaceInterface<HnswData_>*(const std::filesystem::path&, 
 }
 
 /**
- * Define a global function to create a custom distance normalization function when loading a H NSW index from disk.
+ * Define a global function to create a custom distance normalization function when loading a HNSW index from disk.
  * Users are expected to provide their own function to regenerate any normalization function that was saved by `custom_save_for_hnsw_normalize()`. 
  * Any modifications to this function are not thread-safe and should be done in a serial section. 
  *
