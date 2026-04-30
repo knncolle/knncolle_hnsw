@@ -359,7 +359,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span> </div>
 <div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>        <span class="comment">// Dear God, make saveIndex() const.</span></div>
 <div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>        <span class="keyword">auto</span> index_ptr = <span class="keyword">const_cast&lt;</span>hnswlib::HierarchicalNSW&lt;HnswData_&gt;*<span class="keyword">&gt;</span>(&amp;my_index);</div>
-<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>        index_ptr-&gt;saveIndex(dir / <span class="stringliteral">&quot;INDEX&quot;</span>);</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>        index_ptr-&gt;saveIndex((dir / <span class="stringliteral">&quot;INDEX&quot;</span>).<span class="keywordtype">string</span>());</div>
 <div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>    }</div>
 <div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span> </div>
 <div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>    HnswPrebuilt(<span class="keyword">const</span> std::filesystem::path&amp; dir) : </div>
