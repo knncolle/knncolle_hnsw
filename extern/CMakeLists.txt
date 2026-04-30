@@ -9,13 +9,13 @@ FetchContent_Declare(
 FetchContent_Declare(
   hnswlib
   GIT_REPOSITORY https://github.com/nmslib/hnswlib
-  GIT_TAG master # ^0.8.0
+  GIT_TAG master # ^0.9.0
 )
 
 FetchContent_Declare(
   sanisizer
   GIT_REPOSITORY https://github.com/LTLA/sanisizer
-  GIT_TAG master # ^0.1.5
+  GIT_TAG master # ^0.2.0
 )
 
 FetchContent_MakeAvailable(knncolle)
