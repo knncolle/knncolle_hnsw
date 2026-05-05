@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.24)
 
 project(knncolle_hnsw
-    VERSION 0.3.1
+    VERSION 0.3.2
     DESCRIPTION "knncolle bindings for HNSW search"
     LANGUAGES CXX)
 
